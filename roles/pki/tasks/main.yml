@@ -1,0 +1,4 @@
+- import_tasks: certs_and_keys_generated.yml
+  tags:
+  - pki
+  - ca

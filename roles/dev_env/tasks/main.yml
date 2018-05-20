@@ -1,0 +1,4 @@
+- import_tasks: ntp_setup.yml
+  tags: ntp
+- import_tasks: tools_installed.yml
+  tags: dev_tools

@@ -1,0 +1,33 @@
+[Unit]
+Description=etcd
+Documentation=https://coreos.com/etcd/docs/latest/
+After=network.target
+
+[Service]
+Type=notify
+NotifyAccess=all
+User=etcd
+Group=etcd
+ExecStart=/usr/bin/etcd \
+  --name {{ host__etcd_member_name }} \
+  --data-dir {{ etcd__data_dir }} \
+  --listen-client-urls {{ etcd__listen_client_urls }} \
+  --advertise-client-urls {{ etcd__advertise_client_urls }} \
+  --client-cert-auth \
+  --cert-file {{ etcd__pki_dir }}/{{ pki_tasks__fetch_etcd_crt.dest | basename }} \
+  --key-file {{ etcd__pki_dir }}/{{ pki_tasks__fetch_etcd_key.dest | basename }} \
+  --trusted-ca-file {{ etcd__pki_dir }}/{{ pki_tasks__fetch_etcd_ca_crt.dest | basename }} \
+  --listen-peer-urls {{ etcd__listen_peer_urls }} \
+  --initial-advertise-peer-urls {{ etcd__initial_advertise_peer_urls }} \
+  --peer-client-cert-auth \
+  --peer-cert-file {{ etcd__pki_dir }}/{{ pki_tasks__fetch_etcd_peer_crt.dest | basename }} \
+  --peer-key-file {{ etcd__pki_dir }}/{{ pki_tasks__fetch_etcd_peer_key.dest | basename }} \
+  --peer-trusted-ca-file {{ etcd__pki_dir }}/{{ pki_tasks__fetch_etcd_ca_crt.dest | basename }} \
+  --initial-cluster-token {{ etcd__cluster_token }} \
+  --initial-cluster {{ host__etcd_member_name }}={{ etcd__initial_cluster_url }} \
+  --initial-cluster-state new
+Restart=always
+RestartSec={{ etcd__restart_sec }}s
+
+[Install]
+WantedBy=multi-user.target

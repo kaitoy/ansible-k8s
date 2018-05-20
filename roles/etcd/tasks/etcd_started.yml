@@ -1,0 +1,22 @@
+- name: etcd unit file exists
+  template:
+    src: systemd_units/etcd.service.j2
+    dest: /etc/systemd/system/etcd.service
+    owner: root
+    group: root
+    mode: 0664
+
+- name: etcd data directory exists
+  file:
+    path: '{{ etcd__data_dir }}'
+    owner: etcd
+    group: etcd
+    mode: 0755
+    state: directory
+
+- name: etcd is running
+  systemd:
+    name: etcd
+    daemon_reload: True
+    enabled: True
+    state: started

@@ -1,0 +1,37 @@
+- name: ClusterRoleBinding '<hostname>-node-client-cert-renewal' exists
+  command: kubectl apply -f -
+  args:
+    stdin : |
+      kind: ClusterRoleBinding
+      apiVersion: rbac.authorization.k8s.io/v1
+      metadata:
+        name: {{ _hostname }}-node-client-cert-renewal
+      subjects:
+      - kind: User
+        name: system:node:${NODE_USER_NAME}
+        apiGroup: rbac.authorization.k8s.io
+      roleRef:
+        kind: ClusterRole
+        name: system:certificates.k8s.io:certificatesigningrequests:selfnodeclient
+        apiGroup: rbac.authorization.k8s.io
+  register: _apply_result
+  changed_when: '" created" in _apply_result.stdout or " configured" in _apply_result.stdout'
+
+- name: ClusterRoleBinding '<hostname>-server-client-cert-renewal' exists
+  command: kubectl apply -f -
+  args:
+    stdin : |
+      kind: ClusterRoleBinding
+      apiVersion: rbac.authorization.k8s.io/v1
+      metadata:
+        name: {{ _hostname }}-server-client-cert-renewal
+      subjects:
+      - kind: User
+        name: system:node:{{ _hostname }}
+        apiGroup: rbac.authorization.k8s.io
+      roleRef:
+        kind: ClusterRole
+        name: approve-node-server-renewal-csr
+        apiGroup: rbac.authorization.k8s.io
+  register: _apply_result
+  changed_when: '" created" in _apply_result.stdout or " configured" in _apply_result.stdout'

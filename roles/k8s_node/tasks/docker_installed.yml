@@ -1,0 +1,33 @@
+- name: YUM repository 'ol7_addons' is enabled
+  yum_repository:
+    name: ol7_addons
+    description: ol7_addons
+    baseurl: http://yum.oracle.com/repo/OracleLinux/OL7/addons/$basearch/
+    gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
+    gpgcheck: True
+    enabled: True
+
+- name: docker-engine is installed
+  yum:
+    name: docker-engine
+    state: latest
+
+- name: DOCKER_NOFILE is set for k8s
+  lineinfile:
+    path: /etc/sysconfig/docker
+    line: DOCKER_NOFILE={{ k8s_node__docker_nofile }}
+    state: present
+
+- name: dockerd options are set for k8s
+  lineinfile:
+    path: /etc/sysconfig/docker
+    regexp: "OPTIONS='[^']+'"
+    line: OPTIONS='--iptables=false {{ k8s_node__additional_dockerd_options }}'
+    state: present
+
+- name: dockerd is running
+  systemd:
+    name: docker
+    daemon_reload: True
+    enabled: True
+    state: started

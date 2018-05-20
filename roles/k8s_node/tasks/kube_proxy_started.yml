@@ -1,0 +1,35 @@
+- name: conntrack-tools is installed
+  yum:
+    name: conntrack-tools
+    state: latest
+
+- name: kube-proxy lib dir exists
+  file:
+    path: /var/lib/kube-proxy
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: kube-proxy unit file exists
+  template:
+    src: systemd_units/kube-proxy.service.j2
+    dest: /etc/systemd/system/kube-proxy.service
+    owner: root
+    group: root
+    mode: 0664
+
+- name: kube-proxy.conf exists
+  template:
+    src: k8s_configs/kube-proxy.conf.j2
+    dest: '{{ k8s_node__k8s_configs_dir }}/kube-proxy.conf'
+    owner: root
+    group: root
+    mode: 0644
+
+- name: kube-proxy is running
+  systemd:
+    name: kube-proxy
+    daemon_reload: True
+    enabled: True
+    state: started

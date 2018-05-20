@@ -1,0 +1,17 @@
+- name: User 'kubernetes'
+  block:
+  - name: Group "kubernetes" exists
+    group:
+      name: kubernetes
+      gid: '{{ k8s__kubernetes_user_gid }}'
+      system: True
+      state: present
+  - name: User 'kubernetes' exists
+    user:
+      name: kubernetes
+      uid: '{{ k8s__kubernetes_user_uid }}'
+      group: kubernetes
+      create_home: False
+      shell: /sbin/nologin
+      system: True
+      state: present

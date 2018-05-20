@@ -1,0 +1,24 @@
+dev_env__ntp_servers:
+- server 0.rhel.pool.ntp.org iburst
+- server 1.rhel.pool.ntp.org iburst
+- server 2.rhel.pool.ntp.org iburst
+- server 3.rhel.pool.ntp.org iburst
+
+dev_env__dry_ver: v0.9-beta.4
+dev_env__dry_download_url: https://github.com/moncho/dry/releases/download/{{ dev_env__dry_ver }}/dry-linux-amd64
+dev_env__dry_checksum: sha1:96ee772763933187c280d55a23c54321e3e20f4f
+
+dev_env__kube_prompt_ver: v1.0.3
+dev_env__kube_prompt_download_url: https://github.com/c-bata/kube-prompt/releases/download/{{ dev_env__kube_prompt_ver }}/kube-prompt_{{ dev_env__kube_prompt_ver }}_linux_amd64.zip
+dev_env__kube_prompt_checksum: sha1:bc486371ba54995055b60bb72f476f65fa87ac4d
+
+dev_env__yum_pkgs_to_install:
+- bind-utils
+- curl
+- nmap
+- jq
+- vim
+- yum-utils
+- tcpdump
+- unzip
+- git

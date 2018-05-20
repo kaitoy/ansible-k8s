@@ -1,0 +1,38 @@
+- name: pki dir exists
+  file:
+    path: '{{ k8s_node__pki_dir }}'
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: Keys and certificates for the user 'root'
+  block:
+  - name: Keys are installed
+    copy:
+      src: '{{ item.dest }}'
+      dest: '{{ k8s_node__pki_dir }}'
+      owner: root
+      group: root
+      mode: 0600
+    loop:
+    - '{{ pki_tasks__fetch_kube_proxy_key }}'
+  - name: Certificates are installed
+    copy:
+      src: '{{ item.dest }}'
+      dest: '{{ k8s_node__pki_dir }}'
+      owner: root
+      group: root
+      mode: 0644
+    loop:
+    - '{{ pki_tasks__fetch_kube_proxy_crt }}'
+
+- name: k8s CA certificates is installed
+  copy:
+    src: '{{ item.dest }}'
+    dest: '{{ k8s_node__pki_dir }}'
+    owner: kubernetes
+    group: kubernetes
+    mode: 0644
+  loop:
+  - '{{ pki_tasks__fetch_k8s_ca_crt }}'

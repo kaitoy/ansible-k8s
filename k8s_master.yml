@@ -1,0 +1,10 @@
+- hosts: k8s_master
+  gather_facts: False
+  roles:
+  - pki
+  - etcd
+  - k8s_master
+  - k8s_node
+  - weave_net
+  - coredns
+  - dev_env

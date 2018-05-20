@@ -1,0 +1,99 @@
+- name: YUM packages for dev tools are installed
+  yum:
+    name: '{{ item }}'
+    state: latest
+  loop: '{{ dev_env__yum_pkgs_to_install }}'
+
+- name: dry is installed
+  get_url:
+    url: '{{ dev_env__dry_download_url }}'
+    dest: /usr/bin/dry
+    checksum: '{{ dev_env__dry_checksum }}'
+- name: dry is executable
+  file:
+    path: /usr/bin/dry
+    owner: root
+    group: root
+    mode: 0755
+
+- name: kube-prompt archive is downloaded
+  get_url:
+    url: '{{ dev_env__kube_prompt_download_url }}'
+    dest: /tmp/kp.zip
+    checksum: '{{ dev_env__kube_prompt_checksum }}'
+  register: _get_url_result
+- name: kube-prompt is installed
+  unarchive:
+    src: /tmp/kp.zip
+    remote_src: True
+    dest : /usr/bin
+    owner: root
+    group: root
+    mode: 0755
+  when: _get_url_result.changed
+- name: Alias of kube-prompt (kp) for root exists
+  lineinfile:
+    path: /root/.bashrc
+    line: alias kp='kube-prompt'
+    state: present
+- name: Alias of kube-prompt (kp) for kube-admin exists
+  lineinfile:
+    path: /home/kube-admin/.bashrc
+    line: alias kp='kube-prompt'
+    state: present
+
+- name: Git aliases exist
+  ini_file:
+    path: /etc/gitconfig
+    section: alias
+    option: '{{ item.opt }}'
+    value: '{{ item.val }}'
+  loop:
+  - opt: l
+    val: log --date=short --pretty=format:'%C(yellow)%h %Cgreen%cd %Cblue%cn %Creset%s'
+  - opt: ll
+    val: log --stat --decorate=short --pretty=format:'%C(yellow)%h %Cgreen%cr %Cblue%cn%Cred%d %Creset%s %C(cyan)%b'
+  - opt: lg
+    val: log --graph --date=short --decorate=short --pretty=format:'%C(yellow)%h %Cgreen%cd %Cblue%cn%Cred%d %Creset%s'
+  - opt: lm
+    val: log --merges --pretty=format:'%C(yellow)%h %Cgreen%ci %Cblue%cn%Cred%d %Creset%s %C(cyan)%b'
+  - opt: b
+    val: branch
+  - opt: ba
+    val: branch -a
+  - opt: co
+    val: checkout
+  - opt: cob
+    val: checkout -b
+  - opt: a
+    val: add
+  - opt: aa
+    val: '!git add -A && git s'
+  - opt: c
+    val: commit
+  - opt: cm
+    val: commit -m
+  - opt: amend
+    val: commit --amend -C HEAD
+  - opt: d
+    val: diff
+  - opt: dn
+    val: diff --name-only
+  - opt: dc
+    val: diff --cached
+  - opt: dcn
+    val: diff --cached --name-only
+  - opt: ft
+    val: fetch
+  - opt: pl
+    val: pull
+  - opt: ps
+    val: push
+  - opt: s
+    val: status --short --branch
+  - opt: st
+    val: status
+  - opt: r
+    val: reset
+  - opt: rb
+    val: rebase

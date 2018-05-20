@@ -1,0 +1,66 @@
+- name: pki dir exists
+  file:
+    path: '{{ k8s_master__pki_dir }}'
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: Keys and certificates for the user 'kubernetes'
+  block:
+  - name: Keys are installed
+    copy:
+      src: '{{ item.dest }}'
+      dest: '{{ k8s_master__pki_dir }}'
+      owner: kubernetes
+      group: kubernetes
+      mode: 0600
+    loop:
+    - '{{ pki_tasks__fetch_k8s_ca_key }}'
+    - '{{ pki_tasks__fetch_kube_apiserver_key }}'
+    - '{{ pki_tasks__fetch_apiserver_kubelet_client_key }}'
+    - '{{ pki_tasks__fetch_kube_controller_manager_key }}'
+    - '{{ pki_tasks__fetch_kube_scheduler_key }}'
+    - '{{ pki_tasks__fetch_front_proxy_ca_key }}'
+    - '{{ pki_tasks__fetch_front_proxy_client_key }}'
+    - '{{ pki_tasks__fetch_etcd_client_key }}'
+  - name: Certificates are installed
+    copy:
+      src: '{{ item.dest }}'
+      dest: '{{ k8s_master__pki_dir }}'
+      owner: kubernetes
+      group: kubernetes
+      mode: 0644
+    loop:
+    - '{{ pki_tasks__fetch_k8s_ca_crt }}'
+    - '{{ pki_tasks__fetch_kube_apiserver_crt }}'
+    - '{{ pki_tasks__fetch_apiserver_kubelet_client_crt }}'
+    - '{{ pki_tasks__fetch_kube_controller_manager_crt }}'
+    - '{{ pki_tasks__fetch_kube_scheduler_crt }}'
+    - '{{ pki_tasks__fetch_front_proxy_ca_crt }}'
+    - '{{ pki_tasks__fetch_front_proxy_client_crt }}'
+    - '{{ pki_tasks__fetch_etcd_client_crt }}'
+  - name: kube-controller-manager public key is installed
+    copy:
+      src: '{{ pki_tasks__fetch_kube_controller_manager_pub.dest }}'
+      dest: '{{ k8s_master__pki_dir }}'
+      owner: kubernetes
+      group: kubernetes
+      mode: 0644
+
+- name: Key and certificate for the user 'kube-admin'
+  block:
+  - name: Admin key is installed
+    copy:
+      src: '{{ pki_tasks__fetch_admin_key.dest }}'
+      dest: '{{ k8s_master__pki_dir }}'
+      owner: kube-admin
+      group: kube-admin
+      mode: 0600
+  - name: Admin cert is installed
+    copy:
+      src: '{{ pki_tasks__fetch_admin_crt.dest }}'
+      dest: '{{ k8s_master__pki_dir }}'
+      owner: kube-admin
+      group: kube-admin
+      mode: 0644

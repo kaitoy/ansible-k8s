@@ -1,0 +1,13 @@
+- name: kubelet and kube-proxy are installed
+  get_url:
+    url: '{{ k8s_node__k8s_bins_download_url_base }}/{{ item.name }}'
+    dest: /usr/bin/{{ item.name }}
+    owner: root
+    group: root
+    mode: 0755
+    checksum: '{{ item.checksum }}'
+  loop:
+  - name: kubelet
+    checksum: '{{ k8s_node__kubelet_bin_checksum }}'
+  - name: kube-proxy
+    checksum: '{{ k8s_node__kube_proxy_bin_checksum }}'

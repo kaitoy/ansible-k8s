@@ -1,0 +1,73 @@
+{% set _apiservers = [] %}
+{% set _etcd_servers = [] %}
+{% for _, _hostvar in hostvars.items() %}
+    {%- if _hostvar.host__k8s_master -%}
+        {{ _apiservers.append(_hostvar.host__ip_addr) }}
+    {%- endif %}
+    {%- if _hostvar.host__etcd -%}
+        {{ _etcd_servers.append('https://%s:%d'|format(_hostvar.host__ip_addr, _hostvar.host__etcd_server_port)) }}
+    {%- endif %}
+{% endfor %}
+
+{%- set _feature_gates = [] %}
+{% for _fg_name, _fg_flag in k8s__feature_gates.items() -%}
+    {{ _feature_gates.append('%s=%s'|format(_fg_name, _fg_flag)) }}
+{%- endfor %}
+[Unit]
+Description=Kubernetes API Server
+Documentation=https://github.com/kubernetes/kubernetes
+After=network.target
+
+[Service]
+User=kubernetes
+Group=kubernetes
+ExecStart=/usr/bin/kube-apiserver \
+  --advertise-address={{ k8s__advertise_address }} \
+  --allow-privileged=true \
+  --anonymous-auth=false \
+  --apiserver-count={{ _apiservers | length }} \
+  --audit-log-format={{ k8s_master__kube_apiserver_opts.audit_log_format }} \
+  --audit-log-maxage={{ k8s_master__kube_apiserver_opts.audit_log_maxage }} \
+  --audit-log-maxbackup={{ k8s_master__kube_apiserver_opts.audit_log_maxbackup }} \
+  --audit-log-maxsize={{ k8s_master__kube_apiserver_opts.audit_log_maxsize }} \
+  --audit-log-path={{ k8s_master__kube_apiserver_opts.audit_log_path }} \
+  --audit-policy-file={{ k8s_master__k8s_configs_dir }}/audit-policy.conf \
+  --authorization-mode=Node,RBAC \
+  --bind-address={{ k8s_master__kube_apiserver_opts.bind_address }} \
+  --client-ca-file={{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_k8s_ca_crt.dest | basename }} \
+  --enable-admission-plugins={{ k8s_master__kube_apiserver_opts.enable_admission_plugins }} \
+  --enable-bootstrap-token-auth=true \
+  --etcd-cafile={{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_etcd_ca_crt.dest | basename }} \
+  --etcd-certfile={{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_etcd_client_crt.dest | basename }} \
+  --etcd-keyfile={{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_etcd_client_key.dest | basename }} \
+  --etcd-servers={{ _etcd_servers|join(',') }} \
+  --experimental-encryption-provider-config={{ k8s_master__k8s_configs_dir }}/encryption.conf \
+{% if _feature_gates|length > 0 %}
+  --feature-gates={{ _feature_gates|join(',') }} \
+{% endif %}
+  --kubelet-certificate-authority={{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_k8s_ca_crt.dest | basename }} \
+  --kubelet-client-certificate={{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_apiserver_kubelet_client_crt.dest | basename }} \
+  --kubelet-client-key={{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_apiserver_kubelet_client_key.dest | basename }} \
+  --kubelet-port={{ k8s__kubelet_port }} \
+  --kubelet-preferred-address-types={{ k8s_master__kube_apiserver_opts.kubelet_preferred_address_types }} \
+  --proxy-client-cert-file={{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_front_proxy_client_crt.dest | basename }} \
+  --proxy-client-key-file={{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_front_proxy_client_key.dest | basename }} \
+  --requestheader-allowed-names=front-proxy-client \
+  --requestheader-client-ca-file={{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_front_proxy_ca_crt.dest | basename }} \
+  --requestheader-extra-headers-prefix=X-Remote-Extra- \
+  --requestheader-group-headers=X-Remote-Group \
+  --requestheader-username-headers=X-Remote-User \
+  --secure-port={{ k8s__kube_apiserver_secure_port }} \
+  --service-account-key-file={{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_kube_controller_manager_pub.dest | basename }} \
+  --service-cluster-ip-range={{ k8s__service_cluster_ip_range }} \
+  --service-node-port-range={{ k8s_master__kube_apiserver_opts.service_node_port_range }} \
+  --tls-cert-file={{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_kube_apiserver_crt.dest | basename }} \
+  --tls-cipher-suites={{ k8s_master__kube_apiserver_opts.tls_cipher_suites }} \
+  --tls-min-version={{ k8s_master__kube_apiserver_opts.tls_min_version }} \
+  --tls-private-key-file={{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_kube_apiserver_key.dest | basename }} \
+  --v={{ k8s_master__kube_apiserver_opts.vlog_level }}
+Restart=always
+RestartSec={{ k8s_master__kube_apiserver_restart_sec }}s
+
+[Install]
+WantedBy=multi-user.target

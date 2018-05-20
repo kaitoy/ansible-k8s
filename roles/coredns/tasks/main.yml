@@ -1,0 +1,2 @@
+- import_tasks: coredns_deployed.yml
+  tags: kube-dns
