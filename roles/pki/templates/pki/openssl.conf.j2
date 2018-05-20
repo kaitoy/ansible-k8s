@@ -1,0 +1,51 @@
+[ req ]
+distinguished_name = req_distinguished_name
+[req_distinguished_name]
+[ v3_ca ]
+basicConstraints = critical, CA:TRUE
+keyUsage = critical, digitalSignature, keyEncipherment, keyCertSign
+[ v3_req_client ]
+basicConstraints = CA:FALSE
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = clientAuth
+[ v3_req_apiserver ]
+basicConstraints = CA:FALSE
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names_cluster
+[ alt_names_cluster ]
+DNS.1 = kubernetes
+DNS.2 = kubernetes.default
+DNS.3 = kubernetes.default.svc
+DNS.4 = kubernetes.default.svc.cluster.local
+IP.1 = {{ k8s_master__service_ip_addr }}
+{% set _dns_idx = 5 %}
+{% set _ip_idx = 2 %}
+{% for _, _hostvar in hostvars.items() %}
+    {%- if _hostvar.host__k8s_master %}
+DNS.{{ _dns_idx }} = {{ _hostvar.host__hostname }}
+IP.{{ _ip_idx }} = {{ _hostvar.host__ip_addr }}
+        {%- set _dns_idx = _dns_idx + 1 %}
+        {%- set _ip_idx = _ip_idx + 1 %}
+    {%- endif %}
+{% endfor %}
+
+[ v3_ca ]
+basicConstraints = critical, CA:TRUE
+keyUsage = critical, digitalSignature, keyEncipherment, keyCertSign
+[ v3_req_etcd ]
+basicConstraints = CA:FALSE
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names_etcd
+[ alt_names_etcd ]
+{% set _dns_idx = 1 %}
+{% set _ip_idx = 1 %}
+{% for _, _hostvar in hostvars.items() %}
+    {%- if _hostvar.host__etcd %}
+DNS.{{ _dns_idx }} = {{ _hostvar.host__hostname }}
+IP.{{ _ip_idx }} = {{ _hostvar.host__ip_addr }}
+        {%- set _dns_idx = _dns_idx + 1 %}
+        {%- set _ip_idx = _ip_idx + 1 %}
+    {%- endif %}
+{% endfor %}

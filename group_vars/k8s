@@ -1,0 +1,20 @@
+k8s__k8s_version: v1.10.1
+k8s__k8s_cluster_name: k8s
+
+k8s__advertise_address: 192.168.171.200
+k8s__kube_apiserver_secure_port: 6443
+k8s__kubelet_port: 10250
+k8s__service_cluster_ip_range: 10.0.0.0/16
+k8s__cluster_cidr: 10.32.0.0/16
+k8s__dns_server_ip_addrs: 10.0.0.10
+k8s__dns_cluster_domain: cluster.local
+k8s__feature_gates:
+  RotateKubeletServerCertificate: True
+k8s__static_pod_path: /etc/kubernetes/manifests
+
+k8s__local_shared_dir: /tmp/ansible
+
+k8s__etcd_user_uid: 1020
+k8s__etcd_user_gid: 1020
+k8s__kubernetes_user_uid: 1010
+k8s__kubernetes_user_gid: 1010

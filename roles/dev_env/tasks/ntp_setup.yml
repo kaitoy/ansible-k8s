@@ -1,0 +1,15 @@
+- name: ntp is installed
+  yum:
+    name: ntp
+    state: latest
+
+- name: ntp is configured
+  template:
+    src: ntp/ntp.conf.j2
+    dest: /etc/ntp.conf
+
+- name: ntpd is running and enabled
+  service:
+    name: ntpd
+    state: started
+    enabled: True

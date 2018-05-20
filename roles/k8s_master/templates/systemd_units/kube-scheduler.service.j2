@@ -1,0 +1,16 @@
+[Unit]
+Description=Kubernetes Scheduler
+Documentation=https://github.com/kubernetes/kubernetes
+After=network.target
+
+[Service]
+User=kubernetes
+Group=kubernetes
+ExecStart=/usr/bin/kube-scheduler \
+  --config={{ k8s_master__k8s_configs_dir }}/kube-scheduler.conf \
+  --v={{ k8s_master__kube_scheduler_opts.vlog_level }}
+Restart=always
+RestartSec={{ k8s_master__kube_scheduler_restart_sec }}s
+
+[Install]
+WantedBy=multi-user.target

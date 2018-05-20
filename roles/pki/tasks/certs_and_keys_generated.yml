@@ -1,0 +1,378 @@
+- name: pki dir exists
+  file:
+    path: '{{ pki__pki_dir }}'
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: openssl config exists
+  template:
+    src: pki/openssl.conf.j2
+    dest: '{{ pki__pki_dir }}/openssl.conf'
+    owner: root
+    group: root
+    mode: 0644
+
+- name: CA cert for k8s cluster
+  block:
+  - name: Check if ca.key exists
+    stat:
+      path: '{{ pki__pki_dir }}/ca.key'
+    register: _stat_result
+  - name: Private key for k8s CA exists
+    command: openssl ecparam -name {{ pki__elliptic_curve_type }} -genkey -noout -out {{ pki__pki_dir }}/ca.key
+    when: not _stat_result.stat.exists
+  - name: k8s CA key is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/ca.key'
+      dest: '{{ k8s__local_shared_dir }}'
+    register: '{{ role_name }}_tasks__fetch_k8s_ca_key'
+  - name: Check if ca.crt exists
+    stat:
+      path: '{{ pki__pki_dir }}/ca.crt'
+    register: _stat_result
+  - name: CA cert for k8s cluster exists
+    command: openssl req -x509 -new -sha256 -nodes -key {{ pki__pki_dir }}/ca.key -days {{ pki__k8s_ca_cert_valid_days }} -out {{ pki__pki_dir }}/ca.crt -subj "/CN=kubernetes-ca" -extensions v3_ca -config {{ pki__pki_dir }}/openssl.conf
+    when: not _stat_result.stat.exists
+  - name: k8s CA certificate is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/ca.crt'
+      dest: '{{ k8s__local_shared_dir }}'
+    register: '{{ role_name }}_tasks__fetch_k8s_ca_crt'
+
+- name: kube-apiserver server certificate
+  block:
+  - name: Check if kube-apiserver.key exists
+    stat:
+      path: '{{ pki__pki_dir }}/kube-apiserver.key'
+    register: _stat_result
+  - name: Private key for kube-apiserver server certificate exists
+    command: openssl ecparam -name {{ pki__elliptic_curve_type }} -genkey -noout -out {{ pki__pki_dir }}/kube-apiserver.key
+    when: not _stat_result.stat.exists
+  - name: kube-apiserver server key is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/kube-apiserver.key'
+      dest: '{{ k8s__local_shared_dir }}'
+    register: '{{ role_name }}_tasks__fetch_kube_apiserver_key'
+  - name: Check if kube-apiserver.crt exists
+    stat:
+      path: '{{ pki__pki_dir }}/kube-apiserver.crt'
+    register: _stat_result
+  - name: kube-apiserver server certificate exists
+    shell: openssl req -new -sha256 -key {{ pki__pki_dir }}/kube-apiserver.key -subj "/CN=kube-apiserver" | openssl x509 -req -sha256 -CA {{ pki__pki_dir }}/ca.crt -CAkey {{ pki__pki_dir }}/ca.key -CAcreateserial -out {{ pki__pki_dir }}/kube-apiserver.crt -days {{ pki__kube_apiserver_server_cert_valid_days }} -extensions v3_req_apiserver -extfile {{ pki__pki_dir }}/openssl.conf
+    when: not _stat_result.stat.exists
+  - name: kube-apiserver server certificate is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/kube-apiserver.crt'
+      dest: '{{ k8s__local_shared_dir }}'
+    register: '{{ role_name }}_tasks__fetch_kube_apiserver_crt'
+
+- name: kube-apiserver -> kubelet client certificate
+  block:
+  - name: Check if apiserver-kubelet-client.key exists
+    stat:
+      path: '{{ pki__pki_dir }}/apiserver-kubelet-client.key'
+    register: _stat_result
+  - name: Private key for kube-apiserver -> kubelet client certificate exists
+    command: openssl ecparam -name {{ pki__elliptic_curve_type }} -genkey -noout -out {{ pki__pki_dir }}/apiserver-kubelet-client.key
+    when: not _stat_result.stat.exists
+  - name: kube-apiserver -> kubelet client key is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/apiserver-kubelet-client.key'
+      dest: '{{ k8s__local_shared_dir }}'
+    register: '{{ role_name }}_tasks__fetch_apiserver_kubelet_client_key'
+  - name: Check if apiserver-kubelet-client.crt exists
+    stat:
+      path: '{{ pki__pki_dir }}/apiserver-kubelet-client.crt'
+    register: _stat_result
+  - name: kube-apiserver -> kubelet client certificate exists
+    shell: openssl req -new -key {{ pki__pki_dir }}/apiserver-kubelet-client.key -subj "/CN=kube-apiserver-kubelet-client/O=system:masters" | openssl x509 -req -sha256 -CA {{ pki__pki_dir }}/ca.crt -CAkey {{ pki__pki_dir }}/ca.key -CAcreateserial -out {{ pki__pki_dir }}/apiserver-kubelet-client.crt -days {{ pki__kube_apiserver_to_kubelet_client_cert_valid_days }} -extensions v3_req_client -extfile {{ pki__pki_dir }}/openssl.conf
+    when: not _stat_result.stat.exists
+  - name: kube-apiserver -> kubelet client certificate is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/apiserver-kubelet-client.crt'
+      dest: '{{ k8s__local_shared_dir }}'
+    register: '{{ role_name }}_tasks__fetch_apiserver_kubelet_client_crt'
+
+- name: Admin client certificate
+  block:
+  - name: Check if admin.key exists
+    stat:
+      path: '{{ pki__pki_dir }}/admin.key'
+    register: _stat_result
+  - name: Private key for admin client certificate exists
+    command: openssl ecparam -name {{ pki__elliptic_curve_type }} -genkey -noout -out {{ pki__pki_dir }}/admin.key
+    when: not _stat_result.stat.exists
+  - name: admin client key is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/admin.key'
+      dest: '{{ k8s__local_shared_dir }}'
+    register: '{{ role_name }}_tasks__fetch_admin_key'
+  - name: Check if admin.crt exists
+    stat:
+      path: '{{ pki__pki_dir }}/admin.crt'
+    register: _stat_result
+  - name: Admin client certificate exists
+    shell: openssl req -new -key {{ pki__pki_dir }}/admin.key -subj "/CN=kubernetes-admin/O=system:masters" | openssl x509 -req -sha256 -CA {{ pki__pki_dir }}/ca.crt -CAkey {{ pki__pki_dir }}/ca.key -CAcreateserial -out {{ pki__pki_dir }}/admin.crt -days {{ pki__admin_client_cert_valid_days }} -extensions v3_req_client -extfile {{ pki__pki_dir }}/openssl.conf
+    when: not _stat_result.stat.exists
+  - name: admin client certificate is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/admin.crt'
+      dest: '{{ k8s__local_shared_dir }}'
+    register: '{{ role_name }}_tasks__fetch_admin_crt'
+
+- name: kube-controller-manager client certificate
+  block:
+  - name: Check if kube-controller-manager.key exists
+    stat:
+      path: '{{ pki__pki_dir }}/kube-controller-manager.key'
+    register: _stat_result
+  - name: Private key for kube-controller-manager client certificate exists
+    command: openssl ecparam -name {{ pki__elliptic_curve_type }} -genkey -noout -out {{ pki__pki_dir }}/kube-controller-manager.key
+    when: not _stat_result.stat.exists
+  - name: kube-controller-manager client key is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/kube-controller-manager.key'
+      dest: '{{ k8s__local_shared_dir }}'
+    register: '{{ role_name }}_tasks__fetch_kube_controller_manager_key'
+  - name: Check if kube-controller-manager.pub exists
+    stat:
+      path: '{{ pki__pki_dir }}/kube-controller-manager.pub'
+    register: _stat_result
+  - name: Public key for kube-controller-manager client certificate exists
+    command: openssl ec -in {{ pki__pki_dir }}/kube-controller-manager.key -outform PEM -pubout -out {{ pki__pki_dir }}/kube-controller-manager.pub
+    when: not _stat_result.stat.exists
+  - name: kube-controller-manager client public key is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/kube-controller-manager.pub'
+      dest: '{{ k8s__local_shared_dir }}'
+    register: '{{ role_name }}_tasks__fetch_kube_controller_manager_pub'
+  - name: Check if kube-controller-manager.crt exists
+    stat:
+      path: '{{ pki__pki_dir }}/kube-controller-manager.crt'
+    register: _stat_result
+  - name: kube-controller-manager client certificate exists
+    shell: openssl req -new -sha256 -key {{ pki__pki_dir }}/kube-controller-manager.key -subj "/CN=system:kube-controller-manager" | openssl x509 -req -sha256 -CA {{ pki__pki_dir }}/ca.crt -CAkey {{ pki__pki_dir }}/ca.key -CAcreateserial -out {{ pki__pki_dir }}/kube-controller-manager.crt -days {{ pki__kube_controller_manager_client_cert_valid_days }} -extensions v3_req_client -extfile {{ pki__pki_dir }}/openssl.conf
+    when: not _stat_result.stat.exists
+  - name: kube-controller-manager client certificate is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/kube-controller-manager.crt'
+      dest: '{{ k8s__local_shared_dir }}'
+    register: '{{ role_name }}_tasks__fetch_kube_controller_manager_crt'
+
+- name: kube-scheduler client certificate
+  block:
+  - name: Check if kube-scheduler.key exists
+    stat:
+      path: '{{ pki__pki_dir }}/kube-scheduler.key'
+    register: _stat_result
+  - name: Private key for kube-scheduler client certificate exists
+    command: openssl ecparam -name {{ pki__elliptic_curve_type }} -genkey -noout -out {{ pki__pki_dir }}/kube-scheduler.key
+    when: not _stat_result.stat.exists
+  - name: kube-scheduler client key is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/kube-scheduler.key'
+      dest: '{{ k8s__local_shared_dir }}'
+    register: '{{ role_name }}_tasks__fetch_kube_scheduler_key'
+  - name: Check if kube-scheduler.crt exists
+    stat:
+      path: '{{ pki__pki_dir }}/kube-scheduler.crt'
+    register: _stat_result
+  - name: kube-scheduler client certificate exists
+    shell: openssl req -new -sha256 -key {{ pki__pki_dir }}/kube-scheduler.key -subj "/CN=system:kube-scheduler" | openssl x509 -req -sha256 -CA {{ pki__pki_dir }}/ca.crt -CAkey {{ pki__pki_dir }}/ca.key -CAcreateserial -out {{ pki__pki_dir }}/kube-scheduler.crt -days {{ pki__kube_scheduler_client_cert_valid_days }} -extensions v3_req_client -extfile {{ pki__pki_dir }}/openssl.conf
+    when: not _stat_result.stat.exists
+  - name: kube-scheduler client certificate is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/kube-scheduler.crt'
+      dest: '{{ k8s__local_shared_dir }}'
+    register: '{{ role_name }}_tasks__fetch_kube_scheduler_crt'
+
+- name: CA cert for front-proxy
+  block:
+  - name: Check if front-proxy-ca.key exists
+    stat:
+      path: '{{ pki__pki_dir }}/front-proxy-ca.key'
+    register: _stat_result
+  - name: Private key for front-proxy CA exists
+    command: openssl ecparam -name {{ pki__elliptic_curve_type }} -genkey -noout -out {{ pki__pki_dir }}/front-proxy-ca.key
+    when: not _stat_result.stat.exists
+  - name: front-proxy CA key is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/front-proxy-ca.key'
+      dest: '{{ k8s__local_shared_dir }}'
+    register: '{{ role_name }}_tasks__fetch_front_proxy_ca_key'
+  - name: Check if front-proxy-ca.crt exists
+    stat:
+      path: '{{ pki__pki_dir }}/front-proxy-ca.crt'
+    register: _stat_result
+  - name: CA cert for front-proxy exists
+    command: openssl req -x509 -new -sha256 -nodes -key {{ pki__pki_dir }}/front-proxy-ca.key -days {{ pki__k8s_front_proxy_ca_cert_valid_days }} -out {{ pki__pki_dir }}/front-proxy-ca.crt -subj "/CN=front-proxy-ca" -extensions v3_ca -config {{ pki__pki_dir }}/openssl.conf
+    when: not _stat_result.stat.exists
+  - name: front-proxy CA certificate is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/front-proxy-ca.crt'
+      dest: '{{ k8s__local_shared_dir }}'
+    register: '{{ role_name }}_tasks__fetch_front_proxy_ca_crt'
+
+- name: front-proxy client certificate
+  block:
+  - name: Check if front-proxy-client.key exists
+    stat:
+      path: '{{ pki__pki_dir }}/front-proxy-client.key'
+    register: _stat_result
+  - name: Private key for front-proxy client certificate exists
+    command: openssl ecparam -name {{ pki__elliptic_curve_type }} -genkey -noout -out {{ pki__pki_dir }}/front-proxy-client.key
+    when: not _stat_result.stat.exists
+  - name: front-proxy client key is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/front-proxy-client.key'
+      dest: '{{ k8s__local_shared_dir }}'
+    register: '{{ role_name }}_tasks__fetch_front_proxy_client_key'
+  - name: Check if front-proxy-client.crt exists
+    stat:
+      path: '{{ pki__pki_dir }}/front-proxy-client.crt'
+    register: _stat_result
+  - name: front-proxy client certificate exists
+    shell: openssl req -new -sha256 -key {{ pki__pki_dir }}/front-proxy-client.key -subj "/CN=front-proxy-client" | openssl x509 -req -sha256 -CA {{ pki__pki_dir }}/front-proxy-ca.crt -CAkey {{ pki__pki_dir }}/front-proxy-ca.key -CAcreateserial -out {{ pki__pki_dir }}/front-proxy-client.crt -days {{ pki__front_proxy_client_cert_valid_days }} -extensions v3_req_client -extfile {{ pki__pki_dir }}/openssl.conf
+    when: not _stat_result.stat.exists
+  - name: front-proxy client certificate is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/front-proxy-client.crt'
+      dest: '{{ k8s__local_shared_dir }}'
+    register: '{{ role_name }}_tasks__fetch_front_proxy_client_crt'
+
+- name: CA cert for etcd cluster
+  block:
+  - name: Check if etcd-ca.key exists
+    stat:
+      path: '{{ pki__pki_dir }}/etcd-ca.key'
+    register: _stat_result
+  - name: Private key for etcd CA exists
+    command: openssl ecparam -name {{ pki__elliptic_curve_type }} -genkey -noout -out {{ pki__pki_dir }}/etcd-ca.key
+    when: not _stat_result.stat.exists
+  - name: etcd CA key is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/etcd-ca.key'
+      dest: '{{ k8s__local_shared_dir }}'
+    register: '{{ role_name }}_tasks__fetch_etcd_ca_key'
+  - name: Check if etcd-ca.crt exists
+    stat:
+      path: '{{ pki__pki_dir }}/etcd-ca.crt'
+    register: _stat_result
+  - name: CA cert for etcd cluster exists
+    command: openssl req -x509 -new -sha256 -nodes -key {{ pki__pki_dir }}/etcd-ca.key -days {{ pki__etcd_ca_cert_valid_days }} -out {{ pki__pki_dir }}/etcd-ca.crt -subj "/CN=etcd-ca" -extensions v3_ca -config {{ pki__pki_dir }}/openssl.conf
+    when: not _stat_result.stat.exists
+  - name: etcd CA certificate is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/etcd-ca.crt'
+      dest: '{{ k8s__local_shared_dir }}'
+    register: '{{ role_name }}_tasks__fetch_etcd_ca_crt'
+
+- name: etcd server certificate
+  block:
+  - name: Check if etcd.key exists
+    stat:
+      path: '{{ pki__pki_dir }}/etcd.key'
+    register: _stat_result
+  - name: Private key for etcd server certificate exists
+    command: openssl ecparam -name {{ pki__elliptic_curve_type }} -genkey -noout -out {{ pki__pki_dir }}/etcd.key
+    when: not _stat_result.stat.exists
+  - name: etcd server key is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/etcd.key'
+      dest: '{{ k8s__local_shared_dir }}'
+    register: '{{ role_name }}_tasks__fetch_etcd_key'
+  - name: Check if etcd.crt exists
+    stat:
+      path: '{{ pki__pki_dir }}/etcd.crt'
+    register: _stat_result
+  - name: etcd server certificate exists
+    shell: openssl req -new -sha256 -key {{ pki__pki_dir }}/etcd.key -subj "/CN=etcd" | openssl x509 -req -sha256 -CA {{ pki__pki_dir }}/etcd-ca.crt -CAkey {{ pki__pki_dir }}/etcd-ca.key -CAcreateserial -out {{ pki__pki_dir }}/etcd.crt -days {{ pki__etcd_server_cert_valid_days }} -extensions v3_req_etcd -extfile {{ pki__pki_dir }}/openssl.conf
+    when: not _stat_result.stat.exists
+  - name: etcd server certificate is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/etcd.crt'
+      dest: '{{ k8s__local_shared_dir }}'
+    register: '{{ role_name }}_tasks__fetch_etcd_crt'
+
+- name: etcd peer server certificate
+  block:
+  - name: Check if etcd-peer.key exists
+    stat:
+      path: '{{ pki__pki_dir }}/etcd-peer.key'
+    register: _stat_result
+  - name: Private key for etcd peer server certificate exists
+    command: openssl ecparam -name {{ pki__elliptic_curve_type }} -genkey -noout -out {{ pki__pki_dir }}/etcd-peer.key
+    when: not _stat_result.stat.exists
+  - name: etcd peer server key is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/etcd-peer.key'
+      dest: '{{ k8s__local_shared_dir }}'
+    register: '{{ role_name }}_tasks__fetch_etcd_peer_key'
+  - name: Check if etcd-peer.crt exists
+    stat:
+      path: '{{ pki__pki_dir }}/etcd-peer.crt'
+    register: _stat_result
+  - name: etcd peer server certificate exists
+    shell: openssl req -new -sha256 -key {{ pki__pki_dir }}/etcd-peer.key -subj "/CN=etcd-peer" | openssl x509 -req -sha256 -CA {{ pki__pki_dir }}/etcd-ca.crt -CAkey {{ pki__pki_dir }}/etcd-ca.key -CAcreateserial -out {{ pki__pki_dir }}/etcd-peer.crt -days {{ pki__etcd_peer_server_cert_valid_days }} -extensions v3_req_etcd -extfile {{ pki__pki_dir }}/openssl.conf
+    when: not _stat_result.stat.exists
+  - name: etcd peer server certificate is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/etcd-peer.crt'
+      dest: '{{ k8s__local_shared_dir }}'
+    register: '{{ role_name }}_tasks__fetch_etcd_peer_crt'
+
+- name: kube-apiserver -> etcd client certificate
+  block:
+  - name: Check if etcd-client.key exists
+    stat:
+      path: '{{ pki__pki_dir }}/etcd-client.key'
+    register: _stat_result
+  - name: Private key for kube-apiserver -> etcd client certificate exists
+    command: openssl ecparam -name {{ pki__elliptic_curve_type }} -genkey -noout -out {{ pki__pki_dir }}/etcd-client.key
+    when: not _stat_result.stat.exists
+  - name: kube-apiserver -> etcd client key is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/etcd-client.key'
+      dest: '{{ k8s__local_shared_dir }}'
+    register: '{{ role_name }}_tasks__fetch_etcd_client_key'
+  - name: Check if etcd-client.crt exists
+    stat:
+      path: '{{ pki__pki_dir }}/etcd-client.crt'
+    register: _stat_result
+  - name: kube-apiserver -> etcd client certificate exists
+    shell: openssl req -new -sha256 -key {{ pki__pki_dir }}/etcd-client.key -subj "/CN=kube-apiserver" | openssl x509 -req -sha256 -CA {{ pki__pki_dir }}/etcd-ca.crt -CAkey {{ pki__pki_dir }}/etcd-ca.key -CAcreateserial -out {{ pki__pki_dir }}/etcd-client.crt -days {{ pki__kube_apiserver_to_etcd_client_cert_valid_days }} -extensions v3_req_client -extfile {{ pki__pki_dir }}/openssl.conf
+    when: not _stat_result.stat.exists
+  - name: kube-apiserver -> etcd client certificate is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/etcd-client.crt'
+      dest: '{{ k8s__local_shared_dir }}'
+    register: '{{ role_name }}_tasks__fetch_etcd_client_crt'
+
+- name: kube-proxy client certificate
+  block:
+  - name: Check if kube-proxy.key exists
+    stat:
+      path: '{{ pki__pki_dir }}/kube-proxy.key'
+    register: stat_result
+  - name: Private key for kube-proxy client certificate exists
+    command: openssl ecparam -name {{ pki__elliptic_curve_type }} -genkey -noout -out {{ pki__pki_dir }}/kube-proxy.key
+    when: not stat_result.stat.exists
+  - name: kube-proxy client key is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/kube-proxy.key'
+      dest: '{{ k8s__local_shared_dir }}'
+    register: '{{ role_name }}_tasks__fetch_kube_proxy_key'
+  - name: Check if kube-proxy.crt exists
+    stat:
+      path: '{{ pki__pki_dir }}/kube-proxy.crt'
+    register: stat_result
+  - name: kube-proxy client certificate exists
+    shell: openssl req -new -sha256 -key {{ pki__pki_dir }}/kube-proxy.key -subj "/CN=system:kube-proxy" | openssl x509 -req -sha256 -CA {{ pki__pki_dir }}/ca.crt -CAkey {{ pki__pki_dir }}/ca.key -CAcreateserial -out {{ pki__pki_dir }}/kube-proxy.crt -days {{ pki__kube_proxy_client_cert_valid_days }} -extensions v3_req_client -extfile {{ pki__pki_dir }}/openssl.conf
+    when: not stat_result.stat.exists
+  - name: kube-proxy client certificate is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/kube-proxy.crt'
+      dest: '{{ k8s__local_shared_dir }}'
+    register: '{{ role_name }}_tasks__fetch_kube_proxy_crt'

@@ -1,0 +1,38 @@
+- name: kube-apiserver unit file exists
+  template:
+    src: systemd_units/kube-apiserver.service.j2
+    dest: /etc/systemd/system/kube-apiserver.service
+    owner: root
+    group: root
+    mode: 0664
+
+- name: encryption.conf exists
+  template:
+    src: k8s_configs/encryption.conf.j2
+    dest: '{{ k8s_master__k8s_configs_dir }}/encryption.conf'
+    owner: kubernetes
+    group: kubernetes
+    mode: 0600
+
+- name: audit-policy.conf exists
+  copy:
+    src: k8s_configs/audit-policy.conf
+    dest: '{{ k8s_master__k8s_configs_dir }}/audit-policy.conf'
+    owner: kubernetes
+    group: kubernetes
+    mode: 0644
+
+- name: k8s audit dir exists
+  file:
+    path: '{{ k8s_master__audit_log_dir }}'
+    owner: kubernetes
+    group: kubernetes
+    mode: 0700
+    state: directory
+
+- name: kube-apiserver is running
+  systemd:
+    name: kube-apiserver
+    daemon_reload: True
+    enabled: True
+    state: started

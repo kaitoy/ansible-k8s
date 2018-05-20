@@ -1,0 +1,68 @@
+- name: /etc/cni/net.d exists
+  file:
+    path: '{{ item }}'
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+  loop:
+  - /etc/cni/net.d
+  - /opt/cni/bin
+
+- name: cni bins
+  vars:
+    _cni_archive_basename: cni-amd64-{{ k8s_node__cni_version }}
+    _cni_archive: '{{ _cni_archive_basename }}.tgz'
+  block:
+  - name: cni archive is downloaded
+    get_url:
+      url: '{{ k8s_node__cni_archive_download_url_base }}/{{ k8s_node__cni_version }}/{{ _cni_archive }}'
+      dest: /tmp/{{ _cni_archive }}
+      checksum: '{{ k8s_node__cni_archive_checksum }}'
+    register: _get_url_result
+  - name: cni archive is extracted
+    unarchive:
+      src: /tmp/{{ _cni_archive }}
+      remote_src: True
+      dest : /opt/cni/bin
+      owner: root
+      group: root
+      mode: 0755
+    when: _get_url_result.changed
+
+- name: cni plugin bins
+  vars:
+    _cni_plugins_archive_basename: cni-plugins-amd64-{{ k8s_node__cni_plugins_version }}
+    _cni_plugins_archive: '{{ _cni_plugins_archive_basename }}.tgz'
+  block:
+  - name: cni plugins archive is downloaded
+    get_url:
+      url: '{{ k8s_node__cni_plugins_archive_download_url_base }}/{{ k8s_node__cni_plugins_version }}/{{ _cni_plugins_archive }}'
+      dest: /tmp/{{ _cni_plugins_archive }}
+      checksum: '{{ k8s_node__cni_plugins_archive_checksum }}'
+    register: _get_url_result
+  - name: cni plugins archive is extracted
+    unarchive:
+      src: /tmp/{{ _cni_plugins_archive }}
+      remote_src: True
+      dest : /opt/cni/bin
+      owner: root
+      group: root
+      mode: 0755
+    when: _get_url_result.changed
+
+- name: cni bins are owned by root
+  file:
+    path: /opt/cni/bin
+    owner: root
+    group: root
+    mode: 0755
+    recurse: True
+
+- name: 99-loopback.conf exists
+  copy:
+    content: |
+      {
+        "type": "loopback"
+      }
+    dest: /etc/cni/net.d/99-loopback.conf

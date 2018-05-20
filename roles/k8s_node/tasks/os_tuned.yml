@@ -1,0 +1,45 @@
+- name: swap off
+  block:
+  - name: swap doesn't exist in fstab
+    mount:
+      path: swap
+      fstype: swap
+      state: absent
+  - name: check swap devices
+    command: swapon -s
+    register: swap_devices
+    changed_when: False
+  - name: swapoff -a
+    command: swapoff -a
+    when: swap_devices.stdout != ""
+
+- name: SELinux is set to permissive
+  selinux:
+    policy: targeted
+    state: permissive
+
+- name: br_netfilter
+  block:
+  - name: br_netfilter module is loaded
+    modprobe:
+      name: br_netfilter
+      state: present
+  - name: br_netfilter module is loaded on boot
+    copy:
+      content: br_netfilter
+      dest: /etc/modules-load.d/br_netfilter.conf
+
+- name: Kernel parametes are tuned
+  sysctl:
+    name: '{{ item.name }}'
+    value: '{{ item.value }}'
+    sysctl_set: True
+    state: present
+    reload: True
+  loop: '{{ k8s_node__kernel_params }}'
+
+- name: firewalld is disabled
+  systemd:
+    name: firewalld
+    state: stopped
+    enabled: False

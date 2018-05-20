@@ -1,0 +1,37 @@
+{% set _feature_gates = [] %}
+{% for _fg_name, _fg_flag in k8s__feature_gates.items() -%}
+    {{ _feature_gates.append('%s=%s'|format(_fg_name, _fg_flag)) }}
+{%- endfor %}
+[Unit]
+Description=Kubernetes Controller Manager
+Documentation=https://github.com/kubernetes/kubernetes
+After=network.target
+
+[Service]
+User=kubernetes
+Group=kubernetes
+ExecStart=/usr/bin/kube-controller-manager \
+  --allocate-node-cidrs=true \
+  --bind-address={{ k8s_master__kube_controller_manager_opts.bind_address }} \
+  --cluster-cidr={{ k8s__cluster_cidr }} \
+  --cluster-name={{ k8s__k8s_cluster_name }} \
+  --cluster-signing-cert-file={{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_k8s_ca_crt.dest | basename }} \
+  --cluster-signing-key-file={{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_k8s_ca_key.dest | basename }} \
+  --controllers={{ k8s_master__kube_controller_manager_opts.controllers }} \
+  --experimental-cluster-signing-duration={{ k8s_master__kube_controller_manager_opts.cluster_signing_duration }} \
+{% if _feature_gates|length > 0 %}
+  --feature-gates={{ _feature_gates|join(',') }} \
+{% endif %}
+  --kubeconfig={{ k8s_master__kubeconfig_dir }}/kube-controller-manager.kubeconfig \
+  --node-cidr-mask-size={{ k8s_master__kube_controller_manager_opts.node_cidr_mask_size }} \
+  --port={{ k8s_master__kube_controller_manager_opts.port }} \
+  --root-ca-file={{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_k8s_ca_crt.dest | basename }} \
+  --service-account-private-key-file={{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_kube_controller_manager_key.dest | basename }} \
+  --service-cluster-ip-range={{ k8s__service_cluster_ip_range }} \
+  --use-service-account-credentials=true \
+  --v={{ k8s_master__kube_controller_manager_opts.vlog_level }}
+Restart=always
+RestartSec={{ k8s_master__kube_controller_manager_restart_sec }}s
+
+[Install]
+WantedBy=multi-user.target

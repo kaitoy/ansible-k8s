@@ -1,0 +1,49 @@
+k8s_master__k8s_bins_download_url_base: https://storage.googleapis.com/kubernetes-release/release/{{ k8s__k8s_version }}/bin/linux/amd64
+k8s_master__kube_apiserver_bin_checksum: sha1:c050edfc1f4226542d640d2266a92b2edf899d99
+k8s_master__kube_controller_manager_bin_checksum: sha1:d6ebfb098d66d0ebaee1d869c2055233a51d8667
+k8s_master__kube_scheduler_bin_checksum: sha1:e3690e69db6f6dfa16e3bf2f77af2758a791e397
+k8s_master__kubectl_bin_checksum: sha1:a5c8e589bed21ec471e8c582885a8c9972a84da1
+k8s_master__kubeadm_bin_checksum: sha1:c66a5c0baf77f37534dbc1624c8bd19045726b68
+
+k8s_master__service_ip_addr: 10.0.0.1
+
+k8s_master__pki_dir: /etc/kubernetes/pki
+k8s_master__audit_log_dir: /var/log/kubernetes
+k8s_master__kubeconfig_dir: /etc/kubernetes
+k8s_master__k8s_configs_dir: /etc/kubernetes
+
+k8s_master__kube_admin_user_uid: 1030
+k8s_master__kube_admin_user_gid: 1030
+
+k8s_master__secret_encoding_key: your_32_bytes_secure_private_key
+
+k8s_master__kube_apiserver_opts:
+  advertise_address: '{{ host__ip_addr }}'
+  audit_log_format: json
+  audit_log_maxage: 30
+  audit_log_maxbackup: 3
+  audit_log_maxsize: 100
+  audit_log_path: '{{ k8s_master__audit_log_dir }}/kube-audit.log'
+  bind_address: 0.0.0.0
+  enable_admission_plugins: NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,NodeRestriction,DenyEscalatingExec,StorageObjectInUseProtection,PodSecurityPolicy
+  kubelet_preferred_address_types: InternalIP,ExternalIP,Hostname
+  service_node_port_range: '30000-32767'
+  tls_cipher_suites: TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+  tls_min_version: VersionTLS12
+  vlog_level: 2
+k8s_master__kube_apiserver_restart_sec: 10
+
+k8s_master__kube_controller_manager_opts:
+  bind_address: 0.0.0.0
+  cluster_signing_duration: 8760h0m0s
+  controllers: '*,bootstrapsigner,tokencleaner'
+  node_cidr_mask_size: 24
+  port: 10252
+  vlog_level: 2
+k8s_master__kube_controller_manager_restart_sec: 10
+
+k8s_master__kube_scheduler_opts:
+  healthz_bind_address: 0.0.0.0:10251
+  metrics_bind_address: 0.0.0.0:10247
+  vlog_level: 2
+k8s_master__kube_scheduler_restart_sec: 10

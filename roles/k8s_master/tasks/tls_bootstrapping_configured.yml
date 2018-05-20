@@ -1,0 +1,129 @@
+- name: k8s components are ready
+  command: kubectl get componentstatuses
+  register: _componentstatuses
+  until: _componentstatuses.stdout.find('Unhealthy') == -1
+  retries: 5
+  delay: 5
+  changed_when: False
+
+- name: Auto approval for TLS bootstrapping CSRs
+  block:
+  - name: ClusterRoleBinding 'auto-approve-csrs-for-group' exists
+    command: kubectl apply -f -
+    args:
+      stdin : |
+        kind: ClusterRoleBinding
+        apiVersion: rbac.authorization.k8s.io/v1
+        metadata:
+          name: auto-approve-csrs-for-group
+        subjects:
+        - kind: Group
+          name: system:bootstrappers
+          apiGroup: rbac.authorization.k8s.io
+        roleRef:
+          kind: ClusterRole
+          name: system:certificates.k8s.io:certificatesigningrequests:nodeclient
+          apiGroup: rbac.authorization.k8s.io
+    register: _apply_result
+    changed_when: '" created" in _apply_result.stdout or " configured" in _apply_result.stdout'
+  - name: ClusterRole 'approve-node-server-renewal-csr' exists
+    command: kubectl apply -f -
+    args:
+      stdin : |
+        kind: ClusterRole
+        apiVersion: rbac.authorization.k8s.io/v1
+        metadata:
+          name: approve-node-server-renewal-csr
+        rules:
+        - apiGroups: ['certificates.k8s.io']
+          resources: ['certificatesigningrequests/selfnodeserver']
+          verbs: ['create']
+    register: _apply_result
+    changed_when: '" created" in _apply_result.stdout or " configured" in _apply_result.stdout'
+  - include_tasks: tls_bootstrapping_configured_for_node.yml
+    loop: '{{ hostvars.values()|selectattr("host__k8s_node")|map(attribute="host__hostname")|list }}'
+    loop_control:
+      loop_var: _hostname
+
+- name: Bootstrap token
+  block:
+  - name: Check if bootstrap token is generated
+    shell: kubectl -n kube-system get secret -o yaml || true
+    register: _check_result
+    changed_when: False
+    failed_when: not 'apiVersion' in _check_result.stdout
+  - name: Bootstrap token is generated
+    command: kubeadm token create --kubeconfig {{ k8s_master__kubeconfig_dir }}/admin.kubeconfig
+    when: 'not "name: bootstrap-token-" in _check_result.stdout'
+    register: _bootstrap_token
+  - name: Bootstrap token is in the local shared dir
+    shell: echo {{ _bootstrap_token.stdout }} >> {{ k8s__local_shared_dir }}/bootstrap_token
+    delegate_to: 127.0.0.1
+    when: 'not "name: bootstrap-token-" in _check_result.stdout'
+
+- name: ConfigMap 'cluster-info'
+  block:
+  - name: Check if ConfigMap 'cluster-info' exists
+    shell: kubectl -n kube-public get configmap cluster-info || true
+    register: _check_result
+    changed_when: False
+    failed_when: not 'cluster-info' in _check_result.stdout and not 'cluster-info' in _check_result.stderr
+  - name: ConfigMap 'cluster-info' exists
+    command: kubectl -n kube-public create configmap cluster-info --from-file {{ k8s_master__pki_dir }}/ca.crt --from-file {{ k8s_master__kubeconfig_dir }}/bootstrap.kubeconfig
+    when: '"NotFound" in _check_result.stderr'
+  - name: Role to get cluster-info exists
+    command: kubectl apply -f -
+    args:
+      stdin : |
+        apiVersion: rbac.authorization.k8s.io/v1
+        kind: Role
+        metadata:
+          name: system:bootstrap-signer-clusterinfo
+          namespace: kube-public
+        rules:
+        - apiGroups:
+          - ""
+          resources:
+          - configmaps
+          verbs:
+          - get
+    register: _apply_result
+    changed_when: '" created" in _apply_result.stdout or " configured" in _apply_result.stdout'
+  - name: RoleBinding 'kubeadm:bootstrap-signer-clusterinfo' exists
+    command: kubectl apply -f -
+    args:
+      stdin : |
+        apiVersion: rbac.authorization.k8s.io/v1
+        kind: RoleBinding
+        metadata:
+          name: kubeadm:bootstrap-signer-clusterinfo
+          namespace: kube-public
+        roleRef:
+          apiGroup: rbac.authorization.k8s.io
+          kind: Role
+          name: system:bootstrap-signer-clusterinfo
+        subjects:
+        - apiGroup: rbac.authorization.k8s.io
+          kind: User
+          name: system:anonymous
+    register: _apply_result
+    changed_when: '" created" in _apply_result.stdout or " configured" in _apply_result.stdout'
+
+- name: ClusterRoleBinding 'kubeadm:kubelet-bootstrap' exists
+  command: kubectl apply -f -
+  args:
+    stdin : |
+      apiVersion: rbac.authorization.k8s.io/v1
+      kind: ClusterRoleBinding
+      metadata:
+        name: kubeadm:kubelet-bootstrap
+      roleRef:
+        apiGroup: rbac.authorization.k8s.io
+        kind: ClusterRole
+        name: system:node-bootstrapper
+      subjects:
+      - apiGroup: rbac.authorization.k8s.io
+        kind: Group
+        name: system:bootstrappers
+  register: _apply_result
+  changed_when: '" created" in _apply_result.stdout or " configured" in _apply_result.stdout'

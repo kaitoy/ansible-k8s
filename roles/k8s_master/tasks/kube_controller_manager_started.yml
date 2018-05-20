@@ -1,0 +1,14 @@
+- name: kube-controller-manager unit file exists
+  template:
+    src: systemd_units/kube-controller-manager.service.j2
+    dest: /etc/systemd/system/kube-controller-manager.service
+    owner: root
+    group: root
+    mode: 0664
+
+- name: kube-controller-manager is running
+  systemd:
+    name: kube-controller-manager
+    daemon_reload: True
+    enabled: True
+    state: started
