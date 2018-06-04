@@ -28,7 +28,7 @@ k8s_node__kubelet_opts:
   max_open_files: '{{ k8s_node__docker_nofile + 10000 }}'
   max_pods: 110
   pod_infra_container_image: k8s.gcr.io/pause-amd64:3.1
-  rotate_certificates: True
+  rotate_certificates: true
   tls_cipher_suites: TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
   tls_min_version: VersionTLS12
   vlog_level: 2
@@ -50,5 +50,5 @@ k8s_node__kernel_params:
 - name: fs.file-max
   value: '{{ k8s_node__docker_nofile + 50000 }}'
 # For Pods
-- name: vm.max_map_count # Elasticsearch
+- name: vm.max_map_count  # Elasticsearch
   value: 262144

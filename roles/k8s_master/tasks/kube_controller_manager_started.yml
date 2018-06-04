@@ -9,6 +9,6 @@
 - name: kube-controller-manager is running
   systemd:
     name: kube-controller-manager
-    daemon_reload: True
-    enabled: True
+    daemon_reload: true
+    enabled: true
     state: started

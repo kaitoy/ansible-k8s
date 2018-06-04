@@ -4,14 +4,14 @@
     group:
       name: etcd
       gid: '{{ k8s__etcd_user_gid }}'
-      system: True
+      system: true
       state: present
   - name: User 'etcd' exists
     user:
       name: etcd
       uid: '{{ k8s__etcd_user_uid }}'
       group: etcd
-      create_home: False
+      create_home: false
       shell: /sbin/nologin
-      system: True
+      system: true
       state: present

@@ -15,8 +15,8 @@
 - import_tasks: kube_scheduler_started.yml
   tags: services
 - import_tasks: tls_bootstrapping_configured.yml
-  run_once: True
+  run_once: true
   tags: tls_bootstrapping
 - import_tasks: clusterrole_for_proxy_created.yml
-  run_once: True
+  run_once: true
   tags: services

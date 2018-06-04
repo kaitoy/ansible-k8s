@@ -23,8 +23,8 @@
   - name: cni archive is extracted
     unarchive:
       src: /tmp/{{ _cni_archive }}
-      remote_src: True
-      dest : /opt/cni/bin
+      remote_src: true
+      dest: /opt/cni/bin
       owner: root
       group: root
       mode: 0755
@@ -44,8 +44,8 @@
   - name: cni plugins archive is extracted
     unarchive:
       src: /tmp/{{ _cni_plugins_archive }}
-      remote_src: True
-      dest : /opt/cni/bin
+      remote_src: true
+      dest: /opt/cni/bin
       owner: root
       group: root
       mode: 0755
@@ -57,7 +57,7 @@
     owner: root
     group: root
     mode: 0755
-    recurse: True
+    recurse: true
 
 - name: 99-loopback.conf exists
   copy:

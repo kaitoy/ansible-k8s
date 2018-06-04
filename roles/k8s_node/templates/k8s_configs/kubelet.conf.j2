@@ -5,10 +5,10 @@ authentication:
   x509:
     clientCAFile: {{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_k8s_ca_crt.dest | basename }}
   webhook:
-    enabled: False
+    enabled: false
     cacheTTL: "0s"
   anonymous:
-    enabled: False
+    enabled: false
 authorization:
   mode: Webhook
   webhook:

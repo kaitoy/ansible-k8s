@@ -12,4 +12,4 @@
   service:
     name: ntpd
     state: started
-    enabled: True
+    enabled: true

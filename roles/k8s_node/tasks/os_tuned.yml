@@ -8,7 +8,7 @@
   - name: check swap devices
     command: swapon -s
     register: swap_devices
-    changed_when: False
+    changed_when: false
   - name: swapoff -a
     command: swapoff -a
     when: swap_devices.stdout != ""
@@ -33,13 +33,13 @@
   sysctl:
     name: '{{ item.name }}'
     value: '{{ item.value }}'
-    sysctl_set: True
+    sysctl_set: true
     state: present
-    reload: True
+    reload: true
   loop: '{{ k8s_node__kernel_params }}'
 
 - name: firewalld is disabled
   systemd:
     name: firewalld
     state: stopped
-    enabled: False
+    enabled: false

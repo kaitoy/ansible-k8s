@@ -4,14 +4,14 @@
     group:
       name: kubernetes
       gid: '{{ k8s__kubernetes_user_gid }}'
-      system: True
+      system: true
       state: present
   - name: User 'kubernetes' exists
     user:
       name: kubernetes
       uid: '{{ k8s__kubernetes_user_uid }}'
       group: kubernetes
-      create_home: False
+      create_home: false
       shell: /sbin/nologin
-      system: True
+      system: true
       state: present

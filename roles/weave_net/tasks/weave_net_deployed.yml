@@ -4,7 +4,7 @@
   until: _componentstatuses.stdout.find('Unhealthy') == -1
   retries: 5
   delay: 5
-  changed_when: False
+  changed_when: false
 
 - name: weave-net manifests dir exists
   file:

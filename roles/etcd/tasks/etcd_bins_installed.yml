@@ -12,12 +12,12 @@
   - name: etcd archive is extracted
     unarchive:
       src: /tmp/{{ _etcd_archive }}
-      remote_src: True
-      dest : /tmp
+      remote_src: true
+      dest: /tmp
     when: _get_url_result.changed
   - name: etcd bins are installed
     copy:
-      remote_src: True
+      remote_src: true
       src: /tmp/{{ _etcd_archive_basename }}/{{ item }}
       dest: /usr/bin/
       owner: root

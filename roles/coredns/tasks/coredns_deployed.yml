@@ -34,11 +34,11 @@
 - name: DNSSEC keys' basename is loaded
   command: cat {{ coredns__manifests_dir }}/dnssec_key_basename
   register: _dnssec_key
-  changed_when: False
+  changed_when: false
 - name: Check if secret 'dnssec-keys' is deployed
   shell: kubectl -n kube-system get secret dnssec-keys || true
   register: _check_result
-  changed_when: False
+  changed_when: false
   failed_when: not 'dnssec-keys' in _check_result.stdout and not 'dnssec-keys' in _check_result.stderr
 - name: Secret 'dnssec-keys' is deployed
   command: kubectl -n kube-system create secret generic dnssec-keys --from-file=dnssec.private={{ coredns__manifests_dir }}/{{ _dnssec_key.stdout }}.private --from-file=dnssec.key={{ coredns__manifests_dir }}/{{ _dnssec_key.stdout }}.key
@@ -50,7 +50,7 @@
   until: _componentstatuses.stdout.find('Unhealthy') == -1
   retries: 5
   delay: 5
-  changed_when: False
+  changed_when: false
 
 - name: CoreDNS-PSP manifest exists
   copy:

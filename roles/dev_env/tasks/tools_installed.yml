@@ -25,8 +25,8 @@
 - name: kube-prompt is installed
   unarchive:
     src: /tmp/kp.zip
-    remote_src: True
-    dest : /usr/bin
+    remote_src: true
+    dest: /usr/bin
     owner: root
     group: root
     mode: 0755

@@ -4,14 +4,14 @@
   until: _componentstatuses.stdout.find('Unhealthy') == -1
   retries: 5
   delay: 5
-  changed_when: False
+  changed_when: false
 
 - name: Auto approval for TLS bootstrapping CSRs
   block:
   - name: ClusterRoleBinding 'auto-approve-csrs-for-group' exists
     command: kubectl apply -f -
     args:
-      stdin : |
+      stdin: |
         kind: ClusterRoleBinding
         apiVersion: rbac.authorization.k8s.io/v1
         metadata:
@@ -29,7 +29,7 @@
   - name: ClusterRole 'approve-node-server-renewal-csr' exists
     command: kubectl apply -f -
     args:
-      stdin : |
+      stdin: |
         kind: ClusterRole
         apiVersion: rbac.authorization.k8s.io/v1
         metadata:
@@ -50,7 +50,7 @@
   - name: Check if bootstrap token is generated
     shell: kubectl -n kube-system get secret -o yaml || true
     register: _check_result
-    changed_when: False
+    changed_when: false
     failed_when: not 'apiVersion' in _check_result.stdout
   - name: Bootstrap token is generated
     command: kubeadm token create --kubeconfig {{ k8s_master__kubeconfig_dir }}/admin.kubeconfig
@@ -66,7 +66,7 @@
   - name: Check if ConfigMap 'cluster-info' exists
     shell: kubectl -n kube-public get configmap cluster-info || true
     register: _check_result
-    changed_when: False
+    changed_when: false
     failed_when: not 'cluster-info' in _check_result.stdout and not 'cluster-info' in _check_result.stderr
   - name: ConfigMap 'cluster-info' exists
     command: kubectl -n kube-public create configmap cluster-info --from-file {{ k8s_master__pki_dir }}/ca.crt --from-file {{ k8s_master__kubeconfig_dir }}/bootstrap.kubeconfig
@@ -74,7 +74,7 @@
   - name: Role to get cluster-info exists
     command: kubectl apply -f -
     args:
-      stdin : |
+      stdin: |
         apiVersion: rbac.authorization.k8s.io/v1
         kind: Role
         metadata:
@@ -92,7 +92,7 @@
   - name: RoleBinding 'kubeadm:bootstrap-signer-clusterinfo' exists
     command: kubectl apply -f -
     args:
-      stdin : |
+      stdin: |
         apiVersion: rbac.authorization.k8s.io/v1
         kind: RoleBinding
         metadata:
@@ -112,7 +112,7 @@
 - name: ClusterRoleBinding 'kubeadm:kubelet-bootstrap' exists
   command: kubectl apply -f -
   args:
-    stdin : |
+    stdin: |
       apiVersion: rbac.authorization.k8s.io/v1
       kind: ClusterRoleBinding
       metadata:
