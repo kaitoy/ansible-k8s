@@ -1,4 +1,3 @@
----
 k8s:
   hosts:
     k8s_master:
