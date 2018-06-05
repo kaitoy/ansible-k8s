@@ -37,7 +37,7 @@ k8s_master__kube_apiserver_opts:
 k8s_master__kube_apiserver_restart_sec: 10
 
 k8s_master__kube_controller_manager_opts:
-  bind_address: 0.0.0.0
+  bind_address: 127.0.0.1
   cluster_signing_duration: 8760h0m0s
   controllers: '*,bootstrapsigner,tokencleaner'
   enable_hostpath_provisioner: 'true'
@@ -49,8 +49,8 @@ k8s_master__kube_controller_manager_opts:
 k8s_master__kube_controller_manager_restart_sec: 10
 
 k8s_master__kube_scheduler_opts:
-  healthz_bind_address: 0.0.0.0:10251
-  metrics_bind_address: 0.0.0.0:10247
+  healthz_bind_address: 127.0.0.1:10251
+  metrics_bind_address: 127.0.0.1:10247
   enable_profiling: false
   vlog_level: 2
 k8s_master__kube_scheduler_restart_sec: 10
