@@ -18,6 +18,7 @@ ExecStart=/usr/bin/kube-controller-manager \
   --cluster-signing-cert-file={{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_k8s_ca_crt.dest | basename }} \
   --cluster-signing-key-file={{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_k8s_ca_key.dest | basename }} \
   --controllers={{ k8s_master__kube_controller_manager_opts.controllers }} \
+  --enable-hostpath-provisioner={{ k8s_master__kube_controller_manager_opts.enable_hostpath_provisioner }} \
   --experimental-cluster-signing-duration={{ k8s_master__kube_controller_manager_opts.cluster_signing_duration }} \
 {% if _feature_gates|length > 0 %}
   --feature-gates={{ _feature_gates|join(',') }} \
@@ -25,7 +26,9 @@ ExecStart=/usr/bin/kube-controller-manager \
   --kubeconfig={{ k8s_master__kubeconfig_dir }}/kube-controller-manager.kubeconfig \
   --node-cidr-mask-size={{ k8s_master__kube_controller_manager_opts.node_cidr_mask_size }} \
   --port={{ k8s_master__kube_controller_manager_opts.port }} \
+  --profiling={{ k8s_master__kube_controller_manager_opts.profiling }} \
   --root-ca-file={{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_k8s_ca_crt.dest | basename }} \
+  --secure-port={{ k8s_master__kube_controller_manager_opts.secure_port }} \
   --service-account-private-key-file={{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_kube_controller_manager_key.dest | basename }} \
   --service-cluster-ip-range={{ k8s__service_cluster_ip_range }} \
   --use-service-account-credentials=true \

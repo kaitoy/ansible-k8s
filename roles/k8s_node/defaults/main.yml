@@ -25,17 +25,23 @@ k8s_node__kubelet_opts:
   cgroup_driver: cgroupfs
   container_log_max_files: 5
   container_log_max_size: 10Mi
+  fail_swap_on: true
+  healthz_bind_address: 127.0.0.1
+  healthz_port: 10248
   max_open_files: '{{ k8s_node__docker_nofile + 10000 }}'
   max_pods: 110
   pod_infra_container_image: k8s.gcr.io/pause-amd64:3.1
-  rotate_certificates: true
+  rotate_certificates: 'true'
   tls_cipher_suites: TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
   tls_min_version: VersionTLS12
   vlog_level: 2
 k8s_node__kubelet_restart_sec: 10
 
 k8s_node__kube_proxy_opts:
-  bind_address: 0.0.0.0
+  bind_address: 127.0.0.1
+  enable_profiling: false
+  healthz_bind_address: 127.0.0.1:10256
+  metrics_bind_address: 127.0.0.1:10249
   vlog_level: 2
 k8s_node__kube_proxy_restart_sec: 10
 

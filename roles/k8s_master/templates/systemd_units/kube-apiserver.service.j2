@@ -45,11 +45,14 @@ ExecStart=/usr/bin/kube-apiserver \
 {% if _feature_gates|length > 0 %}
   --feature-gates={{ _feature_gates|join(',') }} \
 {% endif %}
+  --insecure-port={{ k8s_master__kube_apiserver_opts.insecure_port }} \
   --kubelet-certificate-authority={{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_k8s_ca_crt.dest | basename }} \
   --kubelet-client-certificate={{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_apiserver_kubelet_client_crt.dest | basename }} \
   --kubelet-client-key={{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_apiserver_kubelet_client_key.dest | basename }} \
   --kubelet-port={{ k8s__kubelet_port }} \
   --kubelet-preferred-address-types={{ k8s_master__kube_apiserver_opts.kubelet_preferred_address_types }} \
+  --kubernetes-service-node-port={{ k8s_master__kube_apiserver_opts.kubernetes_service_node_port }} \
+  --profiling={{ k8s_master__kube_apiserver_opts.profiling }} \
   --proxy-client-cert-file={{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_front_proxy_client_crt.dest | basename }} \
   --proxy-client-key-file={{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_front_proxy_client_key.dest | basename }} \
   --requestheader-allowed-names=front-proxy-client \
