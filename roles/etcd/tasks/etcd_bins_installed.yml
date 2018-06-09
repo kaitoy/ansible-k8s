@@ -1,11 +1,11 @@
 - name: etcd bins
   vars:
-    _etcd_archive_basename: etcd-v{{ etcd__etcd_version }}-linux-amd64
+    _etcd_archive_basename: etcd-{{ etcd__etcd_version }}-linux-amd64
     _etcd_archive: '{{ _etcd_archive_basename }}.tar.gz'
   block:
   - name: etcd archive is downloaded
     get_url:
-      url: '{{ etcd__etcd_archive_download_url_base }}/v{{ etcd__etcd_version }}/{{ _etcd_archive }}'
+      url: '{{ etcd__etcd_archive_download_url_base }}/{{ etcd__etcd_version }}/{{ _etcd_archive }}'
       dest: /tmp/{{ _etcd_archive }}
       checksum: '{{ etcd__etcd_archive_checksum }}'
     register: _get_url_result

@@ -42,6 +42,28 @@
     line: alias kp='kube-prompt'
     state: present
 
+- name: Helm archive is downloaded
+  get_url:
+    url: '{{ dev_env__helm_download_url }}'
+    dest: /tmp/helm.tar.gz
+    checksum: '{{ dev_env__helm_checksum }}'
+  register: _get_url_result
+- name: Helm archive is extracted
+  unarchive:
+    src: /tmp/helm.tar.gz
+    remote_src: true
+    dest: /tmp
+  when: _get_url_result.changed
+- name: Helm is installed
+  copy:
+    src: /tmp/linux-amd64/helm
+    remote_src: true
+    dest: /usr/bin
+    owner: root
+    group: root
+    mode: 0755
+  when: _get_url_result.changed
+
 - name: Git aliases exist
   ini_file:
     path: /etc/gitconfig

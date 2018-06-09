@@ -10,7 +10,10 @@ k8s__dns_server_ip_addrs: 10.0.0.10
 k8s__dns_cluster_domain: cluster.local
 k8s__feature_gates:
   RotateKubeletServerCertificate: true
-k8s__static_pod_path: /etc/kubernetes/manifests
+k8s__static_pod:
+  enabled: false
+#  enabled: true
+#  manifests_path: /etc/kubernetes/manifests
 
 k8s__local_shared_dir: /tmp/ansible
 

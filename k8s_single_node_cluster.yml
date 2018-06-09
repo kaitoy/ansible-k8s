@@ -1,1 +1,1 @@
-- import_playbook: k8s_master.yml
+- import_playbook: k8s_master_dev.yml

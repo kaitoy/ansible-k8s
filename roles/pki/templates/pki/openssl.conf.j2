@@ -14,13 +14,15 @@ keyUsage = critical, digitalSignature, keyEncipherment
 extendedKeyUsage = serverAuth
 subjectAltName = @alt_names_cluster
 [ alt_names_cluster ]
-DNS.1 = kubernetes
-DNS.2 = kubernetes.default
-DNS.3 = kubernetes.default.svc
-DNS.4 = kubernetes.default.svc.cluster.local
-IP.1 = {{ k8s_master__service_ip_addr }}
-{% set _dns_idx = 5 %}
-{% set _ip_idx = 2 %}
+DNS.1 = localhost
+DNS.2 = kubernetes
+DNS.3 = kubernetes.default
+DNS.4 = kubernetes.default.svc
+DNS.5 = kubernetes.default.svc.cluster.local
+IP.1 = 127.0.0.1
+IP.2 = {{ k8s_master__service_ip_addr }}
+{% set _dns_idx = 6 %}
+{% set _ip_idx = 3 %}
 {% for _, _hostvar in hostvars.items() %}
     {%- if _hostvar.host__k8s_master %}
 DNS.{{ _dns_idx }} = {{ _hostvar.host__hostname }}
@@ -39,8 +41,10 @@ keyUsage = critical, digitalSignature, keyEncipherment
 extendedKeyUsage = serverAuth
 subjectAltName = @alt_names_etcd
 [ alt_names_etcd ]
-{% set _dns_idx = 1 %}
-{% set _ip_idx = 1 %}
+DNS.1 = localhost
+IP.1 = 127.0.0.1
+{% set _dns_idx = 2 %}
+{% set _ip_idx = 2 %}
 {% for _, _hostvar in hostvars.items() %}
     {%- if _hostvar.host__etcd %}
 DNS.{{ _dns_idx }} = {{ _hostvar.host__hostname }}

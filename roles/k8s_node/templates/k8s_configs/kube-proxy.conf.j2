@@ -1,10 +1,10 @@
 kind: KubeProxyConfiguration
 apiVersion: kubeproxy.config.k8s.io/v1alpha1
-bindAddress: {{ k8s_node__kube_proxy_opts.bind_address }}
+bindAddress: {{ k8s_node__kube_proxy_bind_address }}
 clientConnection:
   kubeconfig: {{ k8s_node__kubeconfig_dir }}/kube-proxy.kubeconfig
 clusterCIDR: {{ k8s__cluster_cidr }}
-enableProfiling: {{ k8s_node__kube_proxy_opts.enable_profiling }}
+enableProfiling: {{ k8s_node__kube_proxy_enable_profiling }}
 {% if k8s__feature_gates %}
 featureGates:
     {%- for _fg_name, _fg_flag in k8s__feature_gates.items() %}
@@ -14,5 +14,5 @@ featureGates:
     {%- endfor %}
 {% endif %}
 
-healthzBindAddress: {{ k8s_node__kube_proxy_opts.healthz_bind_address }}
-metricsBindAddress: {{ k8s_node__kube_proxy_opts.metrics_bind_address }}
+healthzBindAddress: {{ k8s_node__kube_proxy_healthz_bind_address }}
+metricsBindAddress: {{ k8s_node__kube_proxy_metrics_bind_address }}

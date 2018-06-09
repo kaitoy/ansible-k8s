@@ -1,6 +1,6 @@
 kind: KubeletConfiguration
 apiVersion: kubelet.config.k8s.io/v1beta1
-address: {{ k8s_node__kubelet_opts.address }}
+address: {{ k8s_node__kubelet_address }}
 authentication:
   x509:
     clientCAFile: {{ k8s_master__pki_dir }}/{{ pki_tasks__fetch_k8s_ca_crt.dest | basename }}
@@ -14,12 +14,12 @@ authorization:
   webhook:
     cacheAuthorizedTTL: 5m0s
     cacheUnauthorizedTTL: 30s
-cgroupDriver: {{ k8s_node__kubelet_opts.cgroup_driver }}
+cgroupDriver: {{ k8s_node__kubelet_cgroup_driver }}
 clusterDNS: [{{ k8s__dns_server_ip_addrs }}]
 clusterDomain: {{ k8s__dns_cluster_domain }}
-containerLogMaxFiles: {{ k8s_node__kubelet_opts.container_log_max_files }}
-containerLogMaxSize: {{ k8s_node__kubelet_opts.container_log_max_size }}
-failSwapOn: {{ k8s_node__kubelet_opts.fail_swap_on }}
+containerLogMaxFiles: {{ k8s_node__kubelet_container_log_max_files }}
+containerLogMaxSize: {{ k8s_node__kubelet_container_log_max_size }}
+failSwapOn: {{ k8s_node__kubelet_fail_swap_on }}
 {% if k8s__feature_gates %}
 featureGates:
     {%- for _fg_name, _fg_flag in k8s__feature_gates.items() %}
@@ -29,18 +29,18 @@ featureGates:
     {%- endfor %}
 {% endif %}
 
-healthzBindAddress: {{ k8s_node__kubelet_opts.healthz_bind_address }}
-healthzPort: {{ k8s_node__kubelet_opts.healthz_port }}
-maxOpenFiles: {{ k8s_node__kubelet_opts.max_open_files }}
-maxPods: {{ k8s_node__kubelet_opts.max_pods }}
+healthzBindAddress: {{ k8s_node__kubelet_healthz_bind_address }}
+healthzPort: {{ k8s_node__kubelet_healthz_port }}
+maxOpenFiles: {{ k8s_node__kubelet_max_open_files }}
+maxPods: {{ k8s_node__kubelet_max_pods }}
 port: {{ k8s__kubelet_port }}
 readOnlyPort: 0
-{% if k8s__static_pod_path %}
-staticPodPath: {{ k8s__static_pod_path }}
+{% if k8s__static_pod.enabled %}
+staticPodPath: {{ k8s__static_pod.manifests_path }}
 {% endif %}
-tlsMinVersion: {{ k8s_node__kubelet_opts.tls_min_version }}
+tlsMinVersion: {{ k8s_node__kubelet_tls_min_version }}
 tlsCipherSuites:
-{% set _ciphers = k8s_node__kubelet_opts.tls_cipher_suites.split(',') %}
+{% set _ciphers = k8s_node__kubelet_tls_cipher_suites.split(',') %}
 {% for _cipher in _ciphers %}
 - {{ _cipher }}
 {% endfor %}

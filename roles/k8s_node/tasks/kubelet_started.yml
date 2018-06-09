@@ -1,11 +1,11 @@
 - name: Static pod dir exists
   file:
-    path: '{{ k8s__static_pod_path }}'
+    path: '{{ k8s__static_pod.manifests_path }}'
     owner: root
     group: root
     mode: 0755
     state: directory
-  when: k8s__static_pod_path is defined
+  when: k8s__static_pod.enabled
 
 - name: kubelet lib dir exists
   file:

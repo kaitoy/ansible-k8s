@@ -17,40 +17,41 @@ k8s_master__kube_admin_user_gid: 1030
 
 k8s_master__secret_encoding_key: your_32_bytes_secure_private_key
 
-k8s_master__kube_apiserver_opts:
-  advertise_address: '{{ host__ip_addr }}'
-  audit_log_format: json
-  audit_log_maxage: 30
-  audit_log_maxbackup: 3
-  audit_log_maxsize: 100
-  audit_log_path: '{{ k8s_master__audit_log_dir }}/kube-audit.log'
-  bind_address: 0.0.0.0
-  enable_admission_plugins: NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,NodeRestriction,DenyEscalatingExec,StorageObjectInUseProtection,PodSecurityPolicy
-  insecure_port: 0
-  kubelet_preferred_address_types: InternalIP,ExternalIP,Hostname
-  kubernetes_service_node_port: 0
-  profiling: 'false'
-  service_node_port_range: '30000-32767'
-  tls_cipher_suites: TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-  tls_min_version: VersionTLS12
-  vlog_level: 2
+k8s_master__kube_apiserver_advertise_address: '{{ host__ip_addr }}'
+k8s_master__kube_apiserver_audit_log_format: json
+k8s_master__kube_apiserver_audit_log_maxage: 30
+k8s_master__kube_apiserver_audit_log_maxbackup: 3
+k8s_master__kube_apiserver_audit_log_maxsize: 100
+k8s_master__kube_apiserver_audit_log_path: '{{ k8s_master__audit_log_dir }}/kube-audit.log'
+k8s_master__kube_apiserver_bind_address: 0.0.0.0
+k8s_master__kube_apiserver_enable_admission_plugins: NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,NodeRestriction,DenyEscalatingExec,StorageObjectInUseProtection,PodSecurityPolicy
+k8s_master__kube_apiserver_etcd_servers:
+  auto_set: true
+  # auto_set: false
+  # servers: https://127.0.0.1:2379
+k8s_master__kube_apiserver_insecure_port: 0
+k8s_master__kube_apiserver_kubelet_preferred_address_types: InternalIP,ExternalIP,Hostname
+k8s_master__kube_apiserver_kubernetes_service_node_port: 0
+k8s_master__kube_apiserver_profiling: 'false'
+k8s_master__kube_apiserver_service_node_port_range: '30000-32767'
+k8s_master__kube_apiserver_tls_cipher_suites: TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+k8s_master__kube_apiserver_tls_min_version: VersionTLS12
+k8s_master__kube_apiserver_vlog_level: 2
 k8s_master__kube_apiserver_restart_sec: 10
 
-k8s_master__kube_controller_manager_opts:
-  bind_address: 127.0.0.1
-  cluster_signing_duration: 8760h0m0s
-  controllers: '*,bootstrapsigner,tokencleaner'
-  enable_hostpath_provisioner: 'true'
-  node_cidr_mask_size: 24
-  port: 10252
-  profiling: 'false'
-  secure_port: 0
-  vlog_level: 2
+k8s_master__kube_controller_manager_bind_address: 127.0.0.1
+k8s_master__kube_controller_manager_cluster_signing_duration: 8760h0m0s
+k8s_master__kube_controller_manager_controllers: '*,bootstrapsigner,tokencleaner'
+k8s_master__kube_controller_manager_enable_hostpath_provisioner: 'true'
+k8s_master__kube_controller_manager_node_cidr_mask_size: 24
+k8s_master__kube_controller_manager_port: 10252
+k8s_master__kube_controller_manager_profiling: 'false'
+k8s_master__kube_controller_manager_secure_port: 0
+k8s_master__kube_controller_manager_vlog_level: 2
 k8s_master__kube_controller_manager_restart_sec: 10
 
-k8s_master__kube_scheduler_opts:
-  healthz_bind_address: 127.0.0.1:10251
-  metrics_bind_address: 127.0.0.1:10247
-  enable_profiling: false
-  vlog_level: 2
+k8s_master__kube_scheduler_healthz_bind_address: 127.0.0.1:10251
+k8s_master__kube_scheduler_metrics_bind_address: 127.0.0.1:10247
+k8s_master__kube_scheduler_enable_profiling: false
+k8s_master__kube_scheduler_vlog_level: 2
 k8s_master__kube_scheduler_restart_sec: 10

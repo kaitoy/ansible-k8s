@@ -1,6 +1,6 @@
 kind: KubeSchedulerConfiguration
 apiVersion: componentconfig/v1alpha1
-enableProfiling: {{ k8s_master__kube_scheduler_opts.enable_profiling }}
+enableProfiling: {{ k8s_master__kube_scheduler_enable_profiling }}
 {% if k8s__feature_gates %}
 featureGates:
     {%- for _fg_name, _fg_flag in k8s__feature_gates.items() %}
@@ -10,7 +10,7 @@ featureGates:
     {%- endfor %}
 {% endif %}
 
-healthzBindAddress: {{ k8s_master__kube_scheduler_opts.healthz_bind_address }}
-metricsBindAddress: {{ k8s_master__kube_scheduler_opts.metrics_bind_address }}
+healthzBindAddress: {{ k8s_master__kube_scheduler_healthz_bind_address }}
+metricsBindAddress: {{ k8s_master__kube_scheduler_metrics_bind_address }}
 clientConnection:
   kubeconfig: {{ k8s_master__kubeconfig_dir }}/kube-scheduler.kubeconfig

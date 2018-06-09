@@ -12,6 +12,10 @@ dev_env__kube_prompt_ver: v1.0.3
 dev_env__kube_prompt_download_url: https://github.com/c-bata/kube-prompt/releases/download/{{ dev_env__kube_prompt_ver }}/kube-prompt_{{ dev_env__kube_prompt_ver }}_linux_amd64.zip
 dev_env__kube_prompt_checksum: sha1:bc486371ba54995055b60bb72f476f65fa87ac4d
 
+dev_env__helm_ver: v2.9.1
+dev_env__helm_download_url: https://storage.googleapis.com/kubernetes-helm/helm-{{ dev_env__helm_ver }}-linux-amd64.tar.gz
+dev_env__helm_checksum: sha256:56ae2d5d08c68d6e7400d462d6ed10c929effac929fedce18d2636a9b4e166ba
+
 dev_env__yum_pkgs_to_install:
 - bind-utils
 - curl
@@ -22,3 +26,4 @@ dev_env__yum_pkgs_to_install:
 - tcpdump
 - unzip
 - git
+- bash-completion

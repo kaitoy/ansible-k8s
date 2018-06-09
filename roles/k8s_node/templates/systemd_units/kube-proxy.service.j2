@@ -8,7 +8,7 @@ User=root
 Group=root
 ExecStart=/usr/bin/kube-proxy \
   --config={{ k8s_node__k8s_configs_dir }}/kube-proxy.conf \
-  --v={{ k8s_node__kube_proxy_opts.vlog_level }}
+  --v={{ k8s_node__kube_proxy_vlog_level }}
 Restart=always
 RestartSec={{ k8s_node__kube_proxy_restart_sec }}s
 
