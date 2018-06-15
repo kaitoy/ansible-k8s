@@ -2,5 +2,5 @@ k8s:
   hosts:
     k8s_master:
       ansible_host: 192.168.171.200
-      ansbile_user: root
+      ansible_user: root
       ansible_ssh_pass: hitachi

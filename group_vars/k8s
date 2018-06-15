@@ -6,7 +6,7 @@ k8s__kube_apiserver_secure_port: 6443
 k8s__kubelet_port: 10250
 k8s__service_cluster_ip_range: 10.0.0.0/16
 k8s__cluster_cidr: 10.32.0.0/16
-k8s__dns_server_ip_addrs: 10.0.0.10
+k8s__dns_server_ip_addr: '{{ k8s__service_cluster_ip_range | ipaddr("10") | regex_replace("/[0-9]+", "") }}'
 k8s__dns_cluster_domain: cluster.local
 k8s__feature_gates:
   RotateKubeletServerCertificate: true

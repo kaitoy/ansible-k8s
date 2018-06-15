@@ -15,7 +15,7 @@ authorization:
     cacheAuthorizedTTL: 5m0s
     cacheUnauthorizedTTL: 30s
 cgroupDriver: {{ k8s_node__kubelet_cgroup_driver }}
-clusterDNS: [{{ k8s__dns_server_ip_addrs }}]
+clusterDNS: [{{ k8s__dns_server_ip_addr }}]
 clusterDomain: {{ k8s__dns_cluster_domain }}
 containerLogMaxFiles: {{ k8s_node__kubelet_container_log_max_files }}
 containerLogMaxSize: {{ k8s_node__kubelet_container_log_max_size }}

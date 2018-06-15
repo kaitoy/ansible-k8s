@@ -16,9 +16,12 @@ dev_env__helm_ver: v2.9.1
 dev_env__helm_download_url: https://storage.googleapis.com/kubernetes-helm/helm-{{ dev_env__helm_ver }}-linux-amd64.tar.gz
 dev_env__helm_checksum: sha256:56ae2d5d08c68d6e7400d462d6ed10c929effac929fedce18d2636a9b4e166ba
 
+dev_env__stern_ver: 1.6.0
+dev_env__stern_download_url: https://github.com/wercker/stern/releases/download/{{ dev_env__stern_ver }}/stern_linux_amd64
+dev_env__stern_checksum: sha1:134ad605ffdf90f4969f84f33fb29f34ea4cc79f
+
 dev_env__yum_pkgs_to_install:
 - bind-utils
-- curl
 - nmap
 - jq
 - vim

@@ -31,16 +31,14 @@
     group: root
     mode: 0755
   when: _get_url_result.changed
-- name: Alias of kube-prompt (kp) for root exists
+- name: Alias of kube-prompt (kp) exists
   lineinfile:
-    path: /root/.bashrc
+    path: '{{ item }}'
     line: alias kp='kube-prompt'
     state: present
-- name: Alias of kube-prompt (kp) for kube-admin exists
-  lineinfile:
-    path: /home/kube-admin/.bashrc
-    line: alias kp='kube-prompt'
-    state: present
+  loop:
+    - /root/.bashrc
+    - /home/kube-admin/.bashrc
 
 - name: Helm archive is downloaded
   get_url:
@@ -63,6 +61,26 @@
     group: root
     mode: 0755
   when: _get_url_result.changed
+
+- name: stern is installed
+  get_url:
+    url: '{{ dev_env__stern_download_url }}'
+    dest: /usr/bin/stern
+    checksum: '{{ dev_env__stern_checksum }}'
+- name: stern is executable
+  file:
+    path: /usr/bin/stern
+    owner: root
+    group: root
+    mode: 0755
+- name: stern's bash completion is setup
+  lineinfile:
+    path: '{{ item }}'
+    line: source <(stern --completion=bash)
+    state: present
+  loop:
+    - /root/.bashrc
+    - /home/kube-admin/.bashrc
 
 - name: Git aliases exist
   ini_file:

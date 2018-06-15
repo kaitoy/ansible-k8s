@@ -1,5 +1,5 @@
 host__ip_addr: '{{ k8s__advertise_address }}'
-host__hostname: k8s-master
+host__hostname: k8s-master.local
 host__k8s_master: true
 host__etcd: true
 host__etcd_member_name: etcd1
