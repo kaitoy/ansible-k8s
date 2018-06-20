@@ -1,13 +1,3 @@
-- name: YUM repository for Docker is enabled
-  yum_repository:
-    name: '{{ k8s_node__yum_repo_to_enable_for_docker.name }}'
-    description: '{{ k8s_node__yum_repo_to_enable_for_docker.description }}'
-    baseurl: '{{ k8s_node__yum_repo_to_enable_for_docker.baseurl }}'
-    gpgkey: '{{ k8s_node__yum_repo_to_enable_for_docker.gpgkey }}'
-    gpgcheck: '{{ k8s_node__yum_repo_to_enable_for_docker.gpgcheck }}'
-    enabled: true
-  when: k8s_node__yum_repo_to_enable_for_docker
-
 - name: Docker is installed
   yum:
     name: '{{ k8s_node__docker_package_name }}'

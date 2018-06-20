@@ -82,6 +82,18 @@
     - /root/.bashrc
     - /home/kube-admin/.bashrc
 
+- name: jq is installed
+  get_url:
+    url: '{{ dev_env__jq_download_url }}'
+    dest: /usr/bin/jq
+    checksum: '{{ dev_env__jq_checksum }}'
+- name: jq is executable
+  file:
+    path: /usr/bin/jq
+    owner: root
+    group: root
+    mode: 0755
+
 - name: Git aliases exist
   ini_file:
     path: /etc/gitconfig

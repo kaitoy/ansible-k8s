@@ -1,13 +1,21 @@
-k8s_node__k8s_bins_download_url_base: https://storage.googleapis.com/kubernetes-release/release/{{ k8s__k8s_version }}/bin/linux/amd64
-k8s_node__kubelet_bin_checksum: sha1:88e181532294abebb755c9495c75ef7b6af2edb5
-k8s_node__kube_proxy_bin_checksum: sha1:b1824394677e5e5760f609047bcc7aa3411e534d
+k8s_node__hosts_entries:
+- '{{ host__ip_addr }} {{ host__hostname }}'
 
-k8s_node__yum_repo_to_enable_for_docker:
-  name: ol7_addons
+k8s_node__yum_repos_to_enable:
+- name: ol7_addons
   description: ol7_addons
   baseurl: http://yum.oracle.com/repo/OracleLinux/OL7/addons/$basearch/
   gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
   gpgcheck: true
+
+k8s_node__yum_repos_to_disable:
+# - path: /etc/yum.repos.d/public-yum-ol7.repo
+#   name: ol7_software_collections
+
+k8s_node__k8s_bins_download_url_base: https://storage.googleapis.com/kubernetes-release/release/{{ k8s__k8s_version }}/bin/linux/amd64
+k8s_node__kubelet_bin_checksum: sha1:88e181532294abebb755c9495c75ef7b6af2edb5
+k8s_node__kube_proxy_bin_checksum: sha1:b1824394677e5e5760f609047bcc7aa3411e534d
+
 k8s_node__docker_package_name: docker-engine
 k8s_node__docker_nofile: 1000000
 k8s_node__additional_dockerd_options:

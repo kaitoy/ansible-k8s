@@ -20,10 +20,13 @@ dev_env__stern_ver: 1.6.0
 dev_env__stern_download_url: https://github.com/wercker/stern/releases/download/{{ dev_env__stern_ver }}/stern_linux_amd64
 dev_env__stern_checksum: sha1:134ad605ffdf90f4969f84f33fb29f34ea4cc79f
 
+dev_env__jq_ver: 1.5
+dev_env__jq_download_url: https://github.com/stedolan/jq/releases/download/jq-{{ dev_env__jq_ver }}/jq-linux64
+dev_env__jq_checksum: sha1:d8e36831c3c94bb58be34dd544f44a6c6cb88568
+
 dev_env__yum_pkgs_to_install:
 - bind-utils
 - nmap
-- jq
 - vim
 - yum-utils
 - tcpdump

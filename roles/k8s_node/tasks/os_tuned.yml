@@ -1,3 +1,28 @@
+- name: /etc/hosts has entries needed
+  lineinfile:
+    path: /etc/hosts
+    line: '{{ item }}'
+    state: present
+  loop: '{{ k8s_node__hosts_entries }}'
+
+- name: YUM repositories needed are enabled
+  yum_repository:
+    name: '{{ item.name }}'
+    description: '{{ item.description }}'
+    baseurl: '{{ item.baseurl }}'
+    gpgkey: '{{ item.gpgkey }}'
+    gpgcheck: '{{ item.gpgcheck }}'
+    enabled: true
+  loop: '{{ k8s_node__yum_repos_to_enable }}'
+
+- name: YUM repositories unneeded are disabled
+  ini_file:
+    path: '{{ item.path }}'
+    section: '{{ item.name }}'
+    option: enabled
+    value: 0
+  loop: '{{ k8s_node__yum_repos_to_disable }}'
+
 - name: swap off
   block:
   - name: swap doesn't exist in fstab
