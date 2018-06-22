@@ -8,7 +8,8 @@ k8s_node__yum_repos_to_enable:
   gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
   gpgcheck: true
 
-k8s_node__yum_repos_to_disable:
+k8s_node__yum_repos_to_disable: []
+# k8s_node__yum_repos_to_disable:
 # - path: /etc/yum.repos.d/public-yum-ol7.repo
 #   name: ol7_software_collections
 
