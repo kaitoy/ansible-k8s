@@ -1,15 +1,15 @@
-- name: ntp is installed
+- name: chrony is installed
   yum:
-    name: ntp
+    name: chrony
     state: latest
 
-- name: ntp is configured
+- name: chrony is configured
   template:
-    src: ntp/ntp.conf.j2
-    dest: /etc/ntp.conf
+    src: chrony/chrony.conf.j2
+    dest: /etc/chrony.conf
 
-- name: ntpd is running and enabled
+- name: chrony is running and enabled
   service:
-    name: ntpd
+    name: chrony
     state: started
     enabled: true
