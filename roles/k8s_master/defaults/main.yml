@@ -1,9 +1,9 @@
 k8s_master__k8s_bins_download_url_base: https://storage.googleapis.com/kubernetes-release/release/{{ k8s__k8s_version }}/bin/linux/amd64
-k8s_master__kube_apiserver_bin_checksum: sha1:c050edfc1f4226542d640d2266a92b2edf899d99
-k8s_master__kube_controller_manager_bin_checksum: sha1:d6ebfb098d66d0ebaee1d869c2055233a51d8667
-k8s_master__kube_scheduler_bin_checksum: sha1:e3690e69db6f6dfa16e3bf2f77af2758a791e397
-k8s_master__kubectl_bin_checksum: sha1:a5c8e589bed21ec471e8c582885a8c9972a84da1
-k8s_master__kubeadm_bin_checksum: sha1:c66a5c0baf77f37534dbc1624c8bd19045726b68
+k8s_master__kube_apiserver_bin_checksum: sha1:56c179fe9dfb29c4e1f5005cd9bfb1116f164a73
+k8s_master__kube_controller_manager_bin_checksum: sha1:1af446a11c02acd335aeba44afe485965975ae16
+k8s_master__kube_scheduler_bin_checksum: sha1:34f535dc0e5d35b9a3d7c05fb10b79ddfea886c5
+k8s_master__kubectl_bin_checksum: sha1:dbe431b2684f8ff4188335b3b3cea185d5a9ec44
+k8s_master__kubeadm_bin_checksum: sha1:c18b917bca94088e95bdad1849f176f7e3c6f05b
 
 k8s_master__service_ip_addr: '{{ k8s__service_cluster_ip_range | ipaddr("1") | regex_replace("/[0-9]+", "") }}'
 

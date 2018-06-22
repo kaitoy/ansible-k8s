@@ -1,4 +1,4 @@
-k8s__k8s_version: v1.10.1
+k8s__k8s_version: v1.10.5
 k8s__k8s_cluster_name: k8s
 
 k8s__advertise_address: 192.168.171.200
