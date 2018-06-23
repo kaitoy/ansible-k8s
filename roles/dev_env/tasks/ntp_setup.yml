@@ -8,8 +8,8 @@
     src: chrony/chrony.conf.j2
     dest: /etc/chrony.conf
 
-- name: chrony is running and enabled
+- name: chronyd is running and enabled
   service:
-    name: chrony
+    name: chronyd
     state: started
     enabled: true
