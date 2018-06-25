@@ -3,7 +3,7 @@
     path: /etc/hosts
     line: '{{ item }}'
     state: present
-  loop: '{{ k8s_node__hosts_entries }}'
+  loop: '{{ base__hosts_entries }}'
 
 - name: YUM repositories needed are enabled
   yum_repository:
@@ -13,7 +13,7 @@
     gpgkey: '{{ item.gpgkey }}'
     gpgcheck: '{{ item.gpgcheck }}'
     enabled: true
-  loop: '{{ k8s_node__yum_repos_to_enable }}'
+  loop: '{{ base__yum_repos_to_enable }}'
 
 - name: YUM repositories unneeded are disabled
   ini_file:
@@ -21,7 +21,23 @@
     section: '{{ item.name }}'
     option: enabled
     value: 0
-  loop: '{{ k8s_node__yum_repos_to_disable }}'
+  loop: '{{ base__yum_repos_to_disable }}'
+
+- name: ntp is setup
+  block:
+  - name: chrony is installed
+    yum:
+      name: chrony
+      state: latest
+  - name: chrony is configured
+    template:
+      src: chrony/chrony.conf.j2
+      dest: /etc/chrony.conf
+  - name: chronyd is running and enabled
+    service:
+      name: chronyd
+      state: started
+      enabled: true
 
 - name: swap off
   block:
@@ -61,10 +77,26 @@
     sysctl_set: true
     state: present
     reload: true
-  loop: '{{ k8s_node__kernel_params }}'
+  loop: '{{ base__kernel_params }}'
 
 - name: firewalld is disabled
   systemd:
     name: firewalld
     state: stopped
     enabled: false
+
+- name: The server is rebooted
+  block:
+  - name: Reboot is started
+    shell: sleep 2 && shutdown -r now
+    async: 1
+    poll: 0
+    sudo: true
+    ignore_errors: true
+  - name: The server is up again
+    wait_for:
+      host: '{{ inventory_hostname }}'
+      state: started
+      delay: 10
+      timeout: 100
+    delegate_to: 127.0.0.1

@@ -1,0 +1,34 @@
+base__hosts_entries:
+- '{{ host__ip_addr }} {{ host__hostname }}'
+
+base__yum_repos_to_enable:
+- name: ol7_addons
+  description: ol7_addons
+  baseurl: http://yum.oracle.com/repo/OracleLinux/OL7/addons/$basearch/
+  gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
+  gpgcheck: true
+
+base__yum_repos_to_disable: []
+# base__yum_repos_to_disable:
+# - path: /etc/yum.repos.d/public-yum-ol7.repo
+#   name: ol7_software_collections
+
+base__ntp_servers:
+- server 0.rhel.pool.ntp.org iburst
+- server 1.rhel.pool.ntp.org iburst
+- server 2.rhel.pool.ntp.org iburst
+- server 3.rhel.pool.ntp.org iburst
+
+base__kernel_params:
+# For k8s
+- name: net.bridge.bridge-nf-call-iptables
+  value: 1
+- name: net.bridge.bridge-nf-call-ip6tables
+  value: 1
+- name: net.ipv4.ip_forward
+  value: 1
+- name: fs.file-max
+  value: '{{ k8s_node__docker_nofile + 50000 }}'
+# For Pods
+- name: vm.max_map_count  # Elasticsearch
+  value: 262144

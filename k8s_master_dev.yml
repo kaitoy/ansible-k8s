@@ -1,6 +1,7 @@
 - hosts: k8s_master
   gather_facts: false
   roles:
+  - base
   - pki
   - etcd
   - k8s_master
