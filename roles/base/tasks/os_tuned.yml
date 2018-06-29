@@ -97,6 +97,6 @@
     wait_for:
       host: '{{ inventory_hostname }}'
       state: started
-      delay: 10
-      timeout: 100
+      delay: '{{ base__reboot_polling_delay }}'
+      timeout: '{{ base__reboot_polling_timeout }}'
     delegate_to: 127.0.0.1

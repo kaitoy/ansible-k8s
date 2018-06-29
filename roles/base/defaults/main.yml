@@ -32,3 +32,6 @@ base__kernel_params:
 # For Pods
 - name: vm.max_map_count  # Elasticsearch
   value: 262144
+
+base__reboot_polling_delay: 10
+base__reboot_polling_timeout: 100
