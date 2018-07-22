@@ -31,6 +31,7 @@ k8s_node__kubelet_healthz_port: 10248
 k8s_node__kubelet_max_open_files: '{{ k8s_node__docker_nofile + 10000 }}'
 k8s_node__kubelet_max_pods: 110
 k8s_node__kubelet_pod_infra_container_image: k8s.gcr.io/pause-amd64:3.1
+k8s_node__kubelet_pod_pids_limit: 512
 k8s_node__kubelet_rotate_certificates: 'true'
 k8s_node__kubelet_tls_cipher_suites: TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 k8s_node__kubelet_tls_min_version: VersionTLS12
