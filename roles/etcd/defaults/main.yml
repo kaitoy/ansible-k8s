@@ -11,4 +11,5 @@ etcd__listen_peer_urls: https://{{ host__ip_addr }}:{{ etcd__peer_port }}
 etcd__initial_advertise_peer_urls: https://{{ host__ip_addr }}:{{ etcd__peer_port }}
 etcd__cluster_token: '{{ k8s__k8s_cluster_name }}_8198f9e6ac'
 etcd__initial_cluster_url: https://{{ host__ip_addr }}:{{ etcd__peer_port }}
+etcd__max_wals: 0
 etcd__restart_sec: 10

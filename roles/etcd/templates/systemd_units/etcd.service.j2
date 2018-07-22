@@ -25,7 +25,8 @@ ExecStart=/usr/bin/etcd \
   --peer-trusted-ca-file {{ etcd__pki_dir }}/{{ pki_tasks__fetch_etcd_ca_crt.dest | basename }} \
   --initial-cluster-token {{ etcd__cluster_token }} \
   --initial-cluster {{ host__etcd_member_name }}={{ etcd__initial_cluster_url }} \
-  --initial-cluster-state new
+  --initial-cluster-state new \
+  --max-wals {{ etcd__max_wals }}
 Restart=always
 RestartSec={{ etcd__restart_sec }}s
 
