@@ -26,6 +26,7 @@ k8s_node__kubelet_cgroup_driver: cgroupfs
 k8s_node__kubelet_container_log_max_files: 5
 k8s_node__kubelet_container_log_max_size: 10Mi
 k8s_node__kubelet_fail_swap_on: true
+k8s_node__kubelet_hairpin_mode: hairpin-veth
 k8s_node__kubelet_healthz_bind_address: 127.0.0.1
 k8s_node__kubelet_healthz_port: 10248
 k8s_node__kubelet_max_open_files: '{{ k8s_node__docker_nofile + 10000 }}'

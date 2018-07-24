@@ -29,6 +29,7 @@ featureGates:
     {%- endfor %}
 {% endif %}
 
+hairpinMode: {{ k8s_node__kubelet_hairpin_mode }}
 healthzBindAddress: {{ k8s_node__kubelet_healthz_bind_address }}
 healthzPort: {{ k8s_node__kubelet_healthz_port }}
 maxOpenFiles: {{ k8s_node__kubelet_max_open_files }}
