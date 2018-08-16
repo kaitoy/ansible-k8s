@@ -2,10 +2,10 @@
 {% set _etcd_servers = [] %}
 {% for _, _hostvar in hostvars.items() %}
     {%- if _hostvar.host__k8s_master -%}
-        {{ _apiservers.append(_hostvar.host__ip_addr) }}
+        {{ _apiservers.append(_hostvar.ansible_facts.default_ipv4.address) }}
     {%- endif %}
     {%- if _hostvar.host__etcd -%}
-        {{ _etcd_servers.append('https://%s:%d'|format(_hostvar.host__ip_addr, _hostvar.host__etcd_server_port)) }}
+        {{ _etcd_servers.append('https://%s:%d'|format(_hostvar.ansible_facts.default_ipv4.address, _hostvar.host__etcd_server_port)) }}
     {%- endif %}
 {% endfor %}
 

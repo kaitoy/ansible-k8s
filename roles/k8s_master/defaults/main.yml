@@ -17,7 +17,7 @@ k8s_master__kube_admin_user_gid: 1030
 
 k8s_master__secret_encoding_key: your_32_bytes_secure_private_key
 
-k8s_master__kube_apiserver_advertise_address: '{{ host__ip_addr }}'
+k8s_master__kube_apiserver_advertise_address: '{{ ansible_facts.default_ipv4.address }}'
 k8s_master__kube_apiserver_audit_log_format: json
 k8s_master__kube_apiserver_audit_log_maxage: 30
 k8s_master__kube_apiserver_audit_log_maxbackup: 3

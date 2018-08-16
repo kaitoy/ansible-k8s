@@ -25,8 +25,8 @@ IP.2 = {{ k8s_master__service_ip_addr }}
 {% set _ip_idx = 3 %}
 {% for _, _hostvar in hostvars.items() %}
     {%- if _hostvar.host__k8s_master %}
-DNS.{{ _dns_idx }} = {{ _hostvar.host__hostname }}
-IP.{{ _ip_idx }} = {{ _hostvar.host__ip_addr }}
+DNS.{{ _dns_idx }} = {{ _hostvar.ansible_facts.fqdn }}
+IP.{{ _ip_idx }} = {{ _hostvar.ansible_facts.default_ipv4.address }}
         {%- set _dns_idx = _dns_idx + 1 %}
         {%- set _ip_idx = _ip_idx + 1 %}
     {%- endif %}
@@ -47,8 +47,8 @@ IP.1 = 127.0.0.1
 {% set _ip_idx = 2 %}
 {% for _, _hostvar in hostvars.items() %}
     {%- if _hostvar.host__etcd %}
-DNS.{{ _dns_idx }} = {{ _hostvar.host__hostname }}
-IP.{{ _ip_idx }} = {{ _hostvar.host__ip_addr }}
+DNS.{{ _dns_idx }} = {{ _hostvar.ansible_facts.fqdn }}
+IP.{{ _ip_idx }} = {{ _hostvar.ansible_facts.default_ipv4.address }}
         {%- set _dns_idx = _dns_idx + 1 %}
         {%- set _ip_idx = _ip_idx + 1 %}
     {%- endif %}
