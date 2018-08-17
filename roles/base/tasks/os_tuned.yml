@@ -1,3 +1,8 @@
+- name: host__public_address is set
+  set_fact:
+    host__public_address: '{{ ansible_facts.default_ipv4.address }}'
+  when: host__public_address is undefined
+
 - name: /etc/hosts has entries needed
   lineinfile:
     path: /etc/hosts

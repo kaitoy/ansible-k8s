@@ -1,5 +1,5 @@
 base__hosts_entries:
-- '{{ ansible_facts.default_ipv4.address }} {{ ansible_facts.fqdn }}'
+- '{{ host__public_address }} {{ ansible_facts.fqdn }}'
 
 base__yum_repos_to_enable:
 - name: ol7_addons
