@@ -1,10 +1,10 @@
 k8s__k8s_version: v1.10.5
 k8s__k8s_cluster_name: k8s
 
-k8s__advertise_address: 192.168.171.200
 k8s__kube_apiserver_secure_port: 6443
 k8s__kubelet_port: 10250
 k8s__service_cluster_ip_range: 10.0.0.0/16
+k8s__service_ip_addr: '{{ k8s__service_cluster_ip_range | ipaddr("1") | regex_replace("/[0-9]+", "") }}'
 k8s__cluster_cidr: 10.32.0.0/16
 k8s__dns_server_ip_addr: '{{ k8s__service_cluster_ip_range | ipaddr("10") | regex_replace("/[0-9]+", "") }}'
 k8s__dns_cluster_domain: cluster.local

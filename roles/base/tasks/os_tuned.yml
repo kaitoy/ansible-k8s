@@ -100,7 +100,8 @@
     ignore_errors: true
   - name: The server is up again
     wait_for:
-      host: '{{ inventory_hostname }}'
+      port: '{{ ansible_port | default(ansible_ssh_port) | default(22) }}'
+      host: '{{ ansible_host }}'
       state: started
       delay: '{{ base__reboot_polling_delay }}'
       timeout: '{{ base__reboot_polling_timeout }}'

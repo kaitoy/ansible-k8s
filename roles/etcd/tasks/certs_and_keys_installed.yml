@@ -8,24 +8,24 @@
 
 - name: Keys are installed
   copy:
-    src: '{{ item.dest }}'
+    src: '{{ item }}'
     dest: '{{ etcd__pki_dir }}'
     owner: etcd
     group: etcd
     mode: 0600
   loop:
-  - '{{ pki_tasks__fetch_etcd_ca_key }}'
-  - '{{ pki_tasks__fetch_etcd_key }}'
-  - '{{ pki_tasks__fetch_etcd_peer_key }}'
+  - '{{ k8s__local_shared_dir }}/etcd-ca.key'
+  - '{{ k8s__local_shared_dir }}/etcd.key'
+  - '{{ k8s__local_shared_dir }}/etcd-peer.key'
 
 - name: Certificates are installed
   copy:
-    src: '{{ item.dest }}'
+    src: '{{ item }}'
     dest: '{{ etcd__pki_dir }}'
     owner: etcd
     group: etcd
     mode: 0644
   loop:
-  - '{{ pki_tasks__fetch_etcd_ca_crt }}'
-  - '{{ pki_tasks__fetch_etcd_crt }}'
-  - '{{ pki_tasks__fetch_etcd_peer_crt }}'
+  - '{{ k8s__local_shared_dir }}/etcd-ca.crt'
+  - '{{ k8s__local_shared_dir }}/etcd.crt'
+  - '{{ k8s__local_shared_dir }}/etcd-peer.crt'

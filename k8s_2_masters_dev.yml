@@ -1,0 +1,37 @@
+- name: First Master Base
+  hosts: k8s_master1
+  gather_facts: true
+  roles:
+  - base
+- name: Second Master Base
+  hosts: k8s_master2
+  gather_facts: true
+  roles:
+  - base
+- name: First Master etcd
+  hosts: k8s_master1
+  gather_facts: false
+  roles:
+  - pki
+  - etcd
+- name: Second Master etcd
+  hosts: k8s_master2
+  gather_facts: false
+  roles:
+  - etcd
+- name: First Master
+  hosts: k8s_master1
+  gather_facts: false
+  roles:
+  - k8s_master
+  - k8s_node
+  - weave_net
+  - coredns
+  - dev_env
+- name: Second Master
+  hosts: k8s_master2
+  gather_facts: false
+  roles:
+  - k8s_master
+  - k8s_node
+  - dev_env

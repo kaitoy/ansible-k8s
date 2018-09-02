@@ -1,3 +1,9 @@
+{% set _etcd_members = [] %}
+{% for _, _hostvar in hostvars.items() %}
+    {%- if _hostvar.host__etcd -%}
+        {{ _etcd_members.append('%s=https://%s:%d'|format(_hostvar.host__etcd_member_name,_hostvar.host__public_address, _hostvar.host__etcd_peer_port)) }}
+    {%- endif %}
+{% endfor %}
 [Unit]
 Description=etcd
 Documentation=https://coreos.com/etcd/docs/latest/
@@ -14,17 +20,21 @@ ExecStart=/usr/bin/etcd \
   --listen-client-urls {{ etcd__listen_client_urls }} \
   --advertise-client-urls {{ etcd__advertise_client_urls }} \
   --client-cert-auth \
-  --cert-file {{ etcd__pki_dir }}/{{ pki_tasks__fetch_etcd_crt.dest | basename }} \
-  --key-file {{ etcd__pki_dir }}/{{ pki_tasks__fetch_etcd_key.dest | basename }} \
-  --trusted-ca-file {{ etcd__pki_dir }}/{{ pki_tasks__fetch_etcd_ca_crt.dest | basename }} \
+  --cert-file {{ etcd__pki_dir }}/etcd.crt \
+  --key-file {{ etcd__pki_dir }}/etcd.key \
+  --trusted-ca-file {{ etcd__pki_dir }}/etcd-ca.crt \
   --listen-peer-urls {{ etcd__listen_peer_urls }} \
   --initial-advertise-peer-urls {{ etcd__initial_advertise_peer_urls }} \
   --peer-client-cert-auth \
-  --peer-cert-file {{ etcd__pki_dir }}/{{ pki_tasks__fetch_etcd_peer_crt.dest | basename }} \
-  --peer-key-file {{ etcd__pki_dir }}/{{ pki_tasks__fetch_etcd_peer_key.dest | basename }} \
-  --peer-trusted-ca-file {{ etcd__pki_dir }}/{{ pki_tasks__fetch_etcd_ca_crt.dest | basename }} \
+  --peer-cert-file {{ etcd__pki_dir }}/etcd-peer.crt \
+  --peer-key-file {{ etcd__pki_dir }}/etcd-peer.key \
+  --peer-trusted-ca-file {{ etcd__pki_dir }}/etcd-ca.crt \
   --initial-cluster-token {{ etcd__cluster_token }} \
-  --initial-cluster {{ host__etcd_member_name }}={{ etcd__initial_cluster_url }} \
+  {% if etcd__initial_cluster.auto_set %}
+    --initial-cluster {{ _etcd_members | join(',') }} \
+  {% else %}
+    --initial-cluster {{ etcd__initial_cluster.members }} \
+  {% endif %}
   --initial-cluster-state new \
   --max-wals {{ etcd__max_wals }}
 Restart=always

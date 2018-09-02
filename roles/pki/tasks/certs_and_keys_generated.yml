@@ -26,8 +26,8 @@
   - name: k8s CA key is fetched
     fetch:
       src: '{{ pki__pki_dir }}/ca.key'
-      dest: '{{ k8s__local_shared_dir }}'
-    register: '{{ role_name }}_tasks__fetch_k8s_ca_key'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
   - name: Check if ca.crt exists
     stat:
       path: '{{ pki__pki_dir }}/ca.crt'
@@ -38,8 +38,8 @@
   - name: k8s CA certificate is fetched
     fetch:
       src: '{{ pki__pki_dir }}/ca.crt'
-      dest: '{{ k8s__local_shared_dir }}'
-    register: '{{ role_name }}_tasks__fetch_k8s_ca_crt'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
 
 - name: kube-apiserver server certificate
   block:
@@ -53,8 +53,8 @@
   - name: kube-apiserver server key is fetched
     fetch:
       src: '{{ pki__pki_dir }}/kube-apiserver.key'
-      dest: '{{ k8s__local_shared_dir }}'
-    register: '{{ role_name }}_tasks__fetch_kube_apiserver_key'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
   - name: Check if kube-apiserver.crt exists
     stat:
       path: '{{ pki__pki_dir }}/kube-apiserver.crt'
@@ -65,8 +65,8 @@
   - name: kube-apiserver server certificate is fetched
     fetch:
       src: '{{ pki__pki_dir }}/kube-apiserver.crt'
-      dest: '{{ k8s__local_shared_dir }}'
-    register: '{{ role_name }}_tasks__fetch_kube_apiserver_crt'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
 
 - name: kube-apiserver -> kubelet client certificate
   block:
@@ -80,8 +80,8 @@
   - name: kube-apiserver -> kubelet client key is fetched
     fetch:
       src: '{{ pki__pki_dir }}/apiserver-kubelet-client.key'
-      dest: '{{ k8s__local_shared_dir }}'
-    register: '{{ role_name }}_tasks__fetch_apiserver_kubelet_client_key'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
   - name: Check if apiserver-kubelet-client.crt exists
     stat:
       path: '{{ pki__pki_dir }}/apiserver-kubelet-client.crt'
@@ -92,8 +92,8 @@
   - name: kube-apiserver -> kubelet client certificate is fetched
     fetch:
       src: '{{ pki__pki_dir }}/apiserver-kubelet-client.crt'
-      dest: '{{ k8s__local_shared_dir }}'
-    register: '{{ role_name }}_tasks__fetch_apiserver_kubelet_client_crt'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
 
 - name: Admin client certificate
   block:
@@ -107,8 +107,8 @@
   - name: admin client key is fetched
     fetch:
       src: '{{ pki__pki_dir }}/admin.key'
-      dest: '{{ k8s__local_shared_dir }}'
-    register: '{{ role_name }}_tasks__fetch_admin_key'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
   - name: Check if admin.crt exists
     stat:
       path: '{{ pki__pki_dir }}/admin.crt'
@@ -119,8 +119,8 @@
   - name: admin client certificate is fetched
     fetch:
       src: '{{ pki__pki_dir }}/admin.crt'
-      dest: '{{ k8s__local_shared_dir }}'
-    register: '{{ role_name }}_tasks__fetch_admin_crt'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
 
 - name: kube-controller-manager client certificate
   block:
@@ -134,8 +134,8 @@
   - name: kube-controller-manager client key is fetched
     fetch:
       src: '{{ pki__pki_dir }}/kube-controller-manager.key'
-      dest: '{{ k8s__local_shared_dir }}'
-    register: '{{ role_name }}_tasks__fetch_kube_controller_manager_key'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
   - name: Check if kube-controller-manager.pub exists
     stat:
       path: '{{ pki__pki_dir }}/kube-controller-manager.pub'
@@ -146,8 +146,8 @@
   - name: kube-controller-manager client public key is fetched
     fetch:
       src: '{{ pki__pki_dir }}/kube-controller-manager.pub'
-      dest: '{{ k8s__local_shared_dir }}'
-    register: '{{ role_name }}_tasks__fetch_kube_controller_manager_pub'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
   - name: Check if kube-controller-manager.crt exists
     stat:
       path: '{{ pki__pki_dir }}/kube-controller-manager.crt'
@@ -158,8 +158,8 @@
   - name: kube-controller-manager client certificate is fetched
     fetch:
       src: '{{ pki__pki_dir }}/kube-controller-manager.crt'
-      dest: '{{ k8s__local_shared_dir }}'
-    register: '{{ role_name }}_tasks__fetch_kube_controller_manager_crt'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
 
 - name: kube-scheduler client certificate
   block:
@@ -173,8 +173,8 @@
   - name: kube-scheduler client key is fetched
     fetch:
       src: '{{ pki__pki_dir }}/kube-scheduler.key'
-      dest: '{{ k8s__local_shared_dir }}'
-    register: '{{ role_name }}_tasks__fetch_kube_scheduler_key'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
   - name: Check if kube-scheduler.crt exists
     stat:
       path: '{{ pki__pki_dir }}/kube-scheduler.crt'
@@ -185,8 +185,8 @@
   - name: kube-scheduler client certificate is fetched
     fetch:
       src: '{{ pki__pki_dir }}/kube-scheduler.crt'
-      dest: '{{ k8s__local_shared_dir }}'
-    register: '{{ role_name }}_tasks__fetch_kube_scheduler_crt'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
 
 - name: CA cert for front-proxy
   block:
@@ -200,8 +200,8 @@
   - name: front-proxy CA key is fetched
     fetch:
       src: '{{ pki__pki_dir }}/front-proxy-ca.key'
-      dest: '{{ k8s__local_shared_dir }}'
-    register: '{{ role_name }}_tasks__fetch_front_proxy_ca_key'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
   - name: Check if front-proxy-ca.crt exists
     stat:
       path: '{{ pki__pki_dir }}/front-proxy-ca.crt'
@@ -212,8 +212,8 @@
   - name: front-proxy CA certificate is fetched
     fetch:
       src: '{{ pki__pki_dir }}/front-proxy-ca.crt'
-      dest: '{{ k8s__local_shared_dir }}'
-    register: '{{ role_name }}_tasks__fetch_front_proxy_ca_crt'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
 
 - name: front-proxy client certificate
   block:
@@ -227,8 +227,8 @@
   - name: front-proxy client key is fetched
     fetch:
       src: '{{ pki__pki_dir }}/front-proxy-client.key'
-      dest: '{{ k8s__local_shared_dir }}'
-    register: '{{ role_name }}_tasks__fetch_front_proxy_client_key'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
   - name: Check if front-proxy-client.crt exists
     stat:
       path: '{{ pki__pki_dir }}/front-proxy-client.crt'
@@ -239,8 +239,8 @@
   - name: front-proxy client certificate is fetched
     fetch:
       src: '{{ pki__pki_dir }}/front-proxy-client.crt'
-      dest: '{{ k8s__local_shared_dir }}'
-    register: '{{ role_name }}_tasks__fetch_front_proxy_client_crt'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
 
 - name: CA cert for etcd cluster
   block:
@@ -254,8 +254,8 @@
   - name: etcd CA key is fetched
     fetch:
       src: '{{ pki__pki_dir }}/etcd-ca.key'
-      dest: '{{ k8s__local_shared_dir }}'
-    register: '{{ role_name }}_tasks__fetch_etcd_ca_key'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
   - name: Check if etcd-ca.crt exists
     stat:
       path: '{{ pki__pki_dir }}/etcd-ca.crt'
@@ -266,8 +266,8 @@
   - name: etcd CA certificate is fetched
     fetch:
       src: '{{ pki__pki_dir }}/etcd-ca.crt'
-      dest: '{{ k8s__local_shared_dir }}'
-    register: '{{ role_name }}_tasks__fetch_etcd_ca_crt'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
 
 - name: etcd server certificate
   block:
@@ -281,8 +281,8 @@
   - name: etcd server key is fetched
     fetch:
       src: '{{ pki__pki_dir }}/etcd.key'
-      dest: '{{ k8s__local_shared_dir }}'
-    register: '{{ role_name }}_tasks__fetch_etcd_key'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
   - name: Check if etcd.crt exists
     stat:
       path: '{{ pki__pki_dir }}/etcd.crt'
@@ -293,8 +293,8 @@
   - name: etcd server certificate is fetched
     fetch:
       src: '{{ pki__pki_dir }}/etcd.crt'
-      dest: '{{ k8s__local_shared_dir }}'
-    register: '{{ role_name }}_tasks__fetch_etcd_crt'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
 
 - name: etcd peer server certificate
   block:
@@ -308,8 +308,8 @@
   - name: etcd peer server key is fetched
     fetch:
       src: '{{ pki__pki_dir }}/etcd-peer.key'
-      dest: '{{ k8s__local_shared_dir }}'
-    register: '{{ role_name }}_tasks__fetch_etcd_peer_key'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
   - name: Check if etcd-peer.crt exists
     stat:
       path: '{{ pki__pki_dir }}/etcd-peer.crt'
@@ -320,8 +320,8 @@
   - name: etcd peer server certificate is fetched
     fetch:
       src: '{{ pki__pki_dir }}/etcd-peer.crt'
-      dest: '{{ k8s__local_shared_dir }}'
-    register: '{{ role_name }}_tasks__fetch_etcd_peer_crt'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
 
 - name: kube-apiserver -> etcd client certificate
   block:
@@ -335,8 +335,8 @@
   - name: kube-apiserver -> etcd client key is fetched
     fetch:
       src: '{{ pki__pki_dir }}/etcd-client.key'
-      dest: '{{ k8s__local_shared_dir }}'
-    register: '{{ role_name }}_tasks__fetch_etcd_client_key'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
   - name: Check if etcd-client.crt exists
     stat:
       path: '{{ pki__pki_dir }}/etcd-client.crt'
@@ -347,8 +347,8 @@
   - name: kube-apiserver -> etcd client certificate is fetched
     fetch:
       src: '{{ pki__pki_dir }}/etcd-client.crt'
-      dest: '{{ k8s__local_shared_dir }}'
-    register: '{{ role_name }}_tasks__fetch_etcd_client_crt'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
 
 - name: kube-proxy client certificate
   block:
@@ -362,8 +362,8 @@
   - name: kube-proxy client key is fetched
     fetch:
       src: '{{ pki__pki_dir }}/kube-proxy.key'
-      dest: '{{ k8s__local_shared_dir }}'
-    register: '{{ role_name }}_tasks__fetch_kube_proxy_key'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
   - name: Check if kube-proxy.crt exists
     stat:
       path: '{{ pki__pki_dir }}/kube-proxy.crt'
@@ -374,5 +374,5 @@
   - name: kube-proxy client certificate is fetched
     fetch:
       src: '{{ pki__pki_dir }}/kube-proxy.crt'
-      dest: '{{ k8s__local_shared_dir }}'
-    register: '{{ role_name }}_tasks__fetch_kube_proxy_crt'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true

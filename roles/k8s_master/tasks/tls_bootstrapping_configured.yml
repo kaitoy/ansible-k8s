@@ -57,7 +57,7 @@
     when: 'not "name: bootstrap-token-" in _check_result.stdout'
     register: _bootstrap_token
   - name: Bootstrap token is in the local shared dir
-    shell: echo {{ _bootstrap_token.stdout }} >> {{ k8s__local_shared_dir }}/bootstrap_token
+    shell: echo {{ _bootstrap_token.stdout }} > {{ k8s__local_shared_dir }}/bootstrap_token
     delegate_to: 127.0.0.1
     when: 'not "name: bootstrap-token-" in _check_result.stdout'
 

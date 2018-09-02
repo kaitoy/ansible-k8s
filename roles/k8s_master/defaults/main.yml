@@ -5,8 +5,6 @@ k8s_master__kube_scheduler_bin_checksum: sha1:34f535dc0e5d35b9a3d7c05fb10b79ddfe
 k8s_master__kubectl_bin_checksum: sha1:dbe431b2684f8ff4188335b3b3cea185d5a9ec44
 k8s_master__kubeadm_bin_checksum: sha1:c18b917bca94088e95bdad1849f176f7e3c6f05b
 
-k8s_master__service_ip_addr: '{{ k8s__service_cluster_ip_range | ipaddr("1") | regex_replace("/[0-9]+", "") }}'
-
 k8s_master__pki_dir: /etc/kubernetes/pki
 k8s_master__audit_log_dir: /var/log/kubernetes
 k8s_master__kubeconfig_dir: /etc/kubernetes

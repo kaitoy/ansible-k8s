@@ -20,18 +20,12 @@ base__ntp_servers:
 - server 3.rhel.pool.ntp.org iburst
 
 base__kernel_params:
-# For k8s
 - name: net.bridge.bridge-nf-call-iptables
   value: 1
 - name: net.bridge.bridge-nf-call-ip6tables
   value: 1
 - name: net.ipv4.ip_forward
   value: 1
-- name: fs.file-max
-  value: '{{ k8s_node__docker_nofile + 50000 }}'
-# For Pods
-- name: vm.max_map_count  # Elasticsearch
-  value: 262144
 
 base__reboot_polling_delay: 10
-base__reboot_polling_timeout: 100
+base__reboot_polling_timeout: 300

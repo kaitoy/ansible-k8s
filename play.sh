@@ -3,4 +3,7 @@
 set -ue
 
 export ANSIBLE_HOST_KEY_CHECKING=False
-ansible-playbook -vv -i $1 k8s_single_node_cluster.yml
+export ANSIBLE_SSH_ARGS="-o ControlMaster=no -o ControlPersist=60s"
+export ANSIBLE_PIPELINING=True
+export ANSIBLE_TIMEOUT=1800
+ansible-playbook -vv -i $1 $2

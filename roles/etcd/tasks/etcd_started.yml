@@ -20,3 +20,5 @@
     daemon_reload: true
     enabled: true
     state: started
+  async: '{{ host__etcd_start_timeout | default(1) }}'
+  poll: '{{ host__etcd_polling_interval | default(0) }}'

@@ -10,39 +10,39 @@
   block:
   - name: Keys are installed
     copy:
-      src: '{{ item.dest }}'
+      src: '{{ item }}'
       dest: '{{ k8s_master__pki_dir }}'
       owner: kubernetes
       group: kubernetes
       mode: 0600
     loop:
-    - '{{ pki_tasks__fetch_k8s_ca_key }}'
-    - '{{ pki_tasks__fetch_kube_apiserver_key }}'
-    - '{{ pki_tasks__fetch_apiserver_kubelet_client_key }}'
-    - '{{ pki_tasks__fetch_kube_controller_manager_key }}'
-    - '{{ pki_tasks__fetch_kube_scheduler_key }}'
-    - '{{ pki_tasks__fetch_front_proxy_ca_key }}'
-    - '{{ pki_tasks__fetch_front_proxy_client_key }}'
-    - '{{ pki_tasks__fetch_etcd_client_key }}'
+    - '{{ k8s__local_shared_dir }}/ca.key'
+    - '{{ k8s__local_shared_dir }}/kube-apiserver.key'
+    - '{{ k8s__local_shared_dir }}/apiserver-kubelet-client.key'
+    - '{{ k8s__local_shared_dir }}/kube-controller-manager.key'
+    - '{{ k8s__local_shared_dir }}/kube-scheduler.key'
+    - '{{ k8s__local_shared_dir }}/front-proxy-ca.key'
+    - '{{ k8s__local_shared_dir }}/front-proxy-client.key'
+    - '{{ k8s__local_shared_dir }}/etcd-client.key'
   - name: Certificates are installed
     copy:
-      src: '{{ item.dest }}'
+      src: '{{ item }}'
       dest: '{{ k8s_master__pki_dir }}'
       owner: kubernetes
       group: kubernetes
       mode: 0644
     loop:
-    - '{{ pki_tasks__fetch_k8s_ca_crt }}'
-    - '{{ pki_tasks__fetch_kube_apiserver_crt }}'
-    - '{{ pki_tasks__fetch_apiserver_kubelet_client_crt }}'
-    - '{{ pki_tasks__fetch_kube_controller_manager_crt }}'
-    - '{{ pki_tasks__fetch_kube_scheduler_crt }}'
-    - '{{ pki_tasks__fetch_front_proxy_ca_crt }}'
-    - '{{ pki_tasks__fetch_front_proxy_client_crt }}'
-    - '{{ pki_tasks__fetch_etcd_client_crt }}'
+    - '{{ k8s__local_shared_dir }}/ca.crt'
+    - '{{ k8s__local_shared_dir }}/kube-apiserver.crt'
+    - '{{ k8s__local_shared_dir }}/apiserver-kubelet-client.crt'
+    - '{{ k8s__local_shared_dir }}/kube-controller-manager.crt'
+    - '{{ k8s__local_shared_dir }}/kube-scheduler.crt'
+    - '{{ k8s__local_shared_dir }}/front-proxy-ca.crt'
+    - '{{ k8s__local_shared_dir }}/front-proxy-client.crt'
+    - '{{ k8s__local_shared_dir }}/etcd-client.crt'
   - name: kube-controller-manager public key is installed
     copy:
-      src: '{{ pki_tasks__fetch_kube_controller_manager_pub.dest }}'
+      src: '{{ k8s__local_shared_dir }}/kube-controller-manager.pub'
       dest: '{{ k8s_master__pki_dir }}'
       owner: kubernetes
       group: kubernetes
@@ -52,14 +52,14 @@
   block:
   - name: Admin key is installed
     copy:
-      src: '{{ pki_tasks__fetch_admin_key.dest }}'
+      src: '{{ k8s__local_shared_dir }}/admin.key'
       dest: '{{ k8s_master__pki_dir }}'
       owner: kube-admin
       group: kube-admin
       mode: 0600
   - name: Admin cert is installed
     copy:
-      src: '{{ pki_tasks__fetch_admin_crt.dest }}'
+      src: '{{ k8s__local_shared_dir }}/admin.crt'
       dest: '{{ k8s_master__pki_dir }}'
       owner: kube-admin
       group: kube-admin

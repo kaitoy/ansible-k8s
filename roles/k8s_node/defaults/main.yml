@@ -1,3 +1,9 @@
+k8s_node__kernel_params:
+- name: fs.file-max
+  value: '{{ k8s_node__docker_nofile + 50000 }}'
+- name: vm.max_map_count  # Elasticsearch
+  value: 262144
+
 k8s_node__k8s_bins_download_url_base: https://storage.googleapis.com/kubernetes-release/release/{{ k8s__k8s_version }}/bin/linux/amd64
 k8s_node__kubelet_bin_checksum: sha1:a74b42c2c822df86744f0ecaf2d81982a003d8b5
 k8s_node__kube_proxy_bin_checksum: sha1:093eb5c907d51b7fa53259d2c9079bb9c4db3492
