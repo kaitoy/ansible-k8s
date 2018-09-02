@@ -1,4 +1,4 @@
-k8s__k8s_version: v1.10.5
+k8s__k8s_version: v1.11.2
 k8s__k8s_cluster_name: k8s
 
 k8s__kube_apiserver_secure_port: 6443

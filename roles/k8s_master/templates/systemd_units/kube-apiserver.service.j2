@@ -1,9 +1,5 @@
-{% set _apiservers = [] %}
 {% set _etcd_servers = [] %}
 {% for _, _hostvar in hostvars.items() %}
-    {%- if _hostvar.host__k8s_master -%}
-        {{ _apiservers.append(_hostvar.host__public_address) }}
-    {%- endif %}
     {%- if _hostvar.host__etcd -%}
         {{ _etcd_servers.append('https://%s:%d'|format(_hostvar.host__public_address, _hostvar.host__etcd_server_port)) }}
     {%- endif %}
@@ -25,7 +21,6 @@ ExecStart=/usr/bin/kube-apiserver \
   --advertise-address={{ host__public_address }} \
   --allow-privileged=true \
   --anonymous-auth=false \
-  --apiserver-count={{ _apiservers | length }} \
   --audit-log-format={{ k8s_master__kube_apiserver_audit_log_format }} \
   --audit-log-maxage={{ k8s_master__kube_apiserver_audit_log_maxage }} \
   --audit-log-maxbackup={{ k8s_master__kube_apiserver_audit_log_maxbackup }} \

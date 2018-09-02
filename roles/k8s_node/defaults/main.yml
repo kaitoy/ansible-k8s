@@ -5,8 +5,8 @@ k8s_node__kernel_params:
   value: 262144
 
 k8s_node__k8s_bins_download_url_base: https://storage.googleapis.com/kubernetes-release/release/{{ k8s__k8s_version }}/bin/linux/amd64
-k8s_node__kubelet_bin_checksum: sha1:a74b42c2c822df86744f0ecaf2d81982a003d8b5
-k8s_node__kube_proxy_bin_checksum: sha1:093eb5c907d51b7fa53259d2c9079bb9c4db3492
+k8s_node__kubelet_bin_checksum: sha1:7e3a1915ce8184771bc520c2c7c491854d0421c9
+k8s_node__kube_proxy_bin_checksum: sha1:43cce49446d14823637df498657c03c63b3a03f0
 
 k8s_node__docker_package_name: docker-engine
 k8s_node__docker_nofile: 1000000
@@ -39,7 +39,7 @@ k8s_node__kubelet_max_open_files: '{{ k8s_node__docker_nofile + 10000 }}'
 k8s_node__kubelet_max_pods: 110
 k8s_node__kubelet_pod_infra_container_image: k8s.gcr.io/pause-amd64:3.1
 k8s_node__kubelet_pod_pids_limit: 512
-k8s_node__kubelet_rotate_certificates: 'true'
+k8s_node__kubelet_rotate_certificates: true
 k8s_node__kubelet_tls_cipher_suites: TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 k8s_node__kubelet_tls_min_version: VersionTLS12
 k8s_node__kubelet_vlog_level: 2
