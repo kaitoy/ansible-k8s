@@ -14,6 +14,7 @@ k8s__static_pod:
   enabled: false
 #  enabled: true
 #  manifests_path: /etc/kubernetes/manifests
+k8s__volume_plugin_dir: /usr/libexec/kubernetes/kubelet-plugins/volume/exec/
 
 k8s__local_shared_dir: /tmp/ansible
 

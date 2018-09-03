@@ -16,7 +16,8 @@ ExecStart=/usr/bin/kubelet \
   --kubeconfig={{ k8s_node__kubeconfig_dir }}/kubelet.kubeconfig \
   --network-plugin=cni \
   --pod-infra-container-image={{ k8s_node__kubelet_pod_infra_container_image }} \
-  --v={{ k8s_node__kubelet_vlog_level }}
+  --v={{ k8s_node__kubelet_vlog_level }} \
+  --volume-plugin-dir={{ k8s__volume_plugin_dir }}
 Restart=always
 RestartSec={{ k8s_node__kubelet_restart_sec }}s
 

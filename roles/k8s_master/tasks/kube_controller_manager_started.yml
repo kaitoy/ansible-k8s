@@ -1,3 +1,11 @@
+- name: Volume plugin dir exists
+  file:
+    path: '{{ k8s__volume_plugin_dir }}'
+    owner: kubernetes
+    group: kubernetes
+    mode: 0755
+    state: directory
+
 - name: kube-controller-manager unit file exists
   template:
     src: systemd_units/kube-controller-manager.service.j2

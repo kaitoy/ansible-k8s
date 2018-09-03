@@ -15,6 +15,14 @@
     mode: 0755
     state: directory
 
+- name: Volume plugin dir exists
+  file:
+    path: '{{ k8s__volume_plugin_dir }}'
+    owner: kubernetes
+    group: kubernetes
+    mode: 0755
+    state: directory
+
 - name: kubelet unit file exists
   template:
     src: systemd_units/kubelet.service.j2
