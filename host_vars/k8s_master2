@@ -1,6 +1,6 @@
-host__k8s_master: true
-host__etcd: true
+host__is_k8s_master: true
+host__is_etcd: true
 host__etcd_member_name: etcd2
 host__etcd_server_port: 2379
 host__etcd_peer_port: 2380
-host__k8s_node: true
+host__is_k8s_node: true

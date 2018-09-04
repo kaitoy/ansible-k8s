@@ -1,8 +1,8 @@
-host__k8s_master: false
-host__etcd: true
+host__is_k8s_master: false
+host__is_etcd: true
 host__etcd_member_name: etcd3
 host__etcd_server_port: 2379
 host__etcd_peer_port: 2380
 host__etcd_start_timeout: 60
 host__etcd_polling_interval: 5
-host__k8s_node: false
+host__is_k8s_node: false

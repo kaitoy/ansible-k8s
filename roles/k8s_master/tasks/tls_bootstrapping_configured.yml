@@ -41,7 +41,7 @@
     register: _apply_result
     changed_when: '" created" in _apply_result.stdout or " configured" in _apply_result.stdout'
   - include_tasks: tls_bootstrapping_configured_for_node.yml
-    loop: '{{ hostvars.values() | selectattr("host__k8s_node") | map(attribute="ansible_facts.fqdn") | list }}'
+    loop: '{{ hostvars.values() | selectattr("host__is_k8s_node") | map(attribute="ansible_facts.fqdn") | list }}'
     loop_control:
       loop_var: _hostname
 

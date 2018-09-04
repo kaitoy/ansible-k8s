@@ -1,6 +1,6 @@
 {% set _etcd_members = [] %}
 {% for _, _hostvar in hostvars.items() %}
-    {%- if _hostvar.host__etcd -%}
+    {%- if _hostvar.host__is_etcd -%}
         {{ _etcd_members.append('%s=https://%s:%d'|format(_hostvar.host__etcd_member_name,_hostvar.host__public_address, _hostvar.host__etcd_peer_port)) }}
     {%- endif %}
 {% endfor %}

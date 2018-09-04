@@ -1,6 +1,6 @@
 {% set _etcd_servers = [] %}
 {% for _, _hostvar in hostvars.items() %}
-    {%- if _hostvar.host__etcd -%}
+    {%- if _hostvar.host__is_etcd -%}
         {{ _etcd_servers.append('https://%s:%d'|format(_hostvar.host__public_address, _hostvar.host__etcd_server_port)) }}
     {%- endif %}
 {% endfor %}
