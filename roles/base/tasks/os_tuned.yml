@@ -58,6 +58,7 @@
   - name: swapoff -a
     command: swapoff -a
     when: swap_devices.stdout != ""
+  when: host__k8s_node
 
 - name: SELinux is set to permissive
   selinux:
@@ -74,6 +75,7 @@
     copy:
       content: br_netfilter
       dest: /etc/modules-load.d/br_netfilter.conf
+  when: host__k8s_node
 
 - name: Kernel parametes are tuned
   sysctl:
@@ -83,6 +85,7 @@
     state: present
     reload: true
   loop: '{{ base__kernel_params }}'
+  when: host__k8s_node
 
 - name: firewalld is disabled
   systemd:

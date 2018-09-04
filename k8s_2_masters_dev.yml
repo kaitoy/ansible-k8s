@@ -8,6 +8,11 @@
   gather_facts: true
   roles:
   - base
+- name: etcd server Base
+  hosts: etcd_server
+  gather_facts: true
+  roles:
+  - base
 - name: First Master etcd
   hosts: k8s_master1
   gather_facts: false
@@ -16,6 +21,11 @@
   - etcd
 - name: Second Master etcd
   hosts: k8s_master2
+  gather_facts: false
+  roles:
+  - etcd
+- name: etcd server etcd
+  hosts: etcd_server
   gather_facts: false
   roles:
   - etcd

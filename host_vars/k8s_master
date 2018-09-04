@@ -3,5 +3,4 @@ host__etcd: true
 host__etcd_member_name: etcd1
 host__etcd_server_port: 2379
 host__etcd_peer_port: 2380
-host__etcd_last_member: true
 host__k8s_node: true
