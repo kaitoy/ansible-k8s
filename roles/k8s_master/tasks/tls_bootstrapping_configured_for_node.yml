@@ -35,3 +35,4 @@
         apiGroup: rbac.authorization.k8s.io
   register: _apply_result
   changed_when: '" created" in _apply_result.stdout or " configured" in _apply_result.stdout'
+  when: k8s__feature_gates is defined and k8s__feature_gates.RotateKubeletServerCertificate

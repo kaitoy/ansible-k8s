@@ -51,3 +51,16 @@ IP.{{ _ip_idx[0] }} = {{ _hostvar.host__public_address }}
     {%- endif %}
 
 {% endfor %}
+{%- for _, _hostvar in hostvars.items() %}
+    {%- if _hostvar.host__is_k8s_node %}
+[ v3_req_kubelet_{{ _hostvar.ansible_facts.fqdn }} ]
+basicConstraints = CA:FALSE
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names_kubelet_{{ _hostvar.ansible_facts.fqdn }}
+[ alt_names_kubelet_{{ _hostvar.ansible_facts.fqdn }} ]
+DNS.1 = {{ _hostvar.ansible_facts.fqdn }}
+IP.1 = {{ _hostvar.host__public_address }}
+    {%- endif %}
+
+{% endfor %}

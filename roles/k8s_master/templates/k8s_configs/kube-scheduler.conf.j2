@@ -1,7 +1,7 @@
 kind: KubeSchedulerConfiguration
 apiVersion: componentconfig/v1alpha1
 enableProfiling: {{ k8s_master__kube_scheduler_enable_profiling }}
-{% if k8s__feature_gates %}
+{% if k8s__feature_gates is defined %}
 featureGates:
     {%- for _fg_name, _fg_flag in k8s__feature_gates.items() %}
 

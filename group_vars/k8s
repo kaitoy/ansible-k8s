@@ -8,8 +8,8 @@ k8s__service_ip_addr: '{{ k8s__service_cluster_ip_range | ipaddr("1") | regex_re
 k8s__cluster_cidr: 10.32.0.0/16
 k8s__dns_server_ip_addr: '{{ k8s__service_cluster_ip_range | ipaddr("10") | regex_replace("/[0-9]+", "") }}'
 k8s__dns_cluster_domain: cluster.local
-k8s__feature_gates:
-  RotateKubeletServerCertificate: true
+#k8s__feature_gates:
+#  RotateKubeletServerCertificate: true
 k8s__static_pod:
   enabled: false
 #  enabled: true

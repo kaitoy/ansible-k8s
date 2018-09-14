@@ -20,7 +20,7 @@ clusterDomain: {{ k8s__dns_cluster_domain }}
 containerLogMaxFiles: {{ k8s_node__kubelet_container_log_max_files }}
 containerLogMaxSize: {{ k8s_node__kubelet_container_log_max_size }}
 failSwapOn: {{ k8s_node__kubelet_fail_swap_on }}
-{% if k8s__feature_gates %}
+{% if k8s__feature_gates is defined %}
 featureGates:
     {%- for _fg_name, _fg_flag in k8s__feature_gates.items() %}
 
@@ -41,9 +41,11 @@ rotateCertificates: {{ k8s_node__kubelet_rotate_certificates }}
 {% if k8s__static_pod.enabled %}
 staticPodPath: {{ k8s__static_pod.manifests_path }}
 {% endif %}
-tlsMinVersion: {{ k8s_node__kubelet_tls_min_version }}
+tlsCertFile: {{ k8s_node__pki_dir }}/kubelet-{{ ansible_facts.fqdn }}.crt
 tlsCipherSuites:
 {% set _ciphers = k8s_node__kubelet_tls_cipher_suites.split(',') %}
 {% for _cipher in _ciphers %}
 - {{ _cipher }}
 {% endfor %}
+tlsMinVersion: {{ k8s_node__kubelet_tls_min_version }}
+tlsPrivateKeyFile: {{ k8s_node__pki_dir }}/kubelet-{{ ansible_facts.fqdn }}.key

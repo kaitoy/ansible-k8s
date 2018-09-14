@@ -6,26 +6,39 @@
     mode: 0755
     state: directory
 
-- name: Keys and certificates for the user 'root'
+- name: Keys and certificates for kubelet
   block:
-  - name: Keys are installed
+  - name: Key is installed
     copy:
-      src: '{{ item }}'
+      src: '{{ k8s__local_shared_dir }}/kubelet-{{ ansible_facts.fqdn }}.key'
       dest: '{{ k8s_node__pki_dir }}'
       owner: root
       group: root
       mode: 0600
-    loop:
-    - '{{ k8s__local_shared_dir }}/kube-proxy.key'
-  - name: Certificates are installed
+  - name: Certificate is installed
     copy:
-      src: '{{ item }}'
+      src: '{{ k8s__local_shared_dir }}/kubelet-{{ ansible_facts.fqdn }}.crt'
       dest: '{{ k8s_node__pki_dir }}'
       owner: root
       group: root
       mode: 0644
-    loop:
-    - '{{ k8s__local_shared_dir }}/kube-proxy.crt'
+
+- name: Keys and certificates for kube-proxy
+  block:
+  - name: Key is installed
+    copy:
+      src: '{{ k8s__local_shared_dir }}/kube-proxy.key'
+      dest: '{{ k8s_node__pki_dir }}'
+      owner: root
+      group: root
+      mode: 0600
+  - name: Certificate is installed
+    copy:
+      src: '{{ k8s__local_shared_dir }}/kube-proxy.crt'
+      dest: '{{ k8s_node__pki_dir }}'
+      owner: root
+      group: root
+      mode: 0644
 
 - name: k8s CA certificates is installed
   copy:

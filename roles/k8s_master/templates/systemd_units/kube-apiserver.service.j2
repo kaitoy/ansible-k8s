@@ -6,9 +6,11 @@
 {% endfor %}
 
 {%- set _feature_gates = [] %}
-{% for _fg_name, _fg_flag in k8s__feature_gates.items() -%}
-    {{ _feature_gates.append('%s=%s'|format(_fg_name, _fg_flag)) }}
-{%- endfor %}
+{%- if k8s__feature_gates is defined -%}
+    {% for _fg_name, _fg_flag in k8s__feature_gates.items() -%}
+        {{ _feature_gates.append('%s=%s'|format(_fg_name, _fg_flag)) }}
+    {%- endfor %}
+{%- endif %}
 [Unit]
 Description=Kubernetes API Server
 Documentation=https://github.com/kubernetes/kubernetes

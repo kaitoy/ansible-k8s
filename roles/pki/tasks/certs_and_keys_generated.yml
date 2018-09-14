@@ -376,3 +376,8 @@
       src: '{{ pki__pki_dir }}/kube-proxy.crt'
       dest: '{{ k8s__local_shared_dir }}/'
       flat: true
+
+- include_tasks: certs_and_keys_for_kubelets_generated.yml
+  loop: '{{ hostvars.values() | selectattr("host__is_k8s_node") | map(attribute="ansible_facts.fqdn") | list }}'
+  loop_control:
+    loop_var: _hostname

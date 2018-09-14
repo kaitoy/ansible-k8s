@@ -13,3 +13,4 @@ pki__kube_apiserver_to_etcd_client_cert_valid_days: 5475
 pki__front_proxy_client_cert_valid_days: 5475
 pki__etcd_server_cert_valid_days: 5475
 pki__etcd_peer_server_cert_valid_days: 5475
+pki__kubelet_server_cert_valid_days: 5475
