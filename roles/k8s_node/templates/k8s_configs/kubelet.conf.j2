@@ -42,11 +42,11 @@ rotateCertificates: {{ k8s_node__kubelet_rotate_certificates }}
 {% if k8s__static_pod.enabled %}
 staticPodPath: {{ k8s__static_pod.manifests_path }}
 {% endif %}
-tlsCertFile: {{ k8s_node__pki_dir }}/kubelet-{{ ansible_facts.fqdn }}.crt
+tlsCertFile: {{ k8s_node__pki_dir }}/kubelet.crt
 tlsCipherSuites:
 {% set _ciphers = k8s_node__kubelet_tls_cipher_suites.split(',') %}
 {% for _cipher in _ciphers %}
 - {{ _cipher }}
 {% endfor %}
 tlsMinVersion: {{ k8s_node__kubelet_tls_min_version }}
-tlsPrivateKeyFile: {{ k8s_node__pki_dir }}/kubelet-{{ ansible_facts.fqdn }}.key
+tlsPrivateKeyFile: {{ k8s_node__pki_dir }}/kubelet.key

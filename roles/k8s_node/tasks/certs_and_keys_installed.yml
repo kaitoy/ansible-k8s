@@ -11,17 +11,18 @@
   - name: Key is installed
     copy:
       src: '{{ k8s__local_shared_dir }}/kubelet-{{ ansible_facts.fqdn }}.key'
-      dest: '{{ k8s_node__pki_dir }}'
+      dest: '{{ k8s_node__pki_dir }}/kubelet.key'
       owner: root
       group: root
       mode: 0600
   - name: Certificate is installed
     copy:
       src: '{{ k8s__local_shared_dir }}/kubelet-{{ ansible_facts.fqdn }}.crt'
-      dest: '{{ k8s_node__pki_dir }}'
+      dest: '{{ k8s_node__pki_dir }}/kubelet.crt'
       owner: root
       group: root
       mode: 0644
+  when: k8s__feature_gates is not defined or not k8s__feature_gates.RotateKubeletServerCertificate
 
 - name: Keys and certificates for kube-proxy
   block:
