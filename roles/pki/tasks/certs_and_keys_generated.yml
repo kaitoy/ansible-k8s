@@ -13,6 +13,11 @@
     owner: root
     group: root
     mode: 0644
+- name: openssl config is fetched
+  fetch:
+    src: '{{ pki__pki_dir }}/openssl.conf'
+    dest: '{{ k8s__local_shared_dir }}/'
+    flat: true
 
 - name: CA cert for k8s cluster
   block:
