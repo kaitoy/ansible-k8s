@@ -25,6 +25,7 @@
   - '{{ k8s__local_shared_dir }}/etcd-ca.key'
   - '{{ k8s__local_shared_dir }}/etcd.key'
   - '{{ k8s__local_shared_dir }}/etcd-peer.key'
+  - '{{ k8s__local_shared_dir }}/etcd-client.key'
 
 - name: Certificates are installed
   copy:
@@ -37,3 +38,4 @@
   - '{{ k8s__local_shared_dir }}/etcd-ca.crt'
   - '{{ k8s__local_shared_dir }}/etcd.crt'
   - '{{ k8s__local_shared_dir }}/etcd-peer.crt'
+  - '{{ k8s__local_shared_dir }}/etcd-client.crt'
