@@ -31,7 +31,7 @@ ExecStart=/usr/bin/etcd \
   --peer-trusted-ca-file {{ etcd__pki_dir }}/etcd-ca.crt \
   --initial-cluster-token {{ etcd__cluster_token }} \
   {% if etcd__initial_cluster.auto_set %}
-    --initial-cluster {{ _etcd_members | join(',') }} \
+    --initial-cluster {{ _etcd_members | sort | join(',') }} \
   {% else %}
     --initial-cluster {{ etcd__initial_cluster.members }} \
   {% endif %}
