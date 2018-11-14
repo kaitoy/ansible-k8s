@@ -37,7 +37,7 @@ k8s_node__kubelet_healthz_bind_address: 127.0.0.1
 k8s_node__kubelet_healthz_port: 10248
 k8s_node__kubelet_max_open_files: '{{ k8s_node__docker_nofile + 10000 }}'
 k8s_node__kubelet_max_pods: 110
-k8s_node__kubelet_node_monitor_grace_period: 10s
+k8s_node__kubelet_node_status_update_frequency: 10s
 k8s_node__kubelet_pod_infra_container_image: k8s.gcr.io/pause-amd64:3.1
 k8s_node__kubelet_pod_pids_limit: 512
 k8s_node__kubelet_rotate_certificates: true
