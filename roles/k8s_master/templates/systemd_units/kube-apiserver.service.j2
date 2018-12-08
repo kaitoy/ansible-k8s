@@ -42,7 +42,7 @@ ExecStart=/usr/bin/kube-apiserver \
 {% else %}
   --etcd-servers={{ k8s_master__kube_apiserver_etcd_servers.servers }} \
 {% endif %}
-  --experimental-encryption-provider-config={{ k8s_master__k8s_configs_dir }}/encryption.conf \
+  --encryption-provider-config={{ k8s_master__k8s_configs_dir }}/encryption.conf \
 {% if _feature_gates | length > 0 %}
   --feature-gates={{ _feature_gates | join(',') }} \
 {% endif %}
@@ -63,7 +63,7 @@ ExecStart=/usr/bin/kube-apiserver \
   --requestheader-group-headers=X-Remote-Group \
   --requestheader-username-headers=X-Remote-User \
   --secure-port={{ k8s__kube_apiserver_secure_port }} \
-  --service-account-key-file={{ k8s_master__pki_dir }}/kube-controller-manager.pub \
+  --service-account-key-file={{ k8s_master__pki_dir }}/kube-controller-manager-client.pub \
   --service-cluster-ip-range={{ k8s__service_cluster_ip_range }} \
   --service-node-port-range={{ k8s_master__kube_apiserver_service_node_port_range }} \
   --tls-cert-file={{ k8s_master__pki_dir }}/kube-apiserver.crt \

@@ -12,7 +12,7 @@ metadata:
   name: system:coredns
 rules:
 - apiGroups:
-  - ""
+  - ''
   resources:
   - endpoints
   - services
@@ -21,6 +21,12 @@ rules:
   verbs:
   - list
   - watch
+- apiGroups:
+  - ''
+  resources:
+  - nodes
+  verbs:
+  - get
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -53,6 +59,7 @@ data:
         dnssec {
           key file /etc/coredns/dnssec
         }
+        prometheus :9153
     }
 ---
 apiVersion: apps/v1
@@ -85,6 +92,12 @@ spec:
       - name: coredns
         image: '{{ coredns__image }}'
         imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: 170Mi
+          requests:
+            cpu: 100m
+            memory: 70Mi
         args:
         - -conf
         - /etc/coredns/Corefile
@@ -98,6 +111,9 @@ spec:
           protocol: UDP
         - containerPort: 53
           name: dns-tcp
+          protocol: TCP
+        - containerPort: 9153
+          name: metrics
           protocol: TCP
         securityContext:
           allowPrivilegeEscalation: false
@@ -135,6 +151,9 @@ kind: Service
 metadata:
   name: kube-dns
   namespace: kube-system
+  annotations:
+    prometheus.io/port: '9153'
+    prometheus.io/scrape: 'true'
   labels:
     k8s-app: kube-dns
     kubernetes.io/cluster-service: 'true'
@@ -149,4 +168,7 @@ spec:
     protocol: UDP
   - name: dns-tcp
     port: 53
+    protocol: TCP
+  - name: metrics
+    port: 9153
     protocol: TCP

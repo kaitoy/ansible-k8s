@@ -27,8 +27,8 @@
     - '{{ k8s__local_shared_dir }}/ca.key'
     - '{{ k8s__local_shared_dir }}/kube-apiserver.key'
     - '{{ k8s__local_shared_dir }}/apiserver-kubelet-client.key'
-    - '{{ k8s__local_shared_dir }}/kube-controller-manager.key'
-    - '{{ k8s__local_shared_dir }}/kube-scheduler.key'
+    - '{{ k8s__local_shared_dir }}/kube-controller-manager-client.key'
+    - '{{ k8s__local_shared_dir }}/kube-scheduler-client.key'
     - '{{ k8s__local_shared_dir }}/front-proxy-ca.key'
     - '{{ k8s__local_shared_dir }}/front-proxy-client.key'
     - '{{ k8s__local_shared_dir }}/etcd-client.key'
@@ -43,14 +43,14 @@
     - '{{ k8s__local_shared_dir }}/ca.crt'
     - '{{ k8s__local_shared_dir }}/kube-apiserver.crt'
     - '{{ k8s__local_shared_dir }}/apiserver-kubelet-client.crt'
-    - '{{ k8s__local_shared_dir }}/kube-controller-manager.crt'
-    - '{{ k8s__local_shared_dir }}/kube-scheduler.crt'
+    - '{{ k8s__local_shared_dir }}/kube-controller-manager-client.crt'
+    - '{{ k8s__local_shared_dir }}/kube-scheduler-client.crt'
     - '{{ k8s__local_shared_dir }}/front-proxy-ca.crt'
     - '{{ k8s__local_shared_dir }}/front-proxy-client.crt'
     - '{{ k8s__local_shared_dir }}/etcd-client.crt'
   - name: kube-controller-manager public key is installed
     copy:
-      src: '{{ k8s__local_shared_dir }}/kube-controller-manager.pub'
+      src: '{{ k8s__local_shared_dir }}/kube-controller-manager-client.pub'
       dest: '{{ k8s_master__pki_dir }}'
       owner: kubernetes
       group: kubernetes
@@ -71,4 +71,38 @@
       dest: '{{ k8s_master__pki_dir }}'
       owner: kube-admin
       group: kube-admin
+      mode: 0644
+
+- name: Server keys and certificates for kube-controller-manager
+  block:
+  - name: Key is installed
+    copy:
+      src: '{{ k8s__local_shared_dir }}/kube-controller-manager-{{ ansible_facts.fqdn }}.key'
+      dest: '{{ k8s_node__pki_dir }}/kube-controller-manager.key'
+      owner: root
+      group: root
+      mode: 0600
+  - name: Certificate is installed
+    copy:
+      src: '{{ k8s__local_shared_dir }}/kube-controller-manager-{{ ansible_facts.fqdn }}.crt'
+      dest: '{{ k8s_node__pki_dir }}/kube-controller-manager.crt'
+      owner: root
+      group: root
+      mode: 0644
+
+- name: Server keys and certificates for kube-scheduler
+  block:
+  - name: Key is installed
+    copy:
+      src: '{{ k8s__local_shared_dir }}/kube-scheduler-{{ ansible_facts.fqdn }}.key'
+      dest: '{{ k8s_node__pki_dir }}/kube-scheduler.key'
+      owner: root
+      group: root
+      mode: 0600
+  - name: Certificate is installed
+    copy:
+      src: '{{ k8s__local_shared_dir }}/kube-scheduler-{{ ansible_facts.fqdn }}.crt'
+      dest: '{{ k8s_node__pki_dir }}/kube-scheduler.crt'
+      owner: root
+      group: root
       mode: 0644

@@ -1,0 +1,26 @@
+- name: kube-controller-manager server certificate for a node
+  block:
+  - name: Check if 'kube-controller-manager-<hostname>.key' exists
+    stat:
+      path: '{{ pki__pki_dir }}/kube-controller-manager-{{ _hostname }}.key'
+    register: _stat_result
+  - name: Private key for kube-controller-manager server certificate exists
+    command: openssl ecparam -name {{ pki__elliptic_curve_type }} -genkey -noout -out {{ pki__pki_dir }}/kube-controller-manager-{{ _hostname }}.key
+    when: not _stat_result.stat.exists
+  - name: kube-controller-manager server key is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/kube-controller-manager-{{ _hostname }}.key'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
+  - name: Check if 'kube-controller-manager-<hostname>.crt' exists
+    stat:
+      path: '{{ pki__pki_dir }}/kube-controller-manager-{{ _hostname }}.crt'
+    register: _stat_result
+  - name: kube-controller-manager server certificate exists
+    shell: openssl req -new -sha256 -key {{ pki__pki_dir }}/kube-controller-manager-{{ _hostname }}.key -subj "/CN=kube-controller-manager" | openssl x509 -req -sha256 -CA {{ pki__pki_dir }}/ca.crt -CAkey {{ pki__pki_dir }}/ca.key -CAcreateserial -out {{ pki__pki_dir }}/kube-controller-manager-{{ _hostname }}.crt -days {{ pki__kube_controller_manager_server_cert_valid_days }} -extensions v3_req_kube_controller_manager_{{ _hostname }} -extfile {{ pki__pki_dir }}/openssl.conf
+    when: not _stat_result.stat.exists
+  - name: kube-controller-manager server certificate is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/kube-controller-manager-{{ _hostname }}.crt'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true

@@ -33,6 +33,13 @@ items:
     - get
     - list
     - watch
+  - apiGroups:
+    - ''
+    resources:
+    - nodes/status
+    verbs:
+    - patch
+    - update
 - apiVersion: rbac.authorization.k8s.io/v1
   kind: ClusterRoleBinding
   metadata:
@@ -82,9 +89,9 @@ items:
     name: weave-net
     apiGroup: rbac.authorization.k8s.io
   subjects:
-    - kind: ServiceAccount
-      name: weave-net
-      namespace: kube-system
+  - kind: ServiceAccount
+    name: weave-net
+    namespace: kube-system
 - apiVersion: apps/v1
   kind: DaemonSet
   metadata:
@@ -122,12 +129,11 @@ items:
                 name: weave-passwd
                 key: weave-passwd
           image: {{ weave_net__weave_kube_image }}
-          livenessProbe:
+          readinessProbe:
             httpGet:
               host: 127.0.0.1
               path: /status
               port: 6784
-            initialDelaySeconds: 30
           resources:
             requests:
               cpu: 10m
@@ -149,7 +155,6 @@ items:
           - name: xtables-lock
             mountPath: /run/xtables.lock
         - name: weave-npc
-          args: []
           env:
           - name: HOSTNAME
             valueFrom:
@@ -196,5 +201,6 @@ items:
         - name: xtables-lock
           hostPath:
             path: /run/xtables.lock
+            type: FileOrCreate
     updateStrategy:
       type: RollingUpdate

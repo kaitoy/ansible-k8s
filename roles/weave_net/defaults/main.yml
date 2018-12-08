@@ -1,5 +1,5 @@
-weave_net__weave_kube_image: weaveworks/weave-kube:2.3.0
-weave_net__weave_npc_image: weaveworks/weave-npc:2.3.0
+weave_net__weave_kube_image: docker.io/weaveworks/weave-kube:2.5.0
+weave_net__weave_npc_image: docker.io/weaveworks/weave-npc:2.5.0
 weave_net__weave_passwd: your_secure_password
 weave_net__manifests_dir: /home/kube-admin/manifests
 weave_net__manifests_owner: kube-admin

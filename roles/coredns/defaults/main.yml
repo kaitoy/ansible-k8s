@@ -1,4 +1,4 @@
-coredns__image: coredns/coredns:1.1.3
+coredns__image: coredns/coredns:1.2.6
 coredns__replicas: 2
 coredns__maxUnavailable: 1
 coredns__manifests_dir: /home/kube-admin/manifests

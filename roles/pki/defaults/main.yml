@@ -4,6 +4,8 @@ pki__etcd_ca_cert_valid_days: 5475
 pki__k8s_ca_cert_valid_days: 5475
 pki__k8s_front_proxy_ca_cert_valid_days: 5475
 pki__kube_apiserver_server_cert_valid_days: 5475
+pki__kube_controller_manager_server_cert_valid_days: 5475
+pki__kube_scheduler_server_cert_valid_days: 5475
 pki__kube_apiserver_to_kubelet_client_cert_valid_days: 5475
 pki__admin_client_cert_valid_days: 5475
 pki__kube_controller_manager_client_cert_valid_days: 5475

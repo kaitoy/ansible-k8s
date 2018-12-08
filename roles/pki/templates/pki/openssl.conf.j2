@@ -32,6 +32,31 @@ IP.{{ _ip_idx[0] }} = {{ _hostvar.host__public_address }}
     {%- endif %}
 
 {% endfor %}
+{%- for _, _hostvar in hostvars.items() %}
+    {%- if _hostvar.host__is_k8s_master %}
+[ v3_req_kube_controller_manager_{{ _hostvar.ansible_facts.fqdn }} ]
+basicConstraints = CA:FALSE
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names_kube_controller_manager_{{ _hostvar.ansible_facts.fqdn }}
+[ alt_names_kube_controller_manager_{{ _hostvar.ansible_facts.fqdn }} ]
+DNS.1 = localhost
+DNS.2 = {{ _hostvar.ansible_facts.fqdn }}
+IP.1 = 127.0.0.1
+IP.2 = {{ _hostvar.host__public_address }}
+[ v3_req_kube_scheduler_{{ _hostvar.ansible_facts.fqdn }} ]
+basicConstraints = CA:FALSE
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names_kube_scheduler_{{ _hostvar.ansible_facts.fqdn }}
+[ alt_names_kube_scheduler_{{ _hostvar.ansible_facts.fqdn }} ]
+DNS.1 = localhost
+DNS.2 = {{ _hostvar.ansible_facts.fqdn }}
+IP.1 = 127.0.0.1
+IP.2 = {{ _hostvar.host__public_address }}
+    {%- endif %}
+
+{% endfor %}
 [ v3_req_etcd ]
 basicConstraints = CA:FALSE
 keyUsage = critical, digitalSignature, keyEncipherment

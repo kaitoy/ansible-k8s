@@ -7,8 +7,8 @@
 
 ## Kubernetes Cluster to setup
 
-* OS: Oracle Linux 7.4.0 Minimal Install
-* Kubernetes: v1.10.1
+* OS: Oracle Linux 7.5.0 Minimal Install
+* Kubernetes: v1.13.0
     * Single node cluster
     * kubelet,kube-proxy, kube-apiserver, kube-controller-manager, kube-scheduler, and etcd are managed by systemd (i.e. not containerized)
         * kubelet and kube-proxy run as root, and the rest run as non-root
@@ -18,14 +18,14 @@
         * Bootstrap token
         * Auto approval for CSRs
     * [Certificate Rotation](https://kubernetes.io/docs/tasks/tls/certificate-rotation/) is enabled
-    * etcd 3.1.12
-    * [Weave Net](https://www.weave.works/oss/net/) 2.3.0
-    * [CoreDNS](https://github.com/coredns/coredns) 1.1.3
+    * etcd 3.3.10
+    * [Weave Net](https://www.weave.works/oss/net/) 2.5.0
+    * [CoreDNS](https://github.com/coredns/coredns) 1.2.6
     * Service cluster IP range: 10.0.0.0/16
     * Cluster CIDR: 10.32.0.0/16
     * [Proxy mode](https://kubernetes.io/docs/concepts/services-networking/service/#virtual-ips-and-service-proxies): iptables
     * PodSecurityPolicy is enabled
-    * Using [KubeletConfiguration](https://kubernetes.io/docs/tasks/administer-cluster/kubelet-config-file/ ), [KubeProxyConfiguration](https://github.com/kubernetes/kubernetes/blob/master/pkg/proxy/apis/kubeproxyconfig/v1alpha1/types.go), and [KubeSchedulerConfiguration](https://github.com/kubernetes/kubernetes/blob/master/pkg/apis/componentconfig/v1alpha1/types.go)
+    * Using [KubeletConfiguration](https://kubernetes.io/docs/tasks/administer-cluster/kubelet-config-file/ ), [KubeProxyConfiguration](https://github.com/kubernetes/kube-proxy/blob/master/config/v1alpha1/types.go), and [KubeSchedulerConfiguration](https://github.com/kubernetes/kube-scheduler/blob/master/config/v1alpha1/types.go)
 * Tools
     * [kube-prompt](https://github.com/c-bata/kube-prompt)
     * [dry](https://github.com/moncho/dry)
