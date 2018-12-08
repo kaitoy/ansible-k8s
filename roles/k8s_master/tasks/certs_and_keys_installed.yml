@@ -89,6 +89,7 @@
       owner: root
       group: root
       mode: 0644
+  when: not k8s_master__kube_controller_manager_use_auto_generated_serving_cert
 
 - name: Server keys and certificates for kube-scheduler
   block:
@@ -106,3 +107,4 @@
       owner: root
       group: root
       mode: 0644
+  when: not k8s_master__kube_scheduler_use_auto_generated_serving_cert

@@ -40,10 +40,14 @@ ExecStart=/usr/bin/kube-controller-manager \
   --secure-port={{ k8s_master__kube_controller_manager_secure_port }} \
   --service-account-private-key-file={{ k8s_master__pki_dir }}/kube-controller-manager-client.key \
   --service-cluster-ip-range={{ k8s__service_cluster_ip_range }} \
+{% if not k8s_master__kube_controller_manager_use_auto_generated_serving_cert %}
   --tls-cert-file={{ k8s_master__pki_dir }}/kube-controller-manager-client.crt \
+{% endif %}
   --tls-cipher-suites={{ k8s_master__kube_controller_manager_tls_cipher_suites }} \
   --tls-min-version={{ k8s_master__kube_controller_manager_tls_min_version }} \
+{% if not k8s_master__kube_controller_manager_use_auto_generated_serving_cert %}
   --tls-private-key-file={{ k8s_master__pki_dir }}/kube-controller-manager-client.key \
+{% endif %}
   --unhealthy-zone-threshold={{ k8s_master__kube_controller_manager_unhealthy_zone_threshold }} \
   --use-service-account-credentials=true \
   --v={{ k8s_master__kube_controller_manager_vlog_level }}
