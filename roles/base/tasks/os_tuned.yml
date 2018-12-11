@@ -99,7 +99,6 @@
     shell: sleep 2 && shutdown -r now
     async: 1
     poll: 0
-    sudo: true
     ignore_errors: true
   - name: The server is up again
     wait_for:
