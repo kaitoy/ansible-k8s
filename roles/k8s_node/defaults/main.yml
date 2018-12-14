@@ -5,8 +5,8 @@ k8s_node__kernel_params:
   value: 262144
 
 k8s_node__k8s_bins_download_url_base: https://storage.googleapis.com/kubernetes-release/release/{{ k8s__k8s_version }}/bin/linux/amd64
-k8s_node__kubelet_bin_checksum: sha1:5e7748035f8f55bee45f4df5c210a2bca2762889
-k8s_node__kube_proxy_bin_checksum: sha1:5cf6d26a5c36f8a0a36c227e4f84ba301bc86d02
+k8s_node__kubelet_bin_checksum: sha1:cf4fd6ee4e7ed5096b72c47f26b29f50630feaa5
+k8s_node__kube_proxy_bin_checksum: sha1:695105c3cb73bf416d14e51530f044030c889ac6
 
 k8s_node__docker_package_name: docker-engine
 k8s_node__docker_nofile: 1000000
