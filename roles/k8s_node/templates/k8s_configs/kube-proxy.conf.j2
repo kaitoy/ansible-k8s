@@ -15,6 +15,11 @@ featureGates:
 {% endif %}
 
 healthzBindAddress: {{ k8s_node__kube_proxy_healthz_bind_address }}
+ipvs:
+  excludeCIDRs: {{ k8s_node__kube_proxy_ipvs_exclude_cidrs }}
+  minSyncPeriod: {{ k8s_node__kube_proxy_ipvs_min_sync_period }}
+  scheduler: {{ k8s_node__kube_proxy_ipvs_scheduler }}
+  syncPeriod: {{ k8s_node__kube_proxy_ipvs_sync_period }}
 metricsBindAddress: {{ k8s_node__kube_proxy_metrics_bind_address }}
 mode: {{ k8s_node__kube_proxy_mode }}
 portRange: {{ k8s_node__kube_proxy_port_range }}

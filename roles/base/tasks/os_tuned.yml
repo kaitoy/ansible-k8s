@@ -77,6 +77,30 @@
       dest: /etc/modules-load.d/br_netfilter.conf
   when: host__is_k8s_node
 
+- name: Kernel modules for IPVS
+  block:
+  - name: Kernel modules for IPVS are loaded
+    modprobe:
+      name: '{{ item }}'
+      state: present
+    loop:
+    - ip_vs
+    - ip_vs_rr
+    - ip_vs_wrr
+    - ip_vs_sh
+    # use nf_conntrack instead of nf_conntrack_ipv4 for Linux kernel 4.19 and later
+    - nf_conntrack_ipv4
+  - name: Kernel modules for IPVS are loaded on boot
+    copy:
+      content: |
+        ip_vs
+        ip_vs_rr
+        ip_vs_wrr
+        ip_vs_sh
+        nf_conntrack_ipv4
+      dest: /etc/modules-load.d/ipvs.conf
+  when: host__is_k8s_node and k8s_node__kube_proxy_mode == 'ipvs'
+
 - name: Kernel parametes are tuned
   sysctl:
     name: '{{ item.name }}'
