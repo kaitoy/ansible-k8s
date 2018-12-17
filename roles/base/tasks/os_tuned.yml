@@ -51,6 +51,18 @@
       path: swap
       fstype: swap
       state: absent
+  - name: Check if Azure Linux conf exists
+    stat:
+      path: /etc/waagent.conf
+    register: _stat_result
+  - name: Swap is disabled in Azure Linux conf
+    ini_file:
+      path: /etc/waagent.conf
+      section: null
+      option: ResourceDisk.EnableSwap
+      value: 'n'
+      no_extra_spaces: true
+    when: _stat_result.stat.exists
   - name: check swap devices
     command: swapon -s
     register: swap_devices
