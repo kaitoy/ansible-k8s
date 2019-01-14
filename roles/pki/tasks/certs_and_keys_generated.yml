@@ -374,7 +374,7 @@
       path: '{{ pki__pki_dir }}/kube-proxy.crt'
     register: stat_result
   - name: kube-proxy client certificate exists
-    shell: openssl req -new -sha256 -key {{ pki__pki_dir }}/kube-proxy.key -subj "/CN=system:kube-proxy" | openssl x509 -req -sha256 -CA {{ pki__pki_dir }}/ca.crt -CAkey {{ pki__pki_dir }}/ca.key -CAcreateserial -out {{ pki__pki_dir }}/kube-proxy.crt -days {{ pki__kube_proxy_client_cert_valid_days }} -extensions v3_req_client -extfile {{ pki__pki_dir }}/openssl.conf
+    shell: openssl req -new -sha256 -key {{ pki__pki_dir }}/kube-proxy.key -subj "/CN=system:kube-proxy/O=system:node-proxier" | openssl x509 -req -sha256 -CA {{ pki__pki_dir }}/ca.crt -CAkey {{ pki__pki_dir }}/ca.key -CAcreateserial -out {{ pki__pki_dir }}/kube-proxy.crt -days {{ pki__kube_proxy_client_cert_valid_days }} -extensions v3_req_client -extfile {{ pki__pki_dir }}/openssl.conf
     when: not stat_result.stat.exists
   - name: kube-proxy client certificate is fetched
     fetch:
