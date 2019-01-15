@@ -17,3 +17,6 @@
     checksum: '{{ k8s_master__kubectl_bin_checksum }}'
   - name: kubeadm
     checksum: '{{ k8s_master__kubeadm_bin_checksum }}'
+  - name: cloud-controller-manager
+    checksum: '{{ k8s_master__cloud_controller_manager_bin_checksum }}'
+  when: item.name != "cloud-controller-manager" or (k8s__cloud_provider is defined and k8s__cloud_provider == "external")

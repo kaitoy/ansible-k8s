@@ -32,6 +32,10 @@ ExecStart=/usr/bin/kube-apiserver \
   --authorization-mode=Node,RBAC \
   --bind-address={{ k8s_master__kube_apiserver_bind_address }} \
   --client-ca-file={{ k8s_master__pki_dir }}/ca.crt \
+{% if k8s__cloud_provider is defined and k8s__cloud_provider != 'external' %}
+  --cloud-config={{ k8s_master__k8s_configs_dir }}/cloud.conf \
+  --cloud-provider={{ k8s__cloud_provider }} \
+{% endif %}
   --enable-admission-plugins={{ k8s_master__kube_apiserver_enable_admission_plugins }} \
   --enable-bootstrap-token-auth=true \
   --etcd-cafile={{ k8s_master__pki_dir }}/etcd-ca.crt \

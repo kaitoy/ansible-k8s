@@ -11,6 +11,12 @@ ExecStart=/usr/bin/kubelet \
   --bootstrap-kubeconfig={{ k8s_node__kubeconfig_dir }}/bootstrap.kubeconfig \
   --cert-dir={{ k8s_node__kubelet_cert_dir }} \
   --config={{ k8s_node__k8s_configs_dir }}/kubelet.conf \
+{% if k8s__cloud_provider is defined and k8s__cloud_provider != 'external' %}
+  --cloud-config={{ k8s_node__k8s_configs_dir }}/cloud.conf \
+{% endif %}
+{% if k8s__cloud_provider is defined %}
+  --cloud-provider={{ k8s__cloud_provider }} \
+{% endif %}
   --cni-bin-dir={{ k8s_node__kubelet_cni_bin_dir }} \
   --cni-conf-dir={{ k8s_node__kubelet_cni_conf_dir }} \
   --kubeconfig={{ k8s_node__kubeconfig_dir }}/kubelet.kubeconfig \

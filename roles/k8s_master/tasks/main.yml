@@ -8,12 +8,24 @@
   tags: bins
 - import_tasks: kubeconfigs_generated.yml
   tags: kubeconfigs
+- import_tasks: cloud_conf_is_installed.yml
+  tags: services
+  when: k8s__cloud_provider is defined
 - import_tasks: kube_apiserver_started.yml
   tags: services
 - import_tasks: kube_controller_manager_started.yml
   tags: services
 - import_tasks: kube_scheduler_started.yml
   tags: services
+- import_tasks: authorization_for_cloud_controller_manager_is_configured.yml
+  tags: services
+  when: k8s__cloud_provider is defined and k8s__cloud_provider == "external"
+- import_tasks: authorizations_for_cloud_controllers_are_configured.yml
+  tags: services
+  when: k8s__cloud_provider is defined
+- import_tasks: cloud_controller_manager_started.yml
+  tags: services
+  when: k8s__cloud_provider is defined and k8s__cloud_provider == "external"
 - import_tasks: tls_bootstrapping_configured.yml
   run_once: true
   tags: tls_bootstrapping

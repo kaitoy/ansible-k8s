@@ -18,36 +18,40 @@
   block:
   - name: Keys are installed
     copy:
-      src: '{{ item }}'
+      src: '{{ k8s__local_shared_dir }}/{{ item }}'
       dest: '{{ k8s_master__pki_dir }}'
       owner: kubernetes
       group: kubernetes
       mode: 0600
     loop:
-    - '{{ k8s__local_shared_dir }}/ca.key'
-    - '{{ k8s__local_shared_dir }}/kube-apiserver.key'
-    - '{{ k8s__local_shared_dir }}/apiserver-kubelet-client.key'
-    - '{{ k8s__local_shared_dir }}/kube-controller-manager.key'
-    - '{{ k8s__local_shared_dir }}/kube-scheduler.key'
-    - '{{ k8s__local_shared_dir }}/front-proxy-ca.key'
-    - '{{ k8s__local_shared_dir }}/front-proxy-client.key'
-    - '{{ k8s__local_shared_dir }}/etcd-client.key'
+    - ca.key
+    - kube-apiserver.key
+    - apiserver-kubelet-client.key
+    - kube-controller-manager.key
+    - kube-scheduler.key
+    - cloud-controller-manager.key
+    - front-proxy-ca.key
+    - front-proxy-client.key
+    - etcd-client.key
+    when: item != "cloud-controller-manager.key" or (k8s__cloud_provider is defined and k8s__cloud_provider == "external")
   - name: Certificates are installed
     copy:
-      src: '{{ item }}'
+      src: '{{ k8s__local_shared_dir }}/{{ item }}'
       dest: '{{ k8s_master__pki_dir }}'
       owner: kubernetes
       group: kubernetes
       mode: 0644
     loop:
-    - '{{ k8s__local_shared_dir }}/ca.crt'
-    - '{{ k8s__local_shared_dir }}/kube-apiserver.crt'
-    - '{{ k8s__local_shared_dir }}/apiserver-kubelet-client.crt'
-    - '{{ k8s__local_shared_dir }}/kube-controller-manager.crt'
-    - '{{ k8s__local_shared_dir }}/kube-scheduler.crt'
-    - '{{ k8s__local_shared_dir }}/front-proxy-ca.crt'
-    - '{{ k8s__local_shared_dir }}/front-proxy-client.crt'
-    - '{{ k8s__local_shared_dir }}/etcd-client.crt'
+    - ca.crt
+    - kube-apiserver.crt
+    - apiserver-kubelet-client.crt
+    - kube-controller-manager.crt
+    - kube-scheduler.crt
+    - cloud-controller-manager.crt
+    - front-proxy-ca.crt
+    - front-proxy-client.crt
+    - etcd-client.crt
+    when: item != "cloud-controller-manager.crt" or (k8s__cloud_provider is defined and k8s__cloud_provider == "external")
   - name: kube-controller-manager public key is installed
     copy:
       src: '{{ k8s__local_shared_dir }}/kube-controller-manager.pub'

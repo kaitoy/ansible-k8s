@@ -1,0 +1,14 @@
+- name: cloud-controller-manager unit file exists
+  template:
+    src: systemd_units/cloud-controller-manager.service.j2
+    dest: /etc/systemd/system/cloud-controller-manager.service
+    owner: root
+    group: root
+    mode: 0664
+
+- name: cloud-controller-manager is running
+  systemd:
+    name: cloud-controller-manager
+    daemon_reload: true
+    enabled: true
+    state: started

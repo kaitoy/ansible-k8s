@@ -15,6 +15,22 @@ k8s__static_pod:
 #  enabled: true
 #  manifests_path: /etc/kubernetes/manifests
 k8s__volume_plugin_dir: /usr/libexec/kubernetes/kubelet-plugins/volume/exec/
+# k8s__cloud_provider: azure
+# k8s__cloud_conf_contents: |
+#   {
+#     "cloud": "AZUREPUBLICCLOUD",
+#     "location": "japaneast",
+#     "tenantId": "0000000-0000-0000-0000-000000000000",
+#     "subscriptionId": "0000000-0000-0000-0000-000000000000",
+#     "resourceGroup": "k8s",
+#     "vnetName": "k8s-vnet",
+#     "subnetName": "k8s-subnet",
+#     "vnetResourceGroup": "k8s",
+#     "routeTableName": "k8s-routes",
+#     "securityGroupName": "k8s-master-node-nsg",
+#     "useManagedIdentityExtension": true,
+#     "useInstanceMetadata": true
+#   }
 
 k8s__local_shared_dir: /tmp/ansible
 

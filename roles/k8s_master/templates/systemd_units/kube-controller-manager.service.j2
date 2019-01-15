@@ -15,6 +15,10 @@ Group=kubernetes
 ExecStart=/usr/bin/kube-controller-manager \
   --allocate-node-cidrs=true \
   --bind-address={{ k8s_master__kube_controller_manager_bind_address }} \
+{% if k8s__cloud_provider is defined and k8s__cloud_provider != 'external' %}
+  --cloud-config={{ k8s_master__k8s_configs_dir }}/cloud.conf \
+  --cloud-provider={{ k8s__cloud_provider }} \
+{% endif %}
   --cluster-cidr={{ k8s__cluster_cidr }} \
   --cluster-name={{ k8s__k8s_cluster_name }} \
   --cluster-signing-cert-file={{ k8s_master__pki_dir }}/ca.crt \
@@ -22,6 +26,9 @@ ExecStart=/usr/bin/kube-controller-manager \
   --controllers={{ k8s_master__kube_controller_manager_controllers }} \
   --enable-hostpath-provisioner={{ k8s_master__kube_controller_manager_enable_hostpath_provisioner }} \
   --experimental-cluster-signing-duration={{ k8s_master__kube_controller_manager_cluster_signing_duration }} \
+{% if k8s_master__kube_controller_manager_external_cloud_volume_plugin is defined %}
+  --external-cloud-volume-plugin={{ k8s_master__kube_controller_manager_external_cloud_volume_plugin }} \
+{% endif %}
 {% if _feature_gates|length > 0 %}
   --feature-gates={{ _feature_gates|join(',') }} \
 {% endif %}
