@@ -1,0 +1,37 @@
+{% set _feature_gates = [] %}
+{%- if k8s__feature_gates is defined -%}
+    {% for _fg_name, _fg_flag in k8s__feature_gates.items() -%}
+        {{ _feature_gates.append('%s=%s'|format(_fg_name, _fg_flag)) }}
+    {%- endfor %}
+{%- endif %}
+[Unit]
+Description=Kubernetes Cloud Controller Manager
+Documentation=https://github.com/kubernetes/kubernetes
+After=network.target
+
+[Service]
+User=kubernetes
+Group=kubernetes
+ExecStart=/usr/bin/cloud-controller-manager \
+  --allocate-node-cidrs={{ k8s_master__cloud_controller_manager_allocate_node_cidrs }} \
+  --bind-address={{ k8s_master__cloud_controller_manager_bind_address }} \
+  --cloud-config={{ k8s_master__k8s_configs_dir }}/cloud.conf \
+  --cloud-provider={{ k8s_master__cloud_controller_manager_cloud_provider }} \
+  --cluster-cidr={{ k8s__cluster_cidr }} \
+  --cluster-name={{ k8s__k8s_cluster_name }} \
+  --controller-start-interval={{ k8s_master__cloud_controller_manager_controller_start_interval }} \
+{% if _feature_gates|length > 0 %}
+  --feature-gates={{ _feature_gates|join(',') }} \
+{% endif %}
+  --kubeconfig={{ k8s_master__kubeconfig_dir }}/cloud-controller-manager.kubeconfig \
+  --node-monitor-period={{ k8s_master__cloud_controller_manager_node_monitor_period }} \
+  --node-status-update-frequency={{ k8s_master__cloud_controller_manager_node_status_update_frequency }} \
+  --profiling={{ k8s_master__cloud_controller_manager_profiling }} \
+  --secure-port={{ k8s_master__cloud_controller_manager_secure_port }} \
+  --use-service-account-credentials=true \
+  --v={{ k8s_master__cloud_controller_manager_vlog_level }}
+Restart=always
+RestartSec={{ k8s_master__cloud_controller_manager_restart_sec }}s
+
+[Install]
+WantedBy=multi-user.target

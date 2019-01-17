@@ -1,0 +1,99 @@
+- name: k8s components are ready
+  command: kubectl get componentstatuses
+  register: _componentstatuses
+  until: _componentstatuses.stdout.find('Unhealthy') == -1
+  retries: 5
+  delay: 5
+  changed_when: false
+
+- name: ClusterRole 'system:cloud-controller-manager' exists
+  command: kubectl apply -f -
+  args:
+    stdin: |
+      apiVersion: rbac.authorization.k8s.io/v1
+      kind: ClusterRole
+      metadata:
+        name: system:cloud-controller-manager
+      rules:
+      - apiGroups:
+        - ""
+        resources:
+        - events
+        verbs:
+        - create
+        - patch
+        - update
+      - apiGroups:
+        - ""
+        resources:
+        - nodes
+        verbs:
+        - '*'
+      - apiGroups:
+        - ""
+        resources:
+        - nodes/status
+        verbs:
+        - patch
+      - apiGroups:
+        - ""
+        resources:
+        - services
+        verbs:
+        - list
+        - patch
+        - update
+        - watch
+      - apiGroups:
+        - ""
+        resources:
+        - serviceaccounts
+        verbs:
+        - get
+        - create
+      - apiGroups:
+        - ""
+        resources:
+        - secrets
+        verbs:
+        - list
+        - get
+      - apiGroups:
+        - ""
+        resources:
+        - persistentvolumes
+        verbs:
+        - get
+        - list
+        - update
+        - watch
+      - apiGroups:
+        - ""
+        resources:
+        - endpoints
+        verbs:
+        - create
+        - get
+        - list
+        - watch
+        - update
+  register: _apply_result
+  changed_when: '" created" in _apply_result.stdout or " configured" in _apply_result.stdout'
+- name: ClusterRoleBinding 'system:cloud-controller-manager' exists
+  command: kubectl apply -f -
+  args:
+    stdin: |
+      apiVersion: rbac.authorization.k8s.io/v1
+      kind: ClusterRoleBinding
+      metadata:
+        name: system:cloud-controller-manager
+      roleRef:
+        apiGroup: rbac.authorization.k8s.io
+        kind: ClusterRole
+        name: system:cloud-controller-manager
+      subjects:
+      - apiGroup: rbac.authorization.k8s.io
+        kind: User
+        name: system:cloud-controller-manager
+  register: _apply_result
+  changed_when: '" created" in _apply_result.stdout or " configured" in _apply_result.stdout'
