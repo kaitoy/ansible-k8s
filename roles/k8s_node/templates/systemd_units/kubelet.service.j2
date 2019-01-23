@@ -5,6 +5,10 @@ After=docker.service
 Requires=docker.service
 
 [Service]
+{% if ansible_os_family == 'RedHat' %}
+CPUAccounting=true
+MemoryAccounting=true
+{% endif %}
 User=root
 Group=root
 ExecStart=/usr/bin/kubelet \
