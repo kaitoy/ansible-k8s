@@ -30,6 +30,7 @@ ExecStart=/usr/bin/kubelet \
   --volume-plugin-dir={{ k8s__volume_plugin_dir }}
 Restart=always
 RestartSec={{ k8s_node__kubelet_restart_sec }}s
+KillMode=process
 
 [Install]
 WantedBy=multi-user.target

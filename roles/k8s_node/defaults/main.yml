@@ -11,6 +11,22 @@ k8s_node__kube_proxy_bin_checksum: sha1:695105c3cb73bf416d14e51530f044030c889ac6
 k8s_node__docker_package_name: docker-engine
 k8s_node__docker_nofile: 1000000
 k8s_node__additional_dockerd_options:
+k8s_node__docker_user: null
+# Example for Docker CE
+# k8s_node__docker_user:
+#   group:
+#     name: dockerroot
+#     gid: 54321
+#   user:
+#     name: dockerroot
+#     uid: 54321
+#     gid: 54321
+# Example for old versions of Docker
+# k8s_node__docker_user:
+#   group:
+#     name: docker
+#     gid: 54321
+#   user: null
 
 k8s_node__cni_version: v0.6.0
 k8s_node__cni_archive_download_url_base: https://github.com/containernetworking/cni/releases/download

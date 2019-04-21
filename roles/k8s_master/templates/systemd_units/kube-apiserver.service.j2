@@ -15,6 +15,7 @@
 Description=Kubernetes API Server
 Documentation=https://github.com/kubernetes/kubernetes
 After=network.target
+After=etcd.service
 
 [Service]
 User=kubernetes
@@ -77,6 +78,7 @@ ExecStart=/usr/bin/kube-apiserver \
   --v={{ k8s_master__kube_apiserver_vlog_level }}
 Restart=always
 RestartSec={{ k8s_master__kube_apiserver_restart_sec }}s
+Type=notify
 
 [Install]
 WantedBy=multi-user.target
