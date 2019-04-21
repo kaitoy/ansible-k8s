@@ -1,3 +1,25 @@
+- name: User and group for Docker
+  block:
+  - name: Group for Docker exists
+    group:
+      name: '{{ k8s_node__docker_user.group.name }}'
+      gid: '{{ k8s_node__docker_user.group.gid }}'
+      system: true
+      state: present
+    when: k8s_node__docker_user.group
+  - name: User for Docker exists
+    user:
+      name: '{{ k8s_node__docker_user.user.name }}'
+      uid: '{{ k8s_node__docker_user.user.uid }}'
+      group: '{{ k8s_node__docker_user.user.gid }}'
+      create_home: false
+      home: /var/lib/docker
+      shell: /sbin/nologin
+      system: true
+      state: present
+    when: k8s_node__docker_user.user
+  when: k8s_node__docker_user
+
 - name: Docker is installed
   yum:
     name: '{{ k8s_node__docker_package_name }}'
