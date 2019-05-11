@@ -36,7 +36,10 @@ ExecStart=/usr/bin/etcd \
     --initial-cluster {{ etcd__initial_cluster.members }} \
   {% endif %}
   --initial-cluster-state new \
-  --max-wals {{ etcd__max_wals }}
+  --max-wals {{ etcd__max_wals }} \
+  --snapshot-count {{ etcd__snapshot_count }} \
+  --max-snapshots {{ etcd__max_snapshots }} \
+  --quota-backend-bytes {{ etcd__quota_backend_bytes }}
 Restart=always
 RestartSec={{ etcd__restart_sec }}s
 

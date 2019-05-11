@@ -47,6 +47,7 @@ ExecStart=/usr/bin/kube-controller-manager \
   --secure-port={{ k8s_master__kube_controller_manager_secure_port }} \
   --service-account-private-key-file={{ k8s_master__pki_dir }}/kube-controller-manager.key \
   --service-cluster-ip-range={{ k8s__service_cluster_ip_range }} \
+  --terminated-pod-gc-threshold={{ k8s_master__kube_controller_manager_terminated_pod_gc_threshold }} \
   --unhealthy-zone-threshold={{ k8s_master__kube_controller_manager_unhealthy_zone_threshold }} \
   --use-service-account-credentials=true \
   --v={{ k8s_master__kube_controller_manager_vlog_level }}

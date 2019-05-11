@@ -19,6 +19,46 @@ clusterDNS: [{{ k8s__dns_server_ip_addr }}]
 clusterDomain: {{ k8s__dns_cluster_domain }}
 containerLogMaxFiles: {{ k8s_node__kubelet_container_log_max_files }}
 containerLogMaxSize: {{ k8s_node__kubelet_container_log_max_size }}
+enforceNodeAllocatable:
+{% for _enforce in k8s_node__kubelet_enforce_node_allocatable %}
+- {{ _enforce }}
+{% endfor %}
+evictionHard:
+{%- for _rule_name, _rule_val in k8s_node__kubelet_eviction_hard.items() %}
+
+  {{ _rule_name }}: {{ _rule_val }}
+
+{%- endfor %}
+
+{% if k8s_node__kubelet_eviction_soft is defined %}
+evictionSoft:
+    {%- for _rule_name, _rule_val in k8s_node__kubelet_eviction_soft.items() %}
+
+  {{ _rule_name }}: {{ _rule_val }}
+
+    {%- endfor %}
+{% endif %}
+
+{% if k8s_node__kubelet_eviction_soft_grace_period is defined %}
+evictionSoftGracePeriod:
+    {%- for _rule_name, _rule_val in k8s_node__kubelet_eviction_soft_grace_period.items() %}
+
+  {{ _rule_name }}: {{ _rule_val }}
+
+    {%- endfor %}
+{% endif %}
+
+evictionPressureTransitionPeriod: {{ k8s_node__kubelet_eviction_pressure_transition_period }}
+evictionMaxPodGracePeriod: {{ k8s_node__kubelet_eviction_max_pod_grace_period }}
+{% if k8s_node__kubelet_eviction_minimum_reclaim is defined %}
+evictionMinimumReclaim map[string]string:
+    {%- for _rule_name, _rule_val in k8s_node__kubelet_eviction_minimum_reclaim.items() %}
+
+  {{ _rule_name }}: {{ _rule_val }}
+
+    {%- endfor %}
+{% endif %}
+
 failSwapOn: {{ k8s_node__kubelet_fail_swap_on }}
 {% if k8s__feature_gates is defined %}
 featureGates:
@@ -32,6 +72,9 @@ featureGates:
 hairpinMode: {{ k8s_node__kubelet_hairpin_mode }}
 healthzBindAddress: {{ k8s_node__kubelet_healthz_bind_address }}
 healthzPort: {{ k8s_node__kubelet_healthz_port }}
+imageMinimumGCAge: {{ k8s_node__kubelet_image_minimum_gc_age }}
+imageGCHighThresholdPercent: {{ k8s_node__kubelet_image_gc_high_threshold_percent }}
+imageGCLowThresholdPercent: {{ k8s_node__kubelet_image_gc_low_threshold_percent }}
 maxOpenFiles: {{ k8s_node__kubelet_max_open_files }}
 maxPods: {{ k8s_node__kubelet_max_pods }}
 nodeStatusUpdateFrequency: {{ k8s_node__kubelet_node_status_update_frequency }}

@@ -13,5 +13,10 @@ etcd__initial_cluster:
   auto_set: true
   # auto_set: false
   # members: {{ ansible_facts.fqdn }}=https://127.0.0.1:{{ host__etcd_peer_port }}
-etcd__max_wals: 0
+etcd__max_wals: 5
+etcd__snapshot_count: 5000
+etcd__max_snapshots: 5
+etcd__quota_backend_bytes: 0
+# etcd__quota_backend_bytes: -1 # disable quotas
+# etcd__quota_backend_bytes: 8589934592 # 8GB (maximum)
 etcd__restart_sec: 10

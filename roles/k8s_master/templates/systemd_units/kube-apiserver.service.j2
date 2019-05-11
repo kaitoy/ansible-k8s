@@ -41,6 +41,7 @@ ExecStart=/usr/bin/kube-apiserver \
   --enable-bootstrap-token-auth=true \
   --etcd-cafile={{ k8s_master__pki_dir }}/etcd-ca.crt \
   --etcd-certfile={{ k8s_master__pki_dir }}/etcd-client.crt \
+  --etcd-compaction-interval={{ k8s_master__kube_apiserver_etcd_compaction_interval }} \
   --etcd-keyfile={{ k8s_master__pki_dir }}//etcd-client.key \
 {% if k8s_master__kube_apiserver_etcd_servers.auto_set %}
   --etcd-servers={{ _etcd_servers | join(',') }} \
@@ -48,6 +49,7 @@ ExecStart=/usr/bin/kube-apiserver \
   --etcd-servers={{ k8s_master__kube_apiserver_etcd_servers.servers }} \
 {% endif %}
   --experimental-encryption-provider-config={{ k8s_master__k8s_configs_dir }}/encryption.conf \
+  --event-ttl={{ k8s_master__kube_apiserver_event_ttl }} \
 {% if _feature_gates | length > 0 %}
   --feature-gates={{ _feature_gates | join(',') }} \
 {% endif %}
