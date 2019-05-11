@@ -47,10 +47,37 @@ k8s_node__kubelet_cni_conf_dir: /etc/cni/net.d
 k8s_node__kubelet_cgroup_driver: cgroupfs
 k8s_node__kubelet_container_log_max_files: 5
 k8s_node__kubelet_container_log_max_size: 10Mi
+k8s_node__kubelet_enforce_node_allocatable:
+- pods
+k8s_node__kubelet_eviction_hard:
+  imagefs.available: 15%
+  memory.available: 100Mi
+  nodefs.available: 10%
+  nodefs.inodesFree: 5%
+# k8s_node__kubelet_eviction_soft:
+#   imagefs.available: 15%
+#   memory.available: 100Mi
+#   nodefs.available: 10%
+#   nodefs.inodesFree: 5%
+# k8s_node__kubelet_eviction_soft_grace_period:
+#   imagefs.available: 1m
+#   memory.available: 1m
+#   nodefs.available: 1m
+#   nodefs.inodesFree: 1m
+k8s_node__kubelet_eviction_pressure_transition_period: 5m
+k8s_node__kubelet_eviction_max_pod_grace_period: 0
+# k8s_node__kubelet_eviction_minimum_reclaim:
+#   imagefs.available: 1Gi
+#   memory.available: 500Mi
+#   nodefs.available: 15%
+#   nodefs.inodesFree: 10%
 k8s_node__kubelet_fail_swap_on: true
 k8s_node__kubelet_hairpin_mode: hairpin-veth
 k8s_node__kubelet_healthz_bind_address: 127.0.0.1
 k8s_node__kubelet_healthz_port: 10248
+k8s_node__kubelet_image_minimum_gc_age: 2m
+k8s_node__kubelet_image_gc_high_threshold_percent: 85
+k8s_node__kubelet_image_gc_low_threshold_percent: 80
 k8s_node__kubelet_max_open_files: '{{ k8s_node__docker_nofile + 10000 }}'
 k8s_node__kubelet_max_pods: 110
 k8s_node__kubelet_node_status_update_frequency: 10s

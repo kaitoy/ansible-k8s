@@ -23,10 +23,12 @@ k8s_master__kube_apiserver_audit_log_maxsize: 100
 k8s_master__kube_apiserver_audit_log_path: '{{ k8s_master__audit_log_dir }}/kube-audit.log'
 k8s_master__kube_apiserver_bind_address: 0.0.0.0
 k8s_master__kube_apiserver_enable_admission_plugins: NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,NodeRestriction,DenyEscalatingExec,StorageObjectInUseProtection,PodSecurityPolicy
+k8s_master__kube_apiserver_etcd_compaction_interval: 5m0s
 k8s_master__kube_apiserver_etcd_servers:
   auto_set: true
   # auto_set: false
   # servers: https://127.0.0.1:2379
+k8s_master__kube_apiserver_event_ttl: 1h0m0s
 k8s_master__kube_apiserver_insecure_port: 0
 k8s_master__kube_apiserver_kubelet_preferred_address_types: InternalIP,ExternalIP,Hostname
 k8s_master__kube_apiserver_kubernetes_service_node_port: 0
@@ -53,6 +55,7 @@ k8s_master__kube_controller_manager_port: 10252
 k8s_master__kube_controller_manager_profiling: 'false'
 k8s_master__kube_controller_manager_secondary_node_eviction_rate: 0.01
 k8s_master__kube_controller_manager_secure_port: 10257
+k8s_master__kube_controller_manager_terminated_pod_gc_threshold: 1250
 k8s_master__kube_controller_manager_tls_cipher_suites: '{{ k8s_master__kube_apiserver_tls_cipher_suites }}'
 k8s_master__kube_controller_manager_tls_min_version: '{{ k8s_master__kube_apiserver_tls_min_version }}'
 k8s_master__kube_controller_manager_unhealthy_zone_threshold: 0.55
