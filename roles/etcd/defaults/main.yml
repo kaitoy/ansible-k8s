@@ -4,6 +4,7 @@ etcd__etcd_archive_checksum: sha1:47b708b774832b7e1edb89eafa755e47c8d70b50
 etcd__pki_dir: /etc/kubernetes/pki
 
 etcd__data_dir: /var/lib/etcd
+etcd__etcd_bin_dir: /usr/bin
 etcd__listen_client_urls: https://{{ host__public_address }}:{{ host__etcd_server_port }},https://127.0.0.1:{{ host__etcd_server_port }}
 etcd__advertise_client_urls: https://{{ host__public_address }}:{{ host__etcd_server_port }}
 etcd__listen_peer_urls: https://{{ host__public_address }}:{{ host__etcd_peer_port }}

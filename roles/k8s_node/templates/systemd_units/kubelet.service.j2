@@ -11,7 +11,7 @@ MemoryAccounting=true
 {% endif %}
 User=root
 Group=root
-ExecStart=/usr/bin/kubelet \
+ExecStart={{ k8s__k8s_bin_dir }}/kubelet \
   --bootstrap-kubeconfig={{ k8s_node__kubeconfig_dir }}/bootstrap.kubeconfig \
   --cert-dir={{ k8s_node__kubelet_cert_dir }} \
   --config={{ k8s_node__k8s_configs_dir }}/kubelet.conf \

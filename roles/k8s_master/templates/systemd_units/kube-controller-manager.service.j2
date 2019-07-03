@@ -12,7 +12,7 @@ After=network.target
 [Service]
 User=kubernetes
 Group=kubernetes
-ExecStart=/usr/bin/kube-controller-manager \
+ExecStart={{ k8s__k8s_bin_dir }}/kube-controller-manager \
   --allocate-node-cidrs=true \
   --bind-address={{ k8s_master__kube_controller_manager_bind_address }} \
 {% if k8s__cloud_provider is defined and k8s__cloud_provider != 'external' %}

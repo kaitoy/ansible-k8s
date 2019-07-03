@@ -32,6 +32,7 @@ k8s__volume_plugin_dir: /usr/libexec/kubernetes/kubelet-plugins/volume/exec/
 #     "useInstanceMetadata": true
 #   }
 
+k8s__k8s_bin_dir: /usr/bin
 k8s__local_shared_dir: /tmp/ansible
 
 k8s__etcd_user_uid: 1020

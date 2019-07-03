@@ -1,7 +1,14 @@
+- name: k8s bin dir exists
+  file:
+    path: '{{ k8s__k8s_bin_dir }}'
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
 - name: kubelet and kube-proxy are installed
   get_url:
     url: '{{ k8s_node__k8s_bins_download_url_base }}/{{ item.name }}'
-    dest: /usr/bin/{{ item.name }}
+    dest: '{{ k8s__k8s_bin_dir }}/{{ item.name }}'
     owner: root
     group: root
     mode: 0755

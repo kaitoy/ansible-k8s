@@ -36,6 +36,7 @@ k8s_node__cni_plugins_version: v0.7.1
 k8s_node__cni_plugins_archive_download_url_base: https://github.com/containernetworking/plugins/releases/download
 k8s_node__cni_plugins_archive_checksum: sha1:fb29e20401d3e9598a1d8e8d7992970a36de5e05
 
+k8s__k8s_bin_dir: /usr/bin
 k8s_node__kubeconfig_dir: /etc/kubernetes
 k8s_node__k8s_configs_dir: /etc/kubernetes
 k8s_node__pki_dir: /etc/kubernetes/pki

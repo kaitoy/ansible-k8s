@@ -15,11 +15,18 @@
       remote_src: true
       dest: /tmp
     when: _get_url_result.changed
+  - name: etcd bin dir exists
+    file:
+      path: '{{ etcd__etcd_bin_dir }}'
+      owner: root
+      group: root
+      mode: 0755
+      state: directory
   - name: etcd bins are installed
     copy:
       remote_src: true
       src: /tmp/{{ _etcd_archive_basename }}/{{ item }}
-      dest: /usr/bin/
+      dest: '{{ etcd__etcd_bin_dir }}'
       owner: root
       group: root
       mode: 0755

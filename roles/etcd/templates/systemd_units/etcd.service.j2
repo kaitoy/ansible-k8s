@@ -14,7 +14,7 @@ Type=notify
 NotifyAccess=all
 User=etcd
 Group=etcd
-ExecStart=/usr/bin/etcd \
+ExecStart={{ etcd__etcd_bin_dir }}/etcd \
   --name {{ host__etcd_member_name }} \
   --data-dir {{ etcd__data_dir }} \
   --listen-client-urls {{ etcd__listen_client_urls }} \
