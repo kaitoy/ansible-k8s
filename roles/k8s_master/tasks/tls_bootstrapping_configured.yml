@@ -1,5 +1,5 @@
 - name: k8s components are ready
-  command: kubectl get componentstatuses
+  command: '{{ k8s__k8s_bin_dir }}/kubectl get componentstatuses'
   register: _componentstatuses
   until: _componentstatuses.stdout.find('Unhealthy') == -1
   retries: 5
@@ -9,7 +9,7 @@
 - name: Auto approval for TLS bootstrapping CSRs
   block:
   - name: ClusterRoleBinding 'auto-approve-csrs-for-group' exists
-    command: kubectl apply -f -
+    command: '{{ k8s__k8s_bin_dir }}/kubectl apply -f -'
     args:
       stdin: |
         kind: ClusterRoleBinding
@@ -27,7 +27,7 @@
     register: _apply_result
     changed_when: '" created" in _apply_result.stdout or " configured" in _apply_result.stdout'
   - name: ClusterRole 'approve-node-server-renewal-csr' exists
-    command: kubectl apply -f -
+    command: '{{ k8s__k8s_bin_dir }}/kubectl apply -f -'
     args:
       stdin: |
         kind: ClusterRole
@@ -49,12 +49,12 @@
 - name: Bootstrap token
   block:
   - name: Check if bootstrap token is generated
-    shell: kubectl -n kube-system get secret -o yaml || true
+    shell: '{{ k8s__k8s_bin_dir }}/kubectl -n kube-system get secret -o yaml || true'
     register: _check_result
     changed_when: false
     failed_when: not 'apiVersion' in _check_result.stdout
   - name: Bootstrap token is generated
-    command: kubeadm token create --kubeconfig {{ k8s_master__kubeconfig_dir }}/admin.kubeconfig
+    command: '{{ k8s__k8s_bin_dir }}/kubeadm token create --kubeconfig {{ k8s_master__kubeconfig_dir }}/admin.kubeconfig'
     when: 'not "name: bootstrap-token-" in _check_result.stdout'
     register: _bootstrap_token
   - name: Bootstrap token is in the local shared dir
@@ -65,15 +65,15 @@
 - name: ConfigMap 'cluster-info'
   block:
   - name: Check if ConfigMap 'cluster-info' exists
-    shell: kubectl -n kube-public get configmap cluster-info || true
+    shell: '{{ k8s__k8s_bin_dir }}/kubectl -n kube-public get configmap cluster-info || true'
     register: _check_result
     changed_when: false
     failed_when: not 'cluster-info' in _check_result.stdout and not 'cluster-info' in _check_result.stderr
   - name: ConfigMap 'cluster-info' exists
-    command: kubectl -n kube-public create configmap cluster-info --from-file {{ k8s_master__pki_dir }}/ca.crt --from-file {{ k8s_master__kubeconfig_dir }}/bootstrap.kubeconfig
+    command: '{{ k8s__k8s_bin_dir }}/kubectl -n kube-public create configmap cluster-info --from-file {{ k8s_master__pki_dir }}/ca.crt --from-file {{ k8s_master__kubeconfig_dir }}/bootstrap.kubeconfig'
     when: '"NotFound" in _check_result.stderr'
   - name: Role to get cluster-info exists
-    command: kubectl apply -f -
+    command: '{{ k8s__k8s_bin_dir }}/kubectl apply -f -'
     args:
       stdin: |
         apiVersion: rbac.authorization.k8s.io/v1
@@ -91,7 +91,7 @@
     register: _apply_result
     changed_when: '" created" in _apply_result.stdout or " configured" in _apply_result.stdout'
   - name: RoleBinding 'kubeadm:bootstrap-signer-clusterinfo' exists
-    command: kubectl apply -f -
+    command: '{{ k8s__k8s_bin_dir }}/kubectl apply -f -'
     args:
       stdin: |
         apiVersion: rbac.authorization.k8s.io/v1
@@ -111,7 +111,7 @@
     changed_when: '" created" in _apply_result.stdout or " configured" in _apply_result.stdout'
 
 - name: ClusterRoleBinding 'kubeadm:kubelet-bootstrap' exists
-  command: kubectl apply -f -
+  command: '{{ k8s__k8s_bin_dir }}/kubectl apply -f -'
   args:
     stdin: |
       apiVersion: rbac.authorization.k8s.io/v1

@@ -1,5 +1,5 @@
 - name: ClusterRoleBinding '<hostname>-node-client-cert-renewal' exists
-  command: kubectl apply -f -
+  command: '{{ k8s__k8s_bin_dir }}/kubectl apply -f -'
   args:
     stdin: |
       kind: ClusterRoleBinding
@@ -18,7 +18,7 @@
   changed_when: '" created" in _apply_result.stdout or " configured" in _apply_result.stdout'
 
 - name: ClusterRoleBinding '<hostname>-server-client-cert-renewal' exists
-  command: kubectl apply -f -
+  command: '{{ k8s__k8s_bin_dir }}/kubectl apply -f -'
   args:
     stdin: |
       kind: ClusterRoleBinding

@@ -20,7 +20,7 @@ After=etcd.service
 [Service]
 User=kubernetes
 Group=kubernetes
-ExecStart=/usr/bin/kube-apiserver \
+ExecStart={{ k8s__k8s_bin_dir }}/kube-apiserver \
   --advertise-address={{ host__public_address }} \
   --allow-privileged=true \
   --anonymous-auth=false \

@@ -1,5 +1,5 @@
 - name: k8s components are ready
-  command: kubectl get componentstatuses
+  command: '{{ k8s__k8s_bin_dir }}/kubectl get componentstatuses'
   register: _componentstatuses
   until: _componentstatuses.stdout.find('Unhealthy') == -1
   retries: 5
@@ -22,7 +22,7 @@
     group: '{{ weave_net__manifests_group }}'
     mode: 0644
 - name: privileged-PSP is deployed
-  command: kubectl apply -f {{ weave_net__manifests_dir }}/privileged_psp.yml
+  command: '{{ k8s__k8s_bin_dir }}/kubectl apply -f {{ weave_net__manifests_dir }}/privileged_psp.yml'
   register: _apply_result
   changed_when: '" created" in _apply_result.stdout or " configured" in _apply_result.stdout'
 
@@ -34,7 +34,7 @@
     group: '{{ weave_net__manifests_group }}'
     mode: 0644
 - name: privileged-PSP is deployed
-  command: kubectl apply -f {{ weave_net__manifests_dir }}/privileged_psp_role.yml
+  command: '{{ k8s__k8s_bin_dir }}/kubectl apply -f {{ weave_net__manifests_dir }}/privileged_psp_role.yml'
   register: _apply_result
   changed_when: '" created" in _apply_result.stdout or " configured" in _apply_result.stdout'
 
@@ -46,7 +46,7 @@
     group: '{{ weave_net__manifests_group }}'
     mode: 0644
 - name: privileged-PSP/weave-net RoleBinding is deployed
-  command: kubectl apply -f {{ weave_net__manifests_dir }}/privileged_psp_weave_net_rolebinding.yml
+  command: '{{ k8s__k8s_bin_dir }}/kubectl apply -f {{ weave_net__manifests_dir }}/privileged_psp_weave_net_rolebinding.yml'
   register: _apply_result
   changed_when: '" created" in _apply_result.stdout or " configured" in _apply_result.stdout'
 
@@ -58,7 +58,7 @@
     group: '{{ weave_net__manifests_group }}'
     mode: 0600
 - name: weave-net secret is deployed
-  command: kubectl apply -f {{ weave_net__manifests_dir }}/weave_secret.yml
+  command: '{{ k8s__k8s_bin_dir }}/kubectl apply -f {{ weave_net__manifests_dir }}/weave_secret.yml'
   register: _apply_result
   changed_when: '" created" in _apply_result.stdout or " configured" in _apply_result.stdout'
 
@@ -70,6 +70,6 @@
     group: '{{ weave_net__manifests_group }}'
     mode: 0644
 - name: weave-net is deployed
-  command: kubectl apply -f {{ weave_net__manifests_dir }}/weave_daemonset.yml
+  command: '{{ k8s__k8s_bin_dir }}/kubectl apply -f {{ weave_net__manifests_dir }}/weave_daemonset.yml'
   register: _apply_result
   changed_when: '" created" in _apply_result.stdout or " configured" in _apply_result.stdout'

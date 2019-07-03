@@ -36,16 +36,16 @@
   register: _dnssec_key
   changed_when: false
 - name: Check if secret 'dnssec-keys' is deployed
-  shell: kubectl -n kube-system get secret dnssec-keys || true
+  shell: '{{ k8s__k8s_bin_dir }}/kubectl -n kube-system get secret dnssec-keys || true'
   register: _check_result
   changed_when: false
   failed_when: not 'dnssec-keys' in _check_result.stdout and not 'dnssec-keys' in _check_result.stderr
 - name: Secret 'dnssec-keys' is deployed
-  command: kubectl -n kube-system create secret generic dnssec-keys --from-file=dnssec.private={{ coredns__manifests_dir }}/{{ _dnssec_key.stdout }}.private --from-file=dnssec.key={{ coredns__manifests_dir }}/{{ _dnssec_key.stdout }}.key
+  command: '{{ k8s__k8s_bin_dir }}/kubectl -n kube-system create secret generic dnssec-keys --from-file=dnssec.private={{ coredns__manifests_dir }}/{{ _dnssec_key.stdout }}.private --from-file=dnssec.key={{ coredns__manifests_dir }}/{{ _dnssec_key.stdout }}.key'
   when: '"NotFound" in _check_result.stderr'
 
 - name: k8s components are ready
-  command: kubectl get componentstatuses
+  command: '{{ k8s__k8s_bin_dir }}/kubectl get componentstatuses'
   register: _componentstatuses
   until: _componentstatuses.stdout.find('Unhealthy') == -1
   retries: 5
@@ -60,7 +60,7 @@
     group: '{{ coredns__manifests_group }}'
     mode: 0644
 - name: CoreDNS-PSP is deployed
-  command: kubectl apply -f {{ coredns__manifests_dir }}/coredns_psp.yml
+  command: '{{ k8s__k8s_bin_dir }}/kubectl apply -f {{ coredns__manifests_dir }}/coredns_psp.yml'
   register: _apply_result
   changed_when: '" created" in _apply_result.stdout or " configured" in _apply_result.stdout'
 
@@ -72,7 +72,7 @@
     group: '{{ coredns__manifests_group }}'
     mode: 0644
 - name: CoreDNS-PSP Role is deployed
-  command: kubectl apply -f {{ coredns__manifests_dir }}/coredns_psp_role.yml
+  command: '{{ k8s__k8s_bin_dir }}/kubectl apply -f {{ coredns__manifests_dir }}/coredns_psp_role.yml'
   register: _apply_result
   changed_when: '" created" in _apply_result.stdout or " configured" in _apply_result.stdout'
 
@@ -84,7 +84,7 @@
     group: '{{ coredns__manifests_group }}'
     mode: 0644
 - name: CoreDNS-PSP/coredns RoleBinding is deployed
-  command: kubectl apply -f {{ coredns__manifests_dir }}/coredns_psp_coredns_rolebinding.yml
+  command: '{{ k8s__k8s_bin_dir }}/kubectl apply -f {{ coredns__manifests_dir }}/coredns_psp_coredns_rolebinding.yml'
   register: _apply_result
   changed_when: '" created" in _apply_result.stdout or " configured" in _apply_result.stdout'
 
@@ -96,5 +96,5 @@
     group: '{{ coredns__manifests_group }}'
     mode: 0644
 - name: CoreDNS is deployed
-  command: kubectl apply -f {{ coredns__manifests_dir }}/coredns.yml
+  command: '{{ k8s__k8s_bin_dir }}/kubectl apply -f {{ coredns__manifests_dir }}/coredns.yml'
   changed_when: '" created" in _apply_result.stdout or " configured" in _apply_result.stdout'

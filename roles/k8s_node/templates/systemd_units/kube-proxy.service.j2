@@ -6,7 +6,7 @@ After=network.target
 [Service]
 User=root
 Group=root
-ExecStart=/usr/bin/kube-proxy \
+ExecStart={{ k8s__k8s_bin_dir }}/kube-proxy \
   --config={{ k8s_node__k8s_configs_dir }}/kube-proxy.conf \
   --v={{ k8s_node__kube_proxy_vlog_level }}
 Restart=always
