@@ -143,11 +143,9 @@ items:
           - name: weavedb
             mountPath: /weavedb
           - name: cni-bin
-            mountPath: /host/opt
-          - name: cni-bin2
-            mountPath: /host/home
+            mountPath: /host/opt/cni/bin
           - name: cni-conf
-            mountPath: /host/etc
+            mountPath: /host/etc/cni/net.d
           - name: dbus
             mountPath: /host/var/lib/dbus
           - name: lib-modules
@@ -185,13 +183,10 @@ items:
             path: /var/lib/weave
         - name: cni-bin
           hostPath:
-            path: /opt
-        - name: cni-bin2
-          hostPath:
-            path: /home
+            path: {{ k8s_node__kubelet_cni_bin_dir }}
         - name: cni-conf
           hostPath:
-            path: /etc
+            path: {{ k8s_node__kubelet_cni_conf_dir }}
         - name: dbus
           hostPath:
             path: /var/lib/dbus
