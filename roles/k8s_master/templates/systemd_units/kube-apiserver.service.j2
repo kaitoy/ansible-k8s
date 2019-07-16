@@ -63,7 +63,6 @@ ExecStart={{ k8s__k8s_bin_dir }}/kube-apiserver \
   --profiling={{ k8s_master__kube_apiserver_profiling }} \
   --proxy-client-cert-file={{ k8s_master__pki_dir }}/front-proxy-client.crt \
   --proxy-client-key-file={{ k8s_master__pki_dir }}/front-proxy-client.key \
-  --repair-malformed-updates={{ k8s_master__kube_apiserver_repair_malformed_updates }} \
   --requestheader-allowed-names=front-proxy-client \
   --requestheader-client-ca-file={{ k8s_master__pki_dir }}/front-proxy-ca.crt \
   --requestheader-extra-headers-prefix=X-Remote-Extra- \
