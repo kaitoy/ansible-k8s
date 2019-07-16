@@ -1,6 +1,6 @@
 k8s_node__kernel_params:
 - name: fs.file-max
-  value: '{{ k8s_node__docker_nofile + 50000 }}'
+  value: 1050000
 - name: vm.max_map_count  # Elasticsearch
   value: 262144
 
@@ -8,25 +8,17 @@ k8s_node__k8s_bins_download_url_base: https://storage.googleapis.com/kubernetes-
 k8s_node__kubelet_bin_checksum: sha1:2c24374244482fc629776366df4f416a1b25ade4
 k8s_node__kube_proxy_bin_checksum: sha1:b3c7f41171986bd45eeac5d841cee07b89544888
 
-k8s_node__docker_package_name: docker-engine
-k8s_node__docker_nofile: 1000000
-k8s_node__additional_dockerd_options:
-k8s_node__docker_user: null
-# Example for Docker CE
-# k8s_node__docker_user:
-#   group:
-#     name: dockerroot
-#     gid: 54321
-#   user:
-#     name: dockerroot
-#     uid: 54321
-#     gid: 54321
-# Example for old versions of Docker
-# k8s_node__docker_user:
-#   group:
-#     name: docker
-#     gid: 54321
-#   user: null
+k8s_node__runc_bin_dir: /usr/bin
+k8s_node__runc_version: v1.0.0-rc8
+k8s_node__runc_download_url: https://github.com/opencontainers/runc/releases/download/{{ k8s_node__runc_version }}/runc.amd64
+k8s_node__runc_checksum: sha1:3e1981e48c85eda85a692250ff9fa037465bd809
+
+k8s_node__containerd_bin_dir: /usr/bin
+k8s_node__containerd_conf: /etc/containerd/config.toml
+k8s_node__containerd_version: 1.2.7
+k8s_node__containerd_archive_download_url_base: https://github.com/containerd/containerd/releases/download/v{{ k8s_node__containerd_version }}/containerd-{{ k8s_node__containerd_version }}.linux-amd64.tar.gz
+k8s_node__containerd_archive_checksum: sha1:63bb308ff58f13239042e541eb773c8d7388da78
+k8s_node__containerd_restart_sec: 10
 
 k8s_node__cni_version: v0.6.0
 k8s_node__cni_archive_download_url_base: https://github.com/containernetworking/cni/releases/download
@@ -78,12 +70,13 @@ k8s_node__kubelet_healthz_port: 10248
 k8s_node__kubelet_image_minimum_gc_age: 2m
 k8s_node__kubelet_image_gc_high_threshold_percent: 85
 k8s_node__kubelet_image_gc_low_threshold_percent: 80
-k8s_node__kubelet_max_open_files: '{{ k8s_node__docker_nofile + 10000 }}'
+k8s_node__kubelet_max_open_files: 1010000
 k8s_node__kubelet_max_pods: 110
 k8s_node__kubelet_node_status_update_frequency: 10s
 k8s_node__kubelet_pod_infra_container_image: k8s.gcr.io/pause-amd64:3.1
 k8s_node__kubelet_pod_pids_limit: 512
 k8s_node__kubelet_rotate_certificates: true
+k8s_node__kubelet_runtime_request_timeout: 10m
 k8s_node__kubelet_tls_cipher_suites: TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 k8s_node__kubelet_tls_min_version: VersionTLS12
 k8s_node__kubelet_vlog_level: 2

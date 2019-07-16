@@ -1,0 +1,78 @@
+- name: libseccomp is installed
+  yum:
+    name: libseccomp
+    state: latest
+
+- name: runC
+  block:
+  - name: runC bin dir exists
+    file:
+      path: '{{ k8s_node__runc_bin_dir }}'
+      owner: root
+      group: root
+      mode: 0755
+      state: directory
+  - name: runC is installed
+    get_url:
+      url: '{{ k8s_node__runc_download_url }}'
+      dest: '{{ k8s_node__runc_bin_dir }}/runc'
+      owner: root
+      group: root
+      mode: 0755
+      checksum: '{{ k8s_node__runc_checksum }}'
+
+- name: containerd
+  vars:
+    _containerd_archive: containerd-{{ k8s_node__containerd_version }}.linux-amd64.tar.gz
+  block:
+  - name: containerd bin dir exists
+    file:
+      path: '{{ k8s_node__containerd_bin_dir }}'
+      owner: root
+      group: root
+      mode: 0755
+      state: directory
+  - name: containerd archive is downloaded
+    get_url:
+      url: '{{ k8s_node__containerd_archive_download_url_base }}'
+      dest: /tmp/{{ _containerd_archive }}
+      checksum: '{{ k8s_node__containerd_archive_checksum }}'
+    register: _get_url_result
+  - name: containerd bins are installed
+    unarchive:
+      src: /tmp/{{ _containerd_archive }}
+      remote_src: true
+      dest: '{{ k8s_node__containerd_bin_dir }}'
+      owner: root
+      group: root
+      mode: 0755
+      extra_opts:
+      - --strip-components=1
+    when: _get_url_result.changed
+  - name: containerd conf dir exists
+    file:
+      path: '{{ k8s_node__containerd_conf | dirname }}'
+      owner: root
+      group: root
+      mode: 0755
+      state: directory
+  - name: containerd conf exists
+    template:
+      src: containerd.config.toml.j2
+      dest: '{{ k8s_node__containerd_conf }}'
+      owner: root
+      group: root
+      mode: 0664
+  - name: containerd unit file exists
+    template:
+      src: systemd_units/containerd.service.j2
+      dest: /etc/systemd/system/containerd.service
+      owner: root
+      group: root
+      mode: 0664
+  - name: containerd is running
+    systemd:
+      name: containerd
+      daemon_reload: true
+      enabled: true
+      state: started

@@ -2,8 +2,8 @@
   tags: os
 - import_tasks: kubernetes_user_exists.yml
   tags: users
-- import_tasks: docker_installed.yml
-  tags: docker
+- import_tasks: containerd_started.yml
+  tags: containerd
 - import_tasks: k8s_bins_installed.yml
   tags: bins
 - import_tasks: cni_bins_installed.yml

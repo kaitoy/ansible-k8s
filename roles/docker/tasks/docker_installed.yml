@@ -2,40 +2,40 @@
   block:
   - name: Group for Docker exists
     group:
-      name: '{{ k8s_node__docker_user.group.name }}'
-      gid: '{{ k8s_node__docker_user.group.gid }}'
+      name: '{{ docker__docker_user.group.name }}'
+      gid: '{{ docker__docker_user.group.gid }}'
       system: true
       state: present
-    when: k8s_node__docker_user.group
+    when: docker__docker_user.group
   - name: User for Docker exists
     user:
-      name: '{{ k8s_node__docker_user.user.name }}'
-      uid: '{{ k8s_node__docker_user.user.uid }}'
-      group: '{{ k8s_node__docker_user.user.gid }}'
+      name: '{{ docker__docker_user.user.name }}'
+      uid: '{{ docker__docker_user.user.uid }}'
+      group: '{{ docker__docker_user.user.gid }}'
       create_home: false
       home: /var/lib/docker
       shell: /sbin/nologin
       system: true
       state: present
-    when: k8s_node__docker_user.user
-  when: k8s_node__docker_user
+    when: docker__docker_user.user
+  when: docker__docker_user
 
 - name: Docker is installed
   yum:
-    name: '{{ k8s_node__docker_package_name }}'
+    name: '{{ docker__docker_package_name }}'
     state: present
 
 - name: DOCKER_NOFILE is set for k8s
   lineinfile:
     path: /etc/sysconfig/docker
-    line: DOCKER_NOFILE={{ k8s_node__docker_nofile }}
+    line: DOCKER_NOFILE={{ docker__docker_nofile }}
     state: present
 
 - name: dockerd options are set for k8s
   lineinfile:
     path: /etc/sysconfig/docker
     regexp: "OPTIONS='[^']+'"
-    line: OPTIONS='--iptables=false {{ k8s_node__additional_dockerd_options }}'
+    line: OPTIONS='--iptables=false {{ docker__additional_dockerd_options }}'
     state: present
 
 - name: dockerd is running
