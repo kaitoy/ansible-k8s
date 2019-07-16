@@ -6,7 +6,6 @@ k8s_master__kubectl_bin_checksum: sha1:2a8617a6efb41f2fd8424e14e80267e2c09fe0bf
 k8s_master__kubeadm_bin_checksum: sha1:8286906061f9d1752dd6f44f7fc55f0c8f25e0d9
 k8s_master__cloud_controller_manager_bin_checksum: sha1:561f0595df59fad734c2db87833a7614cb1f8602
 
-k8s__k8s_bin_dir: /usr/bin
 k8s_master__pki_dir: /etc/kubernetes/pki
 k8s_master__audit_log_dir: /var/log/kubernetes
 k8s_master__kubeconfig_dir: /etc/kubernetes

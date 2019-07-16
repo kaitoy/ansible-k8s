@@ -1,0 +1,19 @@
+docker__docker_package_name: docker-engine
+docker__docker_nofile: 1000000
+docker__additional_dockerd_options:
+docker__docker_user: null
+# Example for Docker CE
+# docker__docker_user:
+#   group:
+#     name: dockerroot
+#     gid: 54321
+#   user:
+#     name: dockerroot
+#     uid: 54321
+#     gid: 54321
+# Example for old versions of Docker
+# docker__docker_user:
+#   group:
+#     name: docker
+#     gid: 54321
+#   user: null

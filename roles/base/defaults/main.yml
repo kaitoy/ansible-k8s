@@ -1,6 +1,10 @@
 base__hosts_entries:
 - '{{ host__public_address }} {{ ansible_facts.fqdn }}'
 
+base__kernel_modules_to_load:
+- br_netfilter
+- overlay
+
 base__yum_repos_to_enable:
 - name: ol7_addons
   description: ol7_addons

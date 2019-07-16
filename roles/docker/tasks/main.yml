@@ -1,0 +1,2 @@
+- import_tasks: docker_installed.yml
+  tags: docker

@@ -79,16 +79,20 @@
     state: '{{ base__selinux.state }}'
   when: base__selinux
 
-- name: br_netfilter
+- name: kernel modules
   block:
-  - name: br_netfilter module is loaded
+  - name: Required kernel modules are loaded
     modprobe:
-      name: br_netfilter
+      name: '{{ item }}'
       state: present
-  - name: br_netfilter module is loaded on boot
-    copy:
-      content: br_netfilter
-      dest: /etc/modules-load.d/br_netfilter.conf
+    loop: '{{ base__kernel_modules_to_load }}'
+  - name: Required kernel modules are loaded on boot
+    lineinfile:
+      path: /etc/modules-load.d/k8s.conf
+      line: '{{ item }}'
+      state: present
+      create: true
+    loop: '{{ base__kernel_modules_to_load }}'
   when: host__is_k8s_node
 
 - name: Kernel modules for IPVS
