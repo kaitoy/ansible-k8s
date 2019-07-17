@@ -8,7 +8,7 @@
   yum:
     name: ipset
     state: latest
-  when: k8s_node__kube_proxy_mode == 'ipvs'
+  when: k8s_node__yum_install_dependencies and k8s_node__kube_proxy_mode == 'ipvs'
 
 - name: kube-proxy lib dir exists
   file:
