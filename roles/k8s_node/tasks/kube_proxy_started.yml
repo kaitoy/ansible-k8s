@@ -2,6 +2,7 @@
   yum:
     name: conntrack-tools
     state: latest
+  when: k8s_node__yum_install_dependencies
 
 - name: ipset is installed
   yum:

@@ -4,6 +4,8 @@ k8s_node__kernel_params:
 - name: vm.max_map_count  # Elasticsearch
   value: 262144
 
+k8s_node__yum_install_dependencies: true
+
 k8s_node__k8s_bins_download_url_base: https://storage.googleapis.com/kubernetes-release/release/{{ k8s__k8s_version }}/bin/linux/amd64
 k8s_node__kubelet_bin_checksum: sha1:e7167ee0fbbb4915a0d784cd0d6a38f0dffd8814
 k8s_node__kube_proxy_bin_checksum: sha1:db1e48215f0890f63b646916e9d93ce350e4129a
