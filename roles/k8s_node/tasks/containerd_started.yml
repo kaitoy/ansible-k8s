@@ -67,13 +67,13 @@
   - name: containerd unit file exists
     template:
       src: systemd_units/containerd.service.j2
-      dest: /etc/systemd/system/containerd.service
+      dest: /etc/systemd/system/k8s-containerd.service
       owner: root
       group: root
       mode: 0664
   - name: containerd is running
     systemd:
-      name: containerd
+      name: k8s-containerd
       daemon_reload: true
       enabled: true
       state: started
