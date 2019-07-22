@@ -71,7 +71,7 @@
   - name: swapoff -a
     command: swapoff -a
     when: swap_devices.stdout != ""
-  when: host__is_k8s_node
+  when: host__is_k8s_node and base__turn_swap_off
 
 - name: SELinux is configured
   selinux:
