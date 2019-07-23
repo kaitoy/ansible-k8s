@@ -6,6 +6,7 @@ After=network.target
 [Service]
 User=root
 Group=root
+Environment=PATH={{ k8s_node__containerd_bin_dir }}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ExecStart={{ k8s_node__containerd_bin_dir }}/containerd \
   -c {{ k8s_node__containerd_conf }} \
   -l info
