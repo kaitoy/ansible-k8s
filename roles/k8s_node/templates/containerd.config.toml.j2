@@ -1,10 +1,10 @@
-root = "/var/lib/k8s-containerd"
-state = "/run/k8s-containerd"
+root = "{{ k8s_node__containerd_root_dir }}"
+state = "{{ k8s_node__containerd_state_dir }}"
 subreaper = true
 oom_score = -999
 
 [grpc]
-  address = "/run/k8s-containerd/containerd.sock"
+  address = "{{ k8s_node__containerd_state_dir }}/containerd.sock"
   uid = 0
   gid = 0
   max_recv_message_size = 16777216
@@ -91,7 +91,7 @@ oom_score = -999
     no_shim = false
     shim_debug = false
   [plugins.opt]
-    path = "/opt/k8s-containerd"
+    path = "{{ k8s_node__containerd_opt_dir }}"
   [plugins.restart]
     interval = "10s"
   [plugins.scheduler]
