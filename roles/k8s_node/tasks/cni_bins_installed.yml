@@ -32,7 +32,7 @@
 
 - name: cni plugin bins are installed
   vars:
-    _cni_plugins_archive_basename: cni-plugins-amd64-{{ k8s_node__cni_plugins_version }}
+    _cni_plugins_archive_basename: cni-plugins-linux-amd64-{{ k8s_node__cni_plugins_version }}
     _cni_plugins_archive: '{{ _cni_plugins_archive_basename }}.tgz'
   block:
   - name: cni plugins archive is downloaded

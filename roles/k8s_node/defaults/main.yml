@@ -7,8 +7,8 @@ k8s_node__kernel_params:
 k8s_node__yum_install_dependencies: true
 
 k8s_node__k8s_bins_download_url_base: https://storage.googleapis.com/kubernetes-release/release/{{ k8s__k8s_version }}/bin/linux/amd64
-k8s_node__kubelet_bin_checksum: sha1:e7167ee0fbbb4915a0d784cd0d6a38f0dffd8814
-k8s_node__kube_proxy_bin_checksum: sha1:db1e48215f0890f63b646916e9d93ce350e4129a
+k8s_node__kubelet_bin_checksum: sha1:4f25aa74a3ed9afd0991c976c44550e7c816770b
+k8s_node__kube_proxy_bin_checksum: sha1:d5bfcbf6135f497676839f912a2f426d68e69609
 
 k8s_node__runc_bin_dir: /usr/bin
 k8s_node__runc_version: v1.0.0-rc8
@@ -20,18 +20,18 @@ k8s_node__containerd_conf: /etc/containerd/config.toml
 k8s_node__containerd_root_dir: /var/lib/k8s-containerd
 k8s_node__containerd_state_dir: /run/k8s-containerd
 k8s_node__containerd_opt_dir: /opt/k8s-containerd
-k8s_node__containerd_version: 1.2.7
+k8s_node__containerd_version: 1.2.9
 k8s_node__containerd_archive_download_url_base: https://github.com/containerd/containerd/releases/download/v{{ k8s_node__containerd_version }}/containerd-{{ k8s_node__containerd_version }}.linux-amd64.tar.gz
-k8s_node__containerd_archive_checksum: sha1:63bb308ff58f13239042e541eb773c8d7388da78
+k8s_node__containerd_archive_checksum: sha1:cf00f204b3aad3d953ad0601dc43930101863a7c
 k8s_node__containerd_restart_sec: 10
 
 k8s_node__cni_version: v0.6.0
 k8s_node__cni_archive_download_url_base: https://github.com/containernetworking/cni/releases/download
 k8s_node__cni_archive_checksum: sha1:201d934018af9097d6719d70688dabd578ee2b2e
 
-k8s_node__cni_plugins_version: v0.7.5
+k8s_node__cni_plugins_version: v0.8.2
 k8s_node__cni_plugins_archive_download_url_base: https://github.com/containernetworking/plugins/releases/download
-k8s_node__cni_plugins_archive_checksum: sha1:52e9d2de8a5f927307d9397308735658ee44ab8d
+k8s_node__cni_plugins_archive_checksum: sha1:e2b4b541218d611710a8ccbec6c2b34decea2884
 
 k8s_node__kubeconfig_dir: /etc/kubernetes
 k8s_node__k8s_configs_dir: /etc/kubernetes
