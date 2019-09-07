@@ -17,12 +17,12 @@
   - name: cni plugins archive is downloaded
     get_url:
       url: '{{ k8s_node__cni_plugins_archive_download_url_base }}/{{ k8s_node__cni_plugins_version }}/{{ _cni_plugins_archive }}'
-      dest: /tmp/{{ _cni_plugins_archive }}
+      dest: '{{ k8s__remote_tmp_dir }}/{{ _cni_plugins_archive }}'
       checksum: '{{ k8s_node__cni_plugins_archive_checksum }}'
     register: _get_url_result
   - name: cni plugins archive is extracted
     unarchive:
-      src: /tmp/{{ _cni_plugins_archive }}
+      src: '{{ k8s__remote_tmp_dir }}/{{ _cni_plugins_archive }}'
       remote_src: true
       dest: '{{ k8s_node__kubelet_cni_bin_dir }}'
       owner: root

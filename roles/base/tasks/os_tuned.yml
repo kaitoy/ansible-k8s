@@ -136,6 +136,11 @@
     enabled: false
   when: base__disable_firewalld
 
+- name: Remote tmp dir exists
+  file:
+    path: '{{ k8s__remote_tmp_dir }}'
+    state: directory
+
 - name: The server is rebooted
   block:
   - name: Reboot is started

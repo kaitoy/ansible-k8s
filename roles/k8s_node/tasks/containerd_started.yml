@@ -36,12 +36,12 @@
   - name: containerd archive is downloaded
     get_url:
       url: '{{ k8s_node__containerd_archive_download_url_base }}'
-      dest: /tmp/{{ _containerd_archive }}
+      dest: '{{ k8s__remote_tmp_dir }}/{{ _containerd_archive }}'
       checksum: '{{ k8s_node__containerd_archive_checksum }}'
     register: _get_url_result
   - name: containerd bins are installed
     unarchive:
-      src: /tmp/{{ _containerd_archive }}
+      src: '{{ k8s__remote_tmp_dir }}/{{ _containerd_archive }}'
       remote_src: true
       dest: '{{ k8s_node__containerd_bin_dir }}'
       owner: root

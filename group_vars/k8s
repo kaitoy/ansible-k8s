@@ -34,6 +34,7 @@ k8s__volume_plugin_dir: /usr/libexec/kubernetes/kubelet-plugins/volume/exec/
 
 k8s__k8s_bin_dir: /usr/bin
 k8s__local_shared_dir: /tmp/ansible
+k8s__remote_tmp_dir: /tmp/ansible-k8s
 
 k8s__etcd_user_uid: 1020
 k8s__etcd_user_gid: 1020

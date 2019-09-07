@@ -6,14 +6,14 @@
   - name: etcd archive is downloaded
     get_url:
       url: '{{ etcd__etcd_archive_download_url_base }}/{{ etcd__etcd_version }}/{{ _etcd_archive }}'
-      dest: /tmp/{{ _etcd_archive }}
+      dest: '{{ k8s__remote_tmp_dir }}/{{ _etcd_archive }}'
       checksum: '{{ etcd__etcd_archive_checksum }}'
     register: _get_url_result
   - name: etcd archive is extracted
     unarchive:
-      src: /tmp/{{ _etcd_archive }}
+      src: '{{ k8s__remote_tmp_dir }}/{{ _etcd_archive }}'
       remote_src: true
-      dest: /tmp
+      dest: '{{ k8s__remote_tmp_dir }}'
     when: _get_url_result.changed
   - name: etcd bin dir exists
     file:
@@ -25,7 +25,7 @@
   - name: etcd bins are installed
     copy:
       remote_src: true
-      src: /tmp/{{ _etcd_archive_basename }}/{{ item }}
+      src: '{{ k8s__remote_tmp_dir }}/{{ _etcd_archive_basename }}/{{ item }}'
       dest: '{{ etcd__etcd_bin_dir }}'
       owner: root
       group: root

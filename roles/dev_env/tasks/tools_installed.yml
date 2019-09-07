@@ -19,12 +19,12 @@
 - name: kube-prompt archive is downloaded
   get_url:
     url: '{{ dev_env__kube_prompt_download_url }}'
-    dest: /tmp/kp.zip
+    dest: '{{ k8s__remote_tmp_dir }}/kp.zip'
     checksum: '{{ dev_env__kube_prompt_checksum }}'
   register: _get_url_result
 - name: kube-prompt is installed
   unarchive:
-    src: /tmp/kp.zip
+    src: '{{ k8s__remote_tmp_dir }}/kp.zip'
     remote_src: true
     dest: /usr/bin
     owner: root
@@ -43,18 +43,18 @@
 - name: Helm archive is downloaded
   get_url:
     url: '{{ dev_env__helm_download_url }}'
-    dest: /tmp/helm.tar.gz
+    dest: '{{ k8s__remote_tmp_dir }}/helm.tar.gz'
     checksum: '{{ dev_env__helm_checksum }}'
   register: _get_url_result
 - name: Helm archive is extracted
   unarchive:
-    src: /tmp/helm.tar.gz
+    src: '{{ k8s__remote_tmp_dir }}/helm.tar.gz'
     remote_src: true
-    dest: /tmp
+    dest: '{{ k8s__remote_tmp_dir }}'
   when: _get_url_result.changed
 - name: Helm is installed
   copy:
-    src: /tmp/linux-amd64/helm
+    src: '{{ k8s__remote_tmp_dir }}/linux-amd64/helm'
     remote_src: true
     dest: /usr/bin
     owner: root
