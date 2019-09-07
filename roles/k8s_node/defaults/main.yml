@@ -25,10 +25,6 @@ k8s_node__containerd_archive_download_url_base: https://github.com/containerd/co
 k8s_node__containerd_archive_checksum: sha1:cf00f204b3aad3d953ad0601dc43930101863a7c
 k8s_node__containerd_restart_sec: 10
 
-k8s_node__cni_version: v0.6.0
-k8s_node__cni_archive_download_url_base: https://github.com/containernetworking/cni/releases/download
-k8s_node__cni_archive_checksum: sha1:201d934018af9097d6719d70688dabd578ee2b2e
-
 k8s_node__cni_plugins_version: v0.8.2
 k8s_node__cni_plugins_archive_download_url_base: https://github.com/containernetworking/plugins/releases/download
 k8s_node__cni_plugins_archive_checksum: sha1:e2b4b541218d611710a8ccbec6c2b34decea2884
