@@ -1,6 +1,6 @@
-etcd__etcd_version: v3.3.10
+etcd__etcd_version: v3.4.0
 etcd__etcd_archive_download_url_base: https://github.com/coreos/etcd/releases/download
-etcd__etcd_archive_checksum: sha1:7c70d029cf6f0e02c7fa353a7bd0de2d71ab61ca
+etcd__etcd_archive_checksum: sha1:af01072da1dd5c74d83ca45fe52c304afbce15a2
 etcd__pki_dir: /etc/kubernetes/pki
 
 etcd__data_dir: /var/lib/etcd

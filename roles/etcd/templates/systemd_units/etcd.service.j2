@@ -39,7 +39,8 @@ ExecStart={{ etcd__etcd_bin_dir }}/etcd \
   --max-wals {{ etcd__max_wals }} \
   --snapshot-count {{ etcd__snapshot_count }} \
   --max-snapshots {{ etcd__max_snapshots }} \
-  --quota-backend-bytes {{ etcd__quota_backend_bytes }}
+  --quota-backend-bytes {{ etcd__quota_backend_bytes }} \
+  --logger zap
 Restart=always
 RestartSec={{ etcd__restart_sec }}s
 
