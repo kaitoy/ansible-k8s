@@ -156,3 +156,4 @@
       delay: '{{ base__reboot_polling_delay }}'
       timeout: '{{ base__reboot_polling_timeout }}'
     delegate_to: 127.0.0.1
+  when: not base__skip_reboot
