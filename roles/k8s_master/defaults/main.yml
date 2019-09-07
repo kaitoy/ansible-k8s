@@ -60,7 +60,7 @@ k8s_master__kube_controller_manager_tls_min_version: '{{ k8s_master__kube_apiser
 k8s_master__kube_controller_manager_unhealthy_zone_threshold: 0.55
 k8s_master__kube_controller_manager_vlog_level: 2
 k8s_master__kube_controller_manager_restart_sec: 10
-k8s_master__kube_controller_manager_use_auto_generated_serving_cert: false
+k8s_master__kube_controller_manager_use_auto_generated_serving_cert: true
 
 k8s_master__cloud_controller_manager_allocate_node_cidrs: 'true'
 k8s_master__cloud_controller_manager_bind_address: 127.0.0.1
@@ -81,4 +81,4 @@ k8s_master__kube_scheduler_tls_cipher_suites: '{{ k8s_master__kube_apiserver_tls
 k8s_master__kube_scheduler_tls_min_version: '{{ k8s_master__kube_apiserver_tls_min_version }}'
 k8s_master__kube_scheduler_vlog_level: 2
 k8s_master__kube_scheduler_restart_sec: 10
-k8s_master__kube_scheduler_use_auto_generated_serving_cert: false
+k8s_master__kube_scheduler_use_auto_generated_serving_cert: true
