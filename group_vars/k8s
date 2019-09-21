@@ -44,3 +44,5 @@ k8s__etcd_user_uid: 1020
 k8s__etcd_user_gid: 1020
 k8s__kubernetes_user_uid: 1010
 k8s__kubernetes_user_gid: 1010
+
+k8s__service_name_prefix: ''

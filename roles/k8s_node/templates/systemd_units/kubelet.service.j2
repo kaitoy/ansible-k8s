@@ -1,8 +1,8 @@
 [Unit]
 Description=Kubernetes Kubelet
 Documentation=https://github.com/kubernetes/kubernetes
-After=k8s-containerd.service
-Requires=k8s-containerd.service
+After={{ k8s__service_name_prefix }}containerd.service
+Requires={{ k8s__service_name_prefix }}containerd.service
 
 [Service]
 {% if ansible_os_family == 'RedHat' %}

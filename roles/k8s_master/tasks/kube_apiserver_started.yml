@@ -1,7 +1,7 @@
 - name: kube-apiserver unit file exists
   template:
     src: systemd_units/kube-apiserver.service.j2
-    dest: /etc/systemd/system/kube-apiserver.service
+    dest: /etc/systemd/system/{{ k8s__service_name_prefix }}kube-apiserver.service
     owner: root
     group: root
     mode: 0664
@@ -32,7 +32,7 @@
 
 - name: kube-apiserver is running
   systemd:
-    name: kube-apiserver
+    name: '{{ k8s__service_name_prefix }}kube-apiserver'
     daemon_reload: true
     enabled: true
     state: started

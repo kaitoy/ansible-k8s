@@ -1,7 +1,7 @@
 - name: kube-scheduler unit file exists
   template:
     src: systemd_units/kube-scheduler.service.j2
-    dest: /etc/systemd/system/kube-scheduler.service
+    dest: /etc/systemd/system/{{ k8s__service_name_prefix }}kube-scheduler.service
     owner: root
     group: root
     mode: 0664
@@ -16,7 +16,7 @@
 
 - name: kube-scheduler is running
   systemd:
-    name: kube-scheduler
+    name: '{{ k8s__service_name_prefix }}kube-scheduler'
     daemon_reload: true
     enabled: true
     state: started

@@ -15,7 +15,7 @@
 Description=Kubernetes API Server
 Documentation=https://github.com/kubernetes/kubernetes
 After=network.target
-After=etcd.service
+After={{ k8s__service_name_prefix }}etcd.service
 
 [Service]
 User=kubernetes

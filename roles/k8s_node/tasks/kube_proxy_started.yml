@@ -21,7 +21,7 @@
 - name: kube-proxy unit file exists
   template:
     src: systemd_units/kube-proxy.service.j2
-    dest: /etc/systemd/system/kube-proxy.service
+    dest: /etc/systemd/system/{{ k8s__service_name_prefix }}kube-proxy.service
     owner: root
     group: root
     mode: 0664
@@ -36,7 +36,7 @@
 
 - name: kube-proxy is running
   systemd:
-    name: kube-proxy
+    name: '{{ k8s__service_name_prefix }}kube-proxy'
     daemon_reload: true
     enabled: true
     state: started

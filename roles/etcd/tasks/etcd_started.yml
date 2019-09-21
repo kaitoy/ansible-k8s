@@ -1,7 +1,7 @@
 - name: etcd unit file exists
   template:
     src: systemd_units/etcd.service.j2
-    dest: /etc/systemd/system/etcd.service
+    dest: /etc/systemd/system/{{ k8s__service_name_prefix }}etcd.service
     owner: root
     group: root
     mode: 0664
@@ -16,7 +16,7 @@
 
 - name: etcd is running
   systemd:
-    name: etcd
+    name: '{{ k8s__service_name_prefix }}etcd'
     daemon_reload: true
     enabled: true
     state: started
