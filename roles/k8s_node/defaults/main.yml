@@ -1,4 +1,24 @@
+k8s_node__turn_swap_off: true
+
+k8s_node__modules_conf: /etc/modules-load.d/99-k8s.conf
+k8s_node__kernel_modules_to_load:
+- br_netfilter
+- overlay
+k8s_node__kernel_modules_to_load_for_ipvs:
+- ip_vs
+- ip_vs_rr
+- ip_vs_wrr
+- ip_vs_sh
+# use nf_conntrack instead of nf_conntrack_ipv4 for Linux kernel 4.19 and later
+- nf_conntrack_ipv4
+
 k8s_node__kernel_params:
+- name: net.bridge.bridge-nf-call-iptables
+  value: 1
+- name: net.bridge.bridge-nf-call-ip6tables
+  value: 1
+- name: net.ipv4.ip_forward
+  value: 1
 - name: fs.file-max
   value: 1050000
 - name: vm.max_map_count  # Elasticsearch

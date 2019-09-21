@@ -45,89 +45,11 @@
       enabled: true
   when: base__ntp_servers
 
-- name: swap off
-  block:
-  - name: swap doesn't exist in fstab
-    mount:
-      path: swap
-      fstype: swap
-      state: absent
-  - name: Check if Azure Linux conf exists
-    stat:
-      path: /etc/waagent.conf
-    register: _stat_result
-  - name: Swap is disabled in Azure Linux conf
-    ini_file:
-      path: /etc/waagent.conf
-      section: null
-      option: ResourceDisk.EnableSwap
-      value: 'n'
-      no_extra_spaces: true
-    when: _stat_result.stat.exists
-  - name: check swap devices
-    command: swapon -s
-    register: swap_devices
-    changed_when: false
-  - name: swapoff -a
-    command: swapoff -a
-    when: swap_devices.stdout != ""
-  when: host__is_k8s_node and base__turn_swap_off
-
 - name: SELinux is configured
   selinux:
     policy: '{{ base__selinux.policy }}'
     state: '{{ base__selinux.state }}'
   when: base__selinux
-
-- name: kernel modules
-  block:
-  - name: Required kernel modules are loaded
-    modprobe:
-      name: '{{ item }}'
-      state: present
-    loop: '{{ base__kernel_modules_to_load }}'
-  - name: Required kernel modules are loaded on boot
-    lineinfile:
-      path: /etc/modules-load.d/k8s.conf
-      line: '{{ item }}'
-      state: present
-      create: true
-    loop: '{{ base__kernel_modules_to_load }}'
-  when: host__is_k8s_node
-
-- name: Kernel modules for IPVS
-  block:
-  - name: Kernel modules for IPVS are loaded
-    modprobe:
-      name: '{{ item }}'
-      state: present
-    loop:
-    - ip_vs
-    - ip_vs_rr
-    - ip_vs_wrr
-    - ip_vs_sh
-    # use nf_conntrack instead of nf_conntrack_ipv4 for Linux kernel 4.19 and later
-    - nf_conntrack_ipv4
-  - name: Kernel modules for IPVS are loaded on boot
-    copy:
-      content: |
-        ip_vs
-        ip_vs_rr
-        ip_vs_wrr
-        ip_vs_sh
-        nf_conntrack_ipv4
-      dest: /etc/modules-load.d/ipvs.conf
-  when: host__is_k8s_node and k8s_node__kube_proxy_mode == 'ipvs'
-
-- name: Kernel parametes are tuned
-  sysctl:
-    name: '{{ item.name }}'
-    value: '{{ item.value }}'
-    sysctl_set: true
-    state: present
-    reload: true
-  loop: '{{ base__kernel_params }}'
-  when: host__is_k8s_node
 
 - name: firewalld is disabled
   systemd:
