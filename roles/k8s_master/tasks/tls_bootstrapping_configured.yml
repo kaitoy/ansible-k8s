@@ -1,7 +1,8 @@
 - name: k8s components are ready
-  command: '{{ k8s__k8s_bin_dir }}/kubectl get componentstatuses'
+  command: >-
+    {{ k8s__k8s_bin_dir }}/kubectl get componentstatuses -o jsonpath='{.items[*].conditions[?(@.type=="Healthy")].status}'
   register: _componentstatuses
-  until: _componentstatuses.stdout.find('Unhealthy') == -1
+  until: _componentstatuses.stdout.find('False') == -1
   retries: 5
   delay: 5
   changed_when: false
@@ -40,7 +41,7 @@
           verbs: ['create']
     register: _apply_result
     changed_when: '" created" in _apply_result.stdout or " configured" in _apply_result.stdout'
-    when: k8s__feature_gates is defined and k8s__feature_gates.RotateKubeletServerCertificate
+    when: k8s__feature_gates is defined and (k8s__feature_gates.RotateKubeletServerCertificate | default(False))
   - include_tasks: tls_bootstrapping_configured_for_node.yml
     loop: '{{ hostvars.values() | selectattr("host__is_k8s_node") | map(attribute="ansible_facts.fqdn") | list }}'
     loop_control:

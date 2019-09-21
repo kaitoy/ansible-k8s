@@ -7,8 +7,8 @@ k8s_node__kernel_params:
 k8s_node__yum_install_dependencies: true
 
 k8s_node__k8s_bins_download_url_base: https://storage.googleapis.com/kubernetes-release/release/{{ k8s__k8s_version }}/bin/linux/amd64
-k8s_node__kubelet_bin_checksum: sha1:4f25aa74a3ed9afd0991c976c44550e7c816770b
-k8s_node__kube_proxy_bin_checksum: sha1:d5bfcbf6135f497676839f912a2f426d68e69609
+k8s_node__kubelet_bin_checksum: sha1:b73b9246401bd35bbf8d57c148d30b0c34d85634
+k8s_node__kube_proxy_bin_checksum: sha1:7287e2ffcb68879373b78b7110c1c2be0c5ea6b8
 
 k8s_node__runc_bin_dir: /usr/bin
 k8s_node__runc_version: v1.0.0-rc8
@@ -76,11 +76,14 @@ k8s_node__kubelet_max_pods: 110
 k8s_node__kubelet_node_status_update_frequency: 10s
 k8s_node__kubelet_pod_infra_container_image: k8s.gcr.io/pause-amd64:3.1
 k8s_node__kubelet_pod_pids_limit: 512
+k8s_node__kubelet_port: 10250
 k8s_node__kubelet_rotate_certificates: true
 k8s_node__kubelet_runtime_request_timeout: 10m
 k8s_node__kubelet_tls_cipher_suites: TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 k8s_node__kubelet_tls_min_version: VersionTLS12
-k8s_node__kubelet_vlog_level: 2
+# To suppress a log message 'Not using `--random-fully` in the MASQUERADE rule for iptables because the local version of iptables does not support it'
+# which is periodically put when iptables version is < 1.6.2, keep vlog level < 2.
+k8s_node__kubelet_vlog_level: 1
 k8s_node__kubelet_restart_sec: 10
 
 k8s_node__kube_proxy_bind_address: 127.0.0.1
@@ -93,5 +96,7 @@ k8s_node__kube_proxy_ipvs_sync_period: 30s
 k8s_node__kube_proxy_metrics_bind_address: 127.0.0.1:10249
 k8s_node__kube_proxy_mode: ipvs
 k8s_node__kube_proxy_port_range: '0-0'
-k8s_node__kube_proxy_vlog_level: 2
+# To suppress a log message 'Not using `--random-fully` in the MASQUERADE rule for iptables because the local version of iptables does not support it'
+# which is periodically put when iptables version is < 1.6.2, keep vlog level < 2.
+k8s_node__kube_proxy_vlog_level: 1
 k8s_node__kube_proxy_restart_sec: 10

@@ -53,11 +53,9 @@ ExecStart={{ k8s__k8s_bin_dir }}/kube-apiserver \
 {% if _feature_gates | length > 0 %}
   --feature-gates={{ _feature_gates | join(',') }} \
 {% endif %}
-  --insecure-port={{ k8s_master__kube_apiserver_insecure_port }} \
   --kubelet-certificate-authority={{ k8s_master__pki_dir }}/ca.crt \
   --kubelet-client-certificate={{ k8s_master__pki_dir }}/apiserver-kubelet-client.crt \
   --kubelet-client-key={{ k8s_master__pki_dir }}/apiserver-kubelet-client.key \
-  --kubelet-port={{ k8s__kubelet_port }} \
   --kubelet-preferred-address-types={{ k8s_master__kube_apiserver_kubelet_preferred_address_types }} \
   --kubernetes-service-node-port={{ k8s_master__kube_apiserver_kubernetes_service_node_port }} \
   --profiling={{ k8s_master__kube_apiserver_profiling }} \

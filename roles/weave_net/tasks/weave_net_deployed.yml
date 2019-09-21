@@ -1,7 +1,8 @@
 - name: k8s components are ready
-  command: '{{ k8s__k8s_bin_dir }}/kubectl get componentstatuses'
+  command: >-
+    {{ k8s__k8s_bin_dir }}/kubectl get componentstatuses -o jsonpath='{.items[*].conditions[?(@.type=="Healthy")].status}'
   register: _componentstatuses
-  until: _componentstatuses.stdout.find('Unhealthy') == -1
+  until: _componentstatuses.stdout.find('False') == -1
   retries: 5
   delay: 5
   changed_when: false

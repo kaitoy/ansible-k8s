@@ -30,7 +30,7 @@
       owner: root
       group: root
       mode: 0644
-  when: k8s__feature_gates is not defined or not k8s__feature_gates.RotateKubeletServerCertificate
+  when: k8s__feature_gates is not defined or not (k8s__feature_gates.RotateKubeletServerCertificate | default(False))
 
 - name: Keys and certificates for kube-proxy
   block:
