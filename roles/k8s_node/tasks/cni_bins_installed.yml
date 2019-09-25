@@ -42,6 +42,8 @@
   copy:
     content: |
       {
+        "cniVersion": "0.3.1",
+        "name": "lo",
         "type": "loopback"
       }
     dest: '{{ k8s_node__kubelet_cni_conf_dir }}/99-loopback.conf'
