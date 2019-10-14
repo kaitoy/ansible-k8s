@@ -53,6 +53,7 @@ ExecStart={{ k8s__k8s_bin_dir }}/kube-apiserver \
 {% if _feature_gates | length > 0 %}
   --feature-gates={{ _feature_gates | join(',') }} \
 {% endif %}
+  --insecure-port=0 \
   --kubelet-certificate-authority={{ k8s_master__pki_dir }}/ca.crt \
   --kubelet-client-certificate={{ k8s_master__pki_dir }}/apiserver-kubelet-client.crt \
   --kubelet-client-key={{ k8s_master__pki_dir }}/apiserver-kubelet-client.key \
