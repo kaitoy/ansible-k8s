@@ -69,6 +69,7 @@ ExecStart={{ k8s__k8s_bin_dir }}/kube-apiserver \
   --requestheader-username-headers=X-Remote-User \
   --secure-port={{ k8s__kube_apiserver_secure_port }} \
   --service-account-key-file={{ k8s_master__pki_dir }}/kube-controller-manager-client.pub \
+  --service-account-lookup=true \
   --service-cluster-ip-range={{ k8s__service_cluster_ip_range }} \
   --service-node-port-range={{ k8s_master__kube_apiserver_service_node_port_range }} \
   --tls-cert-file={{ k8s_master__pki_dir }}/kube-apiserver.crt \
