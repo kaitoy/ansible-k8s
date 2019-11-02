@@ -1,12 +1,13 @@
 base__hosts_entries:
 - '{{ host__public_address }} {{ ansible_facts.fqdn }}'
 
-base__yum_repos_to_enable:
-- name: ol7_addons
-  description: ol7_addons
-  baseurl: http://yum.oracle.com/repo/OracleLinux/OL7/addons/$basearch/
-  gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
-  gpgcheck: true
+base__yum_repos_to_enable: []
+# base__yum_repos_to_enable:
+# - name: ol7_addons
+#   description: ol7_addons
+#   baseurl: http://yum.oracle.com/repo/OracleLinux/OL7/addons/$basearch/
+#   gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
+#   gpgcheck: true
 
 base__yum_repos_to_disable: []
 # base__yum_repos_to_disable:
