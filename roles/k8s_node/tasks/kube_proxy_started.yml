@@ -1,13 +1,29 @@
 - name: conntrack-tools is installed
-  yum:
-    name: conntrack-tools
-    state: latest
+  block:
+  - name: conntrack-tools is installed by yum
+    yum:
+      name: conntrack-tools
+      state: latest
+    when: not host__use_dnf
+  - name: conntrack-tools is installed by dnf
+    dnf:
+      name: conntrack-tools
+      state: latest
+    when: host__use_dnf
   when: k8s_node__yum_install_dependencies
 
 - name: ipset is installed
-  yum:
-    name: ipset
-    state: latest
+  block:
+  - name: ipset is installed by yum
+    yum:
+      name: ipset
+      state: latest
+    when: not host__use_dnf
+  - name: ipset is installed by dnf
+    dnf:
+      name: ipset
+      state: latest
+    when: host__use_dnf
   when: k8s_node__yum_install_dependencies and k8s_node__kube_proxy_mode == 'ipvs'
 
 - name: kube-proxy unit file exists

@@ -3,6 +3,13 @@
     name: '{{ item }}'
     state: latest
   loop: '{{ dev_env__yum_pkgs_to_install }}'
+  when: not host__use_dnf
+- name: YUM packages for dev tools are installed
+  dnf:
+    name: '{{ item }}'
+    state: latest
+  loop: '{{ dev_env__yum_pkgs_to_install }}'
+  when: host__use_dnf
 
 - name: dry is installed
   get_url:

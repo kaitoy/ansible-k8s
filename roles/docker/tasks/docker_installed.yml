@@ -24,6 +24,12 @@
   yum:
     name: '{{ docker__docker_package_name }}'
     state: present
+  when: not host__use_dnf
+- name: Docker is installed
+  dnf:
+    name: '{{ docker__docker_package_name }}'
+    state: present
+  when: host__use_dnf
 
 - name: DOCKER_NOFILE is set for k8s
   lineinfile:

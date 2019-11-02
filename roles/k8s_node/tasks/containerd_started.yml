@@ -1,7 +1,15 @@
 - name: libseccomp is installed
-  yum:
-    name: libseccomp
-    state: latest
+  block:
+  - name: libseccomp is installed by yum
+    yum:
+      name: libseccomp
+      state: latest
+    when: not host__use_dnf
+  - name: libseccomp is installed by dnf
+    dnf:
+      name: libseccomp
+      state: latest
+    when: host__use_dnf
   when: k8s_node__yum_install_dependencies
 
 - name: runC

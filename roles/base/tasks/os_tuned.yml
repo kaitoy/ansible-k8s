@@ -3,6 +3,15 @@
     host__public_address: '{{ ansible_facts.default_ipv4.address }}'
   when: host__public_address is undefined
 
+- name: Check if dnf command is available
+  command: which dnf
+  register: _check_dnf
+  ignore_errors: true
+- name: host__use_dnf is set
+  set_fact:
+    host__use_dnf: '{{ _check_dnf is not failed }}'
+  when: host__use_dnf is undefined
+
 - name: /etc/hosts has entries needed
   lineinfile:
     path: /etc/hosts
@@ -34,6 +43,12 @@
     yum:
       name: chrony
       state: latest
+    when: not host__use_dnf
+  - name: chrony is installed
+    dnf:
+      name: chrony
+      state: latest
+    when: host__use_dnf
   - name: chrony is configured
     template:
       src: chrony/chrony.conf.j2
