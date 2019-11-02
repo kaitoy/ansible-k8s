@@ -56,9 +56,6 @@ data:
         errors
         health
         kubernetes {{ k8s__dns_cluster_domain }} {{ k8s__service_cluster_ip_range }}
-        dnssec {
-          key file /etc/coredns/dnssec
-        }
         prometheus :9153
     }
 ---
@@ -143,8 +140,6 @@ spec:
               items:
               - key: Corefile
                 path: Corefile
-          - secret:
-              name: dnssec-keys
 ---
 apiVersion: v1
 kind: Service

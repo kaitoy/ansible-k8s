@@ -6,44 +6,6 @@
     mode: 0755
     state: directory
 
-- name: bind is installed (for dnssec-keygen)
-  yum:
-    name: bind
-    state: installed
-- name: Check if DNSSEC keys are generated
-  stat:
-    path: '{{ coredns__manifests_dir }}/dnssec_key_basename'
-  register: _stat_result
-- name: DNSSEC keys are generated
-  command: dnssec-keygen -a {{ coredns__dnssec_key_algorithm }} -K {{ coredns__manifests_dir }} .
-  register: _dnssec_key
-  when: not _stat_result.stat.exists
-- name: DNSSEC keys' basename is stored
-  copy:
-    content: '{{ _dnssec_key.stdout }}'
-    dest: '{{ coredns__manifests_dir }}/dnssec_key_basename'
-  when: not _stat_result.stat.exists
-- name: Only the owner can read DNSSEC keys
-  file:
-    path: '{{ item }}'
-    owner: '{{ coredns__manifests_owner }}'
-    group: '{{ coredns__manifests_group }}'
-    mode: 0600
-  with_fileglob:
-  - '{{ coredns__manifests_dir }}/K{{ k8s__dns_cluster_domain }}.*'
-- name: DNSSEC keys' basename is loaded
-  command: cat {{ coredns__manifests_dir }}/dnssec_key_basename
-  register: _dnssec_key
-  changed_when: false
-- name: Check if secret 'dnssec-keys' is deployed
-  shell: '{{ k8s__k8s_bin_dir }}/kubectl -n kube-system get secret dnssec-keys || true'
-  register: _check_result
-  changed_when: false
-  failed_when: not 'dnssec-keys' in _check_result.stdout and not 'dnssec-keys' in _check_result.stderr
-- name: Secret 'dnssec-keys' is deployed
-  command: '{{ k8s__k8s_bin_dir }}/kubectl -n kube-system create secret generic dnssec-keys --from-file=dnssec.private={{ coredns__manifests_dir }}/{{ _dnssec_key.stdout }}.private --from-file=dnssec.key={{ coredns__manifests_dir }}/{{ _dnssec_key.stdout }}.key'
-  when: '"NotFound" in _check_result.stderr'
-
 - name: k8s components are ready
   command: >-
     {{ k8s__k8s_bin_dir }}/kubectl get componentstatuses -o jsonpath='{.items[*].conditions[?(@.type=="Healthy")].status}'

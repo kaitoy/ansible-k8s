@@ -4,4 +4,3 @@ coredns__maxUnavailable: 1
 coredns__manifests_dir: /home/kube-admin/manifests
 coredns__manifests_owner: kube-admin
 coredns__manifests_group: kube-admin
-coredns__dnssec_key_algorithm: ECDSAP256SHA256
