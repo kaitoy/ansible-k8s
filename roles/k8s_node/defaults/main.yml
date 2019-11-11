@@ -40,9 +40,10 @@ k8s_node__containerd_conf: /etc/containerd/config.toml
 k8s_node__containerd_root_dir: /var/lib/k8s-containerd
 k8s_node__containerd_state_dir: /run/k8s-containerd
 k8s_node__containerd_opt_dir: /opt/k8s-containerd
-k8s_node__containerd_version: 1.2.9
+k8s_node__containerd_disable_tcp_service: 'true'
+k8s_node__containerd_version: 1.3.0
 k8s_node__containerd_archive_download_url_base: https://github.com/containerd/containerd/releases/download/v{{ k8s_node__containerd_version }}/containerd-{{ k8s_node__containerd_version }}.linux-amd64.tar.gz
-k8s_node__containerd_archive_checksum: sha1:cf00f204b3aad3d953ad0601dc43930101863a7c
+k8s_node__containerd_archive_checksum: sha1:e81b4e1d455fa932210cdaa732c79d269fbf8a26
 k8s_node__containerd_restart_sec: 10
 
 k8s_node__cni_plugins_version: v0.8.2
