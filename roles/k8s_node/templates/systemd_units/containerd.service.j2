@@ -9,7 +9,7 @@ Group=root
 Environment=PATH={{ k8s_node__containerd_bin_dir }}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ExecStart={{ k8s_node__containerd_bin_dir }}/containerd \
   -c {{ k8s_node__containerd_conf }} \
-  -l info
+  -l {{ k8s_node__containerd_log_level }}
 Restart=always
 RestartSec={{ k8s_node__containerd_restart_sec }}
 KillMode=process

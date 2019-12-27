@@ -37,6 +37,7 @@ k8s_node__runc_checksum: sha1:72635f0e304294924a5b0f8d44d45a61a74ab292
 
 k8s_node__containerd_bin_dir: /usr/bin
 k8s_node__containerd_conf: /etc/containerd/config.toml
+k8s_node__containerd_log_level: warn
 k8s_node__containerd_root_dir: /var/lib/k8s-containerd
 k8s_node__containerd_state_dir: /run/k8s-containerd
 k8s_node__containerd_opt_dir: /opt/k8s-containerd
