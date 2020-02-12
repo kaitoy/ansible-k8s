@@ -27,8 +27,8 @@ k8s_node__kernel_params:
 k8s_node__yum_install_dependencies: true
 
 k8s_node__k8s_bins_download_url_base: https://storage.googleapis.com/kubernetes-release/release/{{ k8s__k8s_version }}/bin/linux/amd64
-k8s_node__kubelet_bin_checksum: sha1:911335773cd1296bb9cf5c9af2867f7822837237
-k8s_node__kube_proxy_bin_checksum: sha1:8ed6a4840b23b35444c0d4f7c54589a01b4a3ba8
+k8s_node__kubelet_bin_checksum: sha1:bf56cec2cb23d0d01e55e0de10c24d1d0efe6c85
+k8s_node__kube_proxy_bin_checksum: sha1:fc2f8ecfbc5aee8ebe5f30a03e2c2f299d332dc5
 
 k8s_node__runc_bin_dir: /usr/bin
 k8s_node__runc_version: v1.0.0-rc10
