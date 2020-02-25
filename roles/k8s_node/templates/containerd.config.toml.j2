@@ -85,8 +85,16 @@ oom_score = -999
       conf_template = ""
     [plugins."io.containerd.grpc.v1.cri".registry]
       [plugins."io.containerd.grpc.v1.cri".registry.mirrors]
-        [plugins."io.containerd.grpc.v1.cri".registry.mirrors."docker.io"]
-          endpoint = ["https://registry-1.docker.io"]
+{% for _registry_name, _registry_endpoints in k8s_node__containerd_registry_mirrors.items() %}
+        [plugins."io.containerd.grpc.v1.cri".registry.mirrors."{{ _registry_name }}"]
+          endpoint = [
+    {%- for _reg_ep in _registry_endpoints %}
+
+            "{{ _reg_ep }}",
+    {%- endfor %}
+
+          ]
+{% endfor %}
     [plugins."io.containerd.grpc.v1.cri".x509_key_pair_streaming]
       tls_cert_file = ""
       tls_key_file = ""
