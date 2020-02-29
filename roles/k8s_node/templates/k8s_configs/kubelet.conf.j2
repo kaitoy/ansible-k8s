@@ -83,6 +83,7 @@ port: {{ k8s_node__kubelet_port }}
 readOnlyPort: 0
 rotateCertificates: {{ k8s_node__kubelet_rotate_certificates }}
 runtimeRequestTimeout: {{ k8s_node__kubelet_runtime_request_timeout }}
+serverTLSBootstrap: {{ k8s_node__kubelet_server_tls_bootstrap }}
 {% if k8s__static_pod.enabled %}
 staticPodPath: {{ k8s__static_pod.manifests_path }}
 {% endif %}

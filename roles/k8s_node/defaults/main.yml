@@ -105,6 +105,7 @@ k8s_node__kubelet_port: 10250
 k8s_node__kubelet_root_dir: /var/lib/kubelet
 k8s_node__kubelet_rotate_certificates: true
 k8s_node__kubelet_runtime_request_timeout: 10m
+k8s_node__kubelet_server_tls_bootstrap: false
 k8s_node__kubelet_tls_cipher_suites: TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 k8s_node__kubelet_tls_min_version: VersionTLS12
 # To suppress a log message 'Not using `--random-fully` in the MASQUERADE rule for iptables because the local version of iptables does not support it'
