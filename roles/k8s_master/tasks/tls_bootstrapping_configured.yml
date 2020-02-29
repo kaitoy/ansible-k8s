@@ -67,16 +67,9 @@
 
 - name: Bootstrap token
   block:
-  - name: Check if bootstrap token is generated
-    shell: '{{ k8s__k8s_bin_dir }}/kubectl -n kube-system get secret -o yaml || true'
-    register: _check_result
-    changed_when: false
-    failed_when: not 'apiVersion' in _check_result.stdout
   - name: Bootstrap token is generated
     command: '{{ k8s__k8s_bin_dir }}/kubeadm token create --kubeconfig {{ k8s_master__kubeconfig_dir }}/admin.kubeconfig'
-    when: 'not "name: bootstrap-token-" in _check_result.stdout'
     register: _bootstrap_token
   - name: Bootstrap token is in the local shared dir
     shell: echo {{ _bootstrap_token.stdout }} > {{ k8s__local_shared_dir }}/bootstrap_token
     delegate_to: 127.0.0.1
-    when: 'not "name: bootstrap-token-" in _check_result.stdout'
