@@ -1,6 +1,6 @@
 coredns__image: coredns/coredns:1.2.6
 coredns__replicas: 2
 coredns__maxUnavailable: 1
-coredns__manifests_dir: /home/kube-admin/manifests
-coredns__manifests_owner: kube-admin
-coredns__manifests_group: kube-admin
+coredns__manifests_dir: '{{ k8s_node__k8s_configs_dir }}/manifests'
+coredns__manifests_owner: root
+coredns__manifests_group: root

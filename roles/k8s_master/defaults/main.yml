@@ -12,9 +12,6 @@ k8s_master__audit_log_dir: /var/log/kubernetes
 k8s_master__kubeconfig_dir: /etc/kubernetes
 k8s_master__k8s_configs_dir: /etc/kubernetes
 
-k8s_master__kube_admin_user_uid: 1030
-k8s_master__kube_admin_user_gid: 1030
-
 k8s_master__secret_encoding_key: your_32_bytes_secure_private_key
 
 k8s_master__kube_apiserver_audit_log_format: json

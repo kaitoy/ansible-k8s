@@ -60,21 +60,21 @@
       group: kubernetes
       mode: 0644
 
-- name: Key and certificate for the user 'kube-admin'
+- name: Key and certificate for the admin kubeconfig
   block:
   - name: Admin key is installed
     copy:
       src: '{{ k8s__local_shared_dir }}/admin.key'
       dest: '{{ k8s_master__pki_dir }}'
-      owner: kube-admin
-      group: kube-admin
+      owner: root
+      group: root
       mode: 0600
   - name: Admin cert is installed
     copy:
       src: '{{ k8s__local_shared_dir }}/admin.crt'
       dest: '{{ k8s_master__pki_dir }}'
-      owner: kube-admin
-      group: kube-admin
+      owner: root
+      group: root
       mode: 0644
 
 - name: Server keys and certificates for kube-controller-manager

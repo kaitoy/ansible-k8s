@@ -45,7 +45,6 @@
     state: present
   loop:
     - /root/.bashrc
-    - /home/kube-admin/.bashrc
 
 - name: Helm archive is downloaded
   get_url:
@@ -87,7 +86,6 @@
     state: present
   loop:
     - /root/.bashrc
-    - /home/kube-admin/.bashrc
 
 - name: jq is installed
   get_url:
