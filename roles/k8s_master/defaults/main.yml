@@ -4,8 +4,6 @@ k8s_master__kube_controller_manager_bin_checksum: sha1:3db5b809a9ceedb7176aebe28
 k8s_master__kube_scheduler_bin_checksum: sha1:591ea21d9ea7d98426299c1fcd713a7a56296090
 k8s_master__kubectl_bin_checksum: sha1:76ec5b750a2023f22c0766624189b96c8146bbe5
 k8s_master__kubeadm_bin_checksum: sha1:ebfdb3a8ecf7f161f048703d4328bf81bbdbb323
-# Kubernetes team has stopped to provide cloud-controller-manager binary since 1.16.0
-# k8s_master__cloud_controller_manager_bin_checksum: sha1:6c293238fe1b4bc0d55cf11d7a59d76b051542bc
 
 k8s_master__pki_dir: /etc/kubernetes/pki
 k8s_master__audit_log_dir: /var/log/kubernetes
@@ -40,7 +38,6 @@ k8s_master__kube_controller_manager_bind_address: 127.0.0.1
 k8s_master__kube_controller_manager_cluster_signing_duration: 8760h0m0s
 k8s_master__kube_controller_manager_controllers: '*,bootstrapsigner,tokencleaner'
 k8s_master__kube_controller_manager_enable_hostpath_provisioner: 'true'
-# k8s_master__kube_controller_manager_external_cloud_volume_plugin: azure
 k8s_master__kube_controller_manager_node_cidr_mask_size: 24
 k8s_master__kube_controller_manager_node_eviction_rate: 0.1
 k8s_master__kube_controller_manager_node_monitor_grace_period: 40s
@@ -57,17 +54,6 @@ k8s_master__kube_controller_manager_unhealthy_zone_threshold: 0.55
 k8s_master__kube_controller_manager_vlog_level: 2
 k8s_master__kube_controller_manager_restart_sec: 10
 k8s_master__kube_controller_manager_use_auto_generated_serving_cert: true
-
-k8s_master__cloud_controller_manager_allocate_node_cidrs: 'true'
-k8s_master__cloud_controller_manager_bind_address: 127.0.0.1
-k8s_master__cloud_controller_manager_cloud_provider: azure
-k8s_master__cloud_controller_manager_controller_start_interval: 0s
-k8s_master__cloud_controller_manager_node_monitor_period: 5s
-k8s_master__cloud_controller_manager_node_status_update_frequency: 5m0s
-k8s_master__cloud_controller_manager_profiling: 'false'
-k8s_master__cloud_controller_manager_secure_port: 0
-k8s_master__cloud_controller_manager_vlog_level: 2
-k8s_master__cloud_controller_manager_restart_sec: 10
 
 k8s_master__kube_scheduler_bind_address: 127.0.0.1
 k8s_master__kube_scheduler_healthz_bind_address: 127.0.0.1:10251

@@ -29,11 +29,9 @@
     - apiserver-kubelet-client.key
     - kube-controller-manager-client.key
     - kube-scheduler-client.key
-    - cloud-controller-manager.key
     - front-proxy-ca.key
     - front-proxy-client.key
     - etcd-client.key
-    when: item != "cloud-controller-manager.key" or (k8s__cloud_provider is defined and k8s__cloud_provider == "external")
   - name: Certificates are installed
     copy:
       src: '{{ k8s__local_shared_dir }}/{{ item }}'
@@ -47,11 +45,9 @@
     - apiserver-kubelet-client.crt
     - kube-controller-manager-client.crt
     - kube-scheduler-client.crt
-    - cloud-controller-manager.crt
     - front-proxy-ca.crt
     - front-proxy-client.crt
     - etcd-client.crt
-    when: item != "cloud-controller-manager.crt" or (k8s__cloud_provider is defined and k8s__cloud_provider == "external")
   - name: kube-controller-manager public key is installed
     copy:
       src: '{{ k8s__local_shared_dir }}/kube-controller-manager-client.pub'

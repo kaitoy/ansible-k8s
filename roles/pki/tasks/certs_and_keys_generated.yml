@@ -193,34 +193,6 @@
       dest: '{{ k8s__local_shared_dir }}/'
       flat: true
 
-- name: cloud-controller-manager client certificate
-  block:
-  - name: Check if cloud-controller-manager.key exists
-    stat:
-      path: '{{ pki__pki_dir }}/cloud-controller-manager.key'
-    register: _stat_result
-  - name: Private key for cloud-controller-manager client certificate exists
-    command: openssl ecparam -name {{ pki__elliptic_curve_type }} -genkey -noout -out {{ pki__pki_dir }}/cloud-controller-manager.key
-    when: not _stat_result.stat.exists
-  - name: cloud-controller-manager client key is fetched
-    fetch:
-      src: '{{ pki__pki_dir }}/cloud-controller-manager.key'
-      dest: '{{ k8s__local_shared_dir }}/'
-      flat: true
-  - name: Check if cloud-controller-manager.crt exists
-    stat:
-      path: '{{ pki__pki_dir }}/cloud-controller-manager.crt'
-    register: _stat_result
-  - name: cloud-controller-manager client certificate exists
-    shell: openssl req -new -sha256 -key {{ pki__pki_dir }}/cloud-controller-manager.key -subj "/CN=system:cloud-controller-manager" | openssl x509 -req -sha256 -CA {{ pki__pki_dir }}/ca.crt -CAkey {{ pki__pki_dir }}/ca.key -CAcreateserial -out {{ pki__pki_dir }}/cloud-controller-manager.crt -days {{ pki__cloud_controller_manager_client_cert_valid_days }} -extensions v3_req_client -extfile {{ pki__pki_dir }}/openssl.conf
-    when: not _stat_result.stat.exists
-  - name: cloud-controller-manager client certificate is fetched
-    fetch:
-      src: '{{ pki__pki_dir }}/cloud-controller-manager.crt'
-      dest: '{{ k8s__local_shared_dir }}/'
-      flat: true
-  when: k8s__cloud_provider is defined and k8s__cloud_provider == "external"
-
 - name: CA cert for front-proxy
   block:
   - name: Check if front-proxy-ca.key exists

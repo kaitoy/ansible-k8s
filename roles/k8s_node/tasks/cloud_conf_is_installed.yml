@@ -1,7 +1,0 @@
-- name: cloud.conf exists
-  template:
-    src: k8s_configs/cloud.conf.j2
-    dest: '{{ k8s_node__k8s_configs_dir }}/cloud.conf'
-    owner: kubernetes
-    group: kubernetes
-    mode: 0644

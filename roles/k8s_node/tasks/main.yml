@@ -12,9 +12,6 @@
   tags: pki
 - import_tasks: kubeconfigs_generated.yml
   tags: kubeconfigs
-- import_tasks: cloud_conf_is_installed.yml
-  tags: services
-  when: k8s__cloud_provider is defined
 - import_tasks: kubelet_started.yml
   tags: services
 - import_tasks: kube_proxy_started.yml
