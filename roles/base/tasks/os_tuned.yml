@@ -60,10 +60,14 @@
       enabled: true
   when: base__ntp_servers
 
-- name: SELinux is configured
-  selinux:
-    policy: '{{ base__selinux.policy }}'
-    state: '{{ base__selinux.state }}'
+- name: SELinux
+  block:
+  - name: SELinux is configured
+    selinux:
+      policy: '{{ base__selinux.policy }}'
+      state: '{{ base__selinux.state }}'
+  - name: SELinux is disabled
+    command: setenforce 0
   when: base__selinux
 
 - name: firewalld is disabled
@@ -77,20 +81,3 @@
   file:
     path: '{{ k8s__remote_tmp_dir }}'
     state: directory
-
-- name: The server is rebooted
-  block:
-  - name: Reboot is started
-    shell: sleep 2 && shutdown -r now
-    async: 1
-    poll: 0
-    ignore_errors: true
-  - name: The server is up again
-    wait_for:
-      port: '{{ ansible_port | default(ansible_ssh_port) | default(22) }}'
-      host: '{{ ansible_host }}'
-      state: started
-      delay: '{{ base__reboot_polling_delay }}'
-      timeout: '{{ base__reboot_polling_timeout }}'
-    delegate_to: 127.0.0.1
-  when: not base__skip_reboot

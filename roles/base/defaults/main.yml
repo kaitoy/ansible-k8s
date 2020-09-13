@@ -25,7 +25,3 @@ base__selinux:
   state: permissive
 
 base__disable_firewalld: true
-
-base__skip_reboot: false
-base__reboot_polling_delay: 10
-base__reboot_polling_timeout: 300
