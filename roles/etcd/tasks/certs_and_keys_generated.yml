@@ -1,0 +1,68 @@
+- name: pki dir exists
+  file:
+    path: '{{ etcd__pki_dir }}'
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: openssl config
+  block:
+  - name: Check if openssl config exists
+    stat:
+      path: '{{ etcd__pki_dir }}/openssl.etcd.conf'
+    register: _stat_result
+  - name: openssl config exists
+    template:
+      src: pki/openssl.conf.j2
+      dest: '{{ etcd__pki_dir }}/openssl.etcd.conf'
+      owner: root
+      group: root
+      mode: 0644
+    when: not _stat_result.stat.exists
+
+- name: CA key and certificate
+  block:
+  - name: CA key is installed
+    copy:
+      src: '{{ k8s__local_shared_dir }}/ca.key'
+      dest: '{{ etcd__pki_dir }}'
+      owner: root
+      group: root
+      mode: 0600
+  - name: CA certificates is installed
+    copy:
+      src: '{{ k8s__local_shared_dir }}/ca.crt'
+      dest: '{{ etcd__pki_dir }}'
+      owner: root
+      group: root
+      mode: 0644
+
+- name: etcd server certificate
+  block:
+  - name: Check if etcd.key exists
+    stat:
+      path: '{{ etcd__pki_dir }}/etcd.key'
+    register: _stat_result
+  - name: Private key for etcd server certificate exists
+    command: openssl ecparam -name {{ etcd__elliptic_curve_type }} -genkey -noout -out {{ etcd__pki_dir }}/etcd.key
+    when: not _stat_result.stat.exists
+  - name: Permission of etcd server key is properly set
+    file:
+      path: '{{ etcd__pki_dir }}/etcd.key'
+      owner: etcd
+      group: etcd
+      mode: 0600
+  - name: Check if etcd.crt exists
+    stat:
+      path: '{{ etcd__pki_dir }}/etcd.crt'
+    register: _stat_result
+  - name: etcd server certificate exists
+    shell: openssl req -new -sha256 -key {{ etcd__pki_dir }}/etcd.key -subj "/CN=etcd" | openssl x509 -req -sha256 -CA {{ etcd__pki_dir }}/ca.crt -CAkey {{ etcd__pki_dir }}/ca.key -CAcreateserial -out {{ etcd__pki_dir }}/etcd.crt -days {{ etcd__etcd_server_cert_valid_days }} -extensions v3_req_etcd -extfile {{ etcd__pki_dir }}/openssl.etcd.conf
+    when: not _stat_result.stat.exists
+  - name: Permission of etcd server certificate is properly set
+    file:
+      path: '{{ etcd__pki_dir }}/etcd.crt'
+      owner: etcd
+      group: etcd
+      mode: 0644

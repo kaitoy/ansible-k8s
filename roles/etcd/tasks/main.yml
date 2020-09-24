@@ -1,6 +1,6 @@
 - import_tasks: etcd_user_exists.yml
   tags: users
-- import_tasks: certs_and_keys_installed.yml
+- import_tasks: certs_and_keys_generated.yml
   tags: pki
 - import_tasks: etcd_bins_installed.yml
   tags: bins

@@ -1,0 +1,19 @@
+[ req ]
+distinguished_name = req_distinguished_name
+
+[req_distinguished_name]
+
+[ v3_req_client ]
+basicConstraints = CA:FALSE
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = clientAuth
+
+[ v3_req_kubelet ]
+basicConstraints = CA:FALSE
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names_kubelet
+
+[ alt_names_kubelet ]
+DNS.1 = {{ ansible_facts.fqdn }}
+IP.1 = {{ host__public_address }}

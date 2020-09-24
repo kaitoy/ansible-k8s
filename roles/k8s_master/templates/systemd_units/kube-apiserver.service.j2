@@ -35,10 +35,10 @@ ExecStart={{ k8s__k8s_bin_dir }}/kube-apiserver \
   --client-ca-file={{ k8s_master__pki_dir }}/ca.crt \
   --enable-admission-plugins={{ k8s_master__kube_apiserver_enable_admission_plugins }} \
   --enable-bootstrap-token-auth=true \
-  --etcd-cafile={{ k8s_master__pki_dir }}/etcd-ca.crt \
-  --etcd-certfile={{ k8s_master__pki_dir }}/etcd-client.crt \
+  --etcd-cafile={{ k8s_master__pki_dir }}/ca.crt \
+  --etcd-certfile={{ k8s_master__pki_dir }}/kube-apiserver-client.crt \
   --etcd-compaction-interval={{ k8s_master__kube_apiserver_etcd_compaction_interval }} \
-  --etcd-keyfile={{ k8s_master__pki_dir }}//etcd-client.key \
+  --etcd-keyfile={{ k8s_master__pki_dir }}//kube-apiserver-client.key \
 {% if k8s_master__kube_apiserver_etcd_servers.auto_set %}
   --etcd-servers={{ _etcd_servers | join(',') }} \
 {% else %}
@@ -51,15 +51,15 @@ ExecStart={{ k8s__k8s_bin_dir }}/kube-apiserver \
 {% endif %}
   --insecure-port=0 \
   --kubelet-certificate-authority={{ k8s_master__pki_dir }}/ca.crt \
-  --kubelet-client-certificate={{ k8s_master__pki_dir }}/apiserver-kubelet-client.crt \
-  --kubelet-client-key={{ k8s_master__pki_dir }}/apiserver-kubelet-client.key \
+  --kubelet-client-certificate={{ k8s_master__pki_dir }}/kube-apiserver-client.crt \
+  --kubelet-client-key={{ k8s_master__pki_dir }}/kube-apiserver-client.key \
   --kubelet-preferred-address-types={{ k8s_master__kube_apiserver_kubelet_preferred_address_types }} \
   --kubernetes-service-node-port={{ k8s_master__kube_apiserver_kubernetes_service_node_port }} \
   --profiling={{ k8s_master__kube_apiserver_profiling }} \
   --proxy-client-cert-file={{ k8s_master__pki_dir }}/front-proxy-client.crt \
   --proxy-client-key-file={{ k8s_master__pki_dir }}/front-proxy-client.key \
   --requestheader-allowed-names=front-proxy-client \
-  --requestheader-client-ca-file={{ k8s_master__pki_dir }}/front-proxy-ca.crt \
+  --requestheader-client-ca-file={{ k8s_master__pki_dir }}/ca.crt \
   --requestheader-extra-headers-prefix=X-Remote-Extra- \
   --requestheader-group-headers=X-Remote-Group \
   --requestheader-username-headers=X-Remote-User \

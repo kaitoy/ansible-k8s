@@ -1,4 +1,13 @@
 k8s__k8s_version: v1.18.2
+k8s__k8s_bins_download_url_base: https://storage.googleapis.com/kubernetes-release/release/{{ k8s__k8s_version }}/bin/linux/amd64
+k8s__kube_apiserver_bin_checksum: sha1:cc33fa6ba52aa13ab3e093a9eb4357658591c4b5
+k8s__kube_controller_manager_bin_checksum: sha1:3db5b809a9ceedb7176aebe2872d2dd34d85d9e8
+k8s__kube_scheduler_bin_checksum: sha1:591ea21d9ea7d98426299c1fcd713a7a56296090
+k8s__kubectl_bin_checksum: sha1:76ec5b750a2023f22c0766624189b96c8146bbe5
+k8s__kubeadm_bin_checksum: sha1:ebfdb3a8ecf7f161f048703d4328bf81bbdbb323
+k8s__kubelet_bin_checksum: sha1:4eb4681a99a9e854ed427ad82801d2507c6e122a
+k8s__kube_proxy_bin_checksum: sha1:bc4a665448f04452b90a030df96a9c6e504e1e34
+
 k8s__k8s_cluster_name: k8s
 
 k8s__kube_apiserver_secure_port: 6443
@@ -19,22 +28,6 @@ k8s__static_pod:
 #  enabled: true
 #  manifests_path: /etc/kubernetes/manifests
 k8s__volume_plugin_dir: /usr/libexec/kubernetes/kubelet-plugins/volume/exec/
-# k8s__cloud_provider: azure
-# k8s__cloud_conf_contents: |
-#   {
-#     "cloud": "AZUREPUBLICCLOUD",
-#     "location": "japaneast",
-#     "tenantId": "0000000-0000-0000-0000-000000000000",
-#     "subscriptionId": "0000000-0000-0000-0000-000000000000",
-#     "resourceGroup": "k8s",
-#     "vnetName": "k8s-vnet",
-#     "subnetName": "k8s-subnet",
-#     "vnetResourceGroup": "k8s",
-#     "routeTableName": "k8s-routes",
-#     "securityGroupName": "k8s-master-node-nsg",
-#     "useManagedIdentityExtension": true,
-#     "useInstanceMetadata": true
-#   }
 
 k8s__k8s_bin_dir: /usr/bin
 k8s__local_shared_dir: /tmp/ansible

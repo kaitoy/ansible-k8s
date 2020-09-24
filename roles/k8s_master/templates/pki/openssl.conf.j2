@@ -1,0 +1,50 @@
+[ req ]
+distinguished_name = req_distinguished_name
+
+[req_distinguished_name]
+
+[ v3_req_client ]
+basicConstraints = CA:FALSE
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = clientAuth
+
+[ v3_req_apiserver ]
+basicConstraints = CA:FALSE
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names_cluster
+
+[ alt_names_cluster ]
+DNS.1 = localhost
+DNS.2 = kubernetes
+DNS.3 = kubernetes.default
+DNS.4 = kubernetes.default.svc
+DNS.5 = kubernetes.default.svc.cluster.local
+DNS.6 = {{ ansible_facts.fqdn }}
+IP.1 = 127.0.0.1
+IP.2 = {{ k8s__service_ip_addr }}
+IP.3 = {{ host__public_address }}
+
+[ v3_req_kube_controller_manager ]
+basicConstraints = CA:FALSE
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names_kube_controller_manager
+
+[ alt_names_kube_controller_manager ]
+DNS.1 = localhost
+DNS.2 = {{ ansible_facts.fqdn }}
+IP.1 = 127.0.0.1
+IP.2 = {{ host__public_address }}
+
+[ v3_req_kube_scheduler ]
+basicConstraints = CA:FALSE
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names_kube_scheduler
+
+[ alt_names_kube_scheduler ]
+DNS.1 = localhost
+DNS.2 = {{ ansible_facts.fqdn }}
+IP.1 = 127.0.0.1
+IP.2 = {{ host__public_address }}

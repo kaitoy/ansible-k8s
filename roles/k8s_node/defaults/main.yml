@@ -26,14 +26,10 @@ k8s_node__kernel_params:
 
 k8s_node__yum_install_dependencies: true
 
-k8s_node__k8s_bins_download_url_base: https://storage.googleapis.com/kubernetes-release/release/{{ k8s__k8s_version }}/bin/linux/amd64
-k8s_node__kubelet_bin_checksum: sha1:4eb4681a99a9e854ed427ad82801d2507c6e122a
-k8s_node__kube_proxy_bin_checksum: sha1:bc4a665448f04452b90a030df96a9c6e504e1e34
-
 k8s_node__runc_bin_dir: /usr/bin
 k8s_node__runc_version: v1.0.0-rc10
 k8s_node__runc_download_url: https://github.com/opencontainers/runc/releases/download/{{ k8s_node__runc_version }}/runc.amd64
-k8s_node__runc_checksum: sha1:a2fab3406b71d66eb4720c1f9cf9dc6dca669382
+k8s_node__runc_checksum: sha1:1d000f22ad8a46b15fb57b1da67b156fbbb57527
 
 k8s_node__containerd_bin_dir: /usr/bin
 k8s_node__containerd_conf: /etc/containerd/config.toml
@@ -57,6 +53,11 @@ k8s_node__cni_plugins_archive_checksum: sha1:677d218b62c0ef941c1d0b606d6570faa52
 k8s_node__kubeconfig_dir: /etc/kubernetes
 k8s_node__k8s_configs_dir: /etc/kubernetes
 k8s_node__pki_dir: /etc/kubernetes/pki
+
+k8s_node__elliptic_curve_type: secp384r1
+k8s_node__kube_proxy_client_cert_valid_days: 5475
+k8s_node__kubelet_server_cert_valid_days: 5475
+k8s_node__admin_client_cert_valid_days: 5475
 
 k8s_node__kubelet_address: 0.0.0.0
 k8s_node__kubelet_cert_dir: '{{ k8s_node__pki_dir }}'

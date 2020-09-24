@@ -22,13 +22,13 @@ ExecStart={{ etcd__etcd_bin_dir }}/etcd \
   --client-cert-auth \
   --cert-file {{ etcd__pki_dir }}/etcd.crt \
   --key-file {{ etcd__pki_dir }}/etcd.key \
-  --trusted-ca-file {{ etcd__pki_dir }}/etcd-ca.crt \
+  --trusted-ca-file {{ etcd__pki_dir }}/ca.crt \
   --listen-peer-urls {{ etcd__listen_peer_urls }} \
   --initial-advertise-peer-urls {{ etcd__initial_advertise_peer_urls }} \
   --peer-client-cert-auth \
-  --peer-cert-file {{ etcd__pki_dir }}/etcd-peer.crt \
-  --peer-key-file {{ etcd__pki_dir }}/etcd-peer.key \
-  --peer-trusted-ca-file {{ etcd__pki_dir }}/etcd-ca.crt \
+  --peer-cert-file {{ etcd__pki_dir }}/etcd.crt \
+  --peer-key-file {{ etcd__pki_dir }}/etcd.key \
+  --peer-trusted-ca-file {{ etcd__pki_dir }}/ca.crt \
   --initial-cluster-token {{ etcd__cluster_token }} \
   {% if etcd__initial_cluster.auto_set %}
     --initial-cluster {{ _etcd_members | sort | join(',') }} \

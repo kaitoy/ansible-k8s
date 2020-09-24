@@ -8,7 +8,7 @@
   tags: bins
 - import_tasks: cni_bins_installed.yml
   tags: bins
-- import_tasks: certs_and_keys_installed.yml
+- import_tasks: certs_and_keys_generated.yml
   tags: pki
 - import_tasks: kubeconfigs_generated.yml
   tags: kubeconfigs

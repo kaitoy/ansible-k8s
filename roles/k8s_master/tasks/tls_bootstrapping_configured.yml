@@ -64,12 +64,3 @@
           apiGroup: rbac.authorization.k8s.io
     register: _apply_result
     changed_when: '" created" in _apply_result.stdout or " configured" in _apply_result.stdout'
-
-- name: Bootstrap token
-  block:
-  - name: Bootstrap token is generated
-    command: '{{ k8s__k8s_bin_dir }}/kubeadm token create --kubeconfig {{ k8s_master__kubeconfig_dir }}/admin.kubeconfig'
-    register: _bootstrap_token
-  - name: Bootstrap token is in the local shared dir
-    shell: echo {{ _bootstrap_token.stdout }} > {{ k8s__local_shared_dir }}/bootstrap_token
-    delegate_to: 127.0.0.1

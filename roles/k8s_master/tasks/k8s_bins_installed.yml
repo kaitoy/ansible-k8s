@@ -7,7 +7,7 @@
     state: directory
 - name: k8s bins are installed
   get_url:
-    url: '{{ k8s_master__k8s_bins_download_url_base }}/{{ item.name }}'
+    url: '{{ k8s__k8s_bins_download_url_base }}/{{ item.name }}'
     dest: '{{ k8s__k8s_bin_dir }}/{{ item.name }}'
     owner: root
     group: root
@@ -15,12 +15,12 @@
     checksum: '{{ item.checksum }}'
   loop:
   - name: kube-apiserver
-    checksum: '{{ k8s_master__kube_apiserver_bin_checksum }}'
+    checksum: '{{ k8s__kube_apiserver_bin_checksum }}'
   - name: kube-controller-manager
-    checksum: '{{ k8s_master__kube_controller_manager_bin_checksum }}'
+    checksum: '{{ k8s__kube_controller_manager_bin_checksum }}'
   - name: kube-scheduler
-    checksum: '{{ k8s_master__kube_scheduler_bin_checksum }}'
+    checksum: '{{ k8s__kube_scheduler_bin_checksum }}'
   - name: kubectl
-    checksum: '{{ k8s_master__kubectl_bin_checksum }}'
+    checksum: '{{ k8s__kubectl_bin_checksum }}'
   - name: kubeadm
-    checksum: '{{ k8s_master__kubeadm_bin_checksum }}'
+    checksum: '{{ k8s__kubeadm_bin_checksum }}'
