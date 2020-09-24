@@ -1,13 +1,5 @@
 kind: KubeSchedulerConfiguration
-apiVersion: kubescheduler.config.k8s.io/v1alpha1
-{% if k8s__feature_gates is defined %}
-featureGates:
-    {%- for _fg_name, _fg_flag in k8s__feature_gates.items() %}
-
-  {{ _fg_name }}: {{ _fg_flag }}
-
-    {%- endfor %}
-{% endif %}
+apiVersion: kubescheduler.config.k8s.io/v1beta1
 
 healthzBindAddress: {{ k8s_master__kube_scheduler_healthz_bind_address }}
 metricsBindAddress: {{ k8s_master__kube_scheduler_metrics_bind_address }}

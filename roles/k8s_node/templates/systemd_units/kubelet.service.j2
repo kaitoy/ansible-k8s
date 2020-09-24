@@ -21,7 +21,6 @@ ExecStart={{ k8s__k8s_bin_dir }}/kubelet \
   --network-plugin=cni \
   --pod-infra-container-image={{ k8s_node__kubelet_pod_infra_container_image }} \
   --v={{ k8s_node__kubelet_vlog_level }} \
-  --volume-plugin-dir={{ k8s__volume_plugin_dir }} \
   --container-runtime=remote \
   --container-runtime-endpoint=unix://{{ k8s_node__containerd_state_dir }}/containerd.sock \
   --root-dir={{ k8s_node__kubelet_root_dir }}

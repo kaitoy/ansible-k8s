@@ -21,7 +21,7 @@ ExecStart={{ k8s__k8s_bin_dir }}/kube-controller-manager \
   --cluster-signing-key-file={{ k8s_master__pki_dir }}/ca.key \
   --controllers={{ k8s_master__kube_controller_manager_controllers }} \
   --enable-hostpath-provisioner={{ k8s_master__kube_controller_manager_enable_hostpath_provisioner }} \
-  --experimental-cluster-signing-duration={{ k8s_master__kube_controller_manager_cluster_signing_duration }} \
+  --cluster-signing-duration={{ k8s_master__kube_controller_manager_cluster_signing_duration }} \
 {% if _feature_gates|length > 0 %}
   --feature-gates={{ _feature_gates|join(',') }} \
 {% endif %}
@@ -33,6 +33,7 @@ ExecStart={{ k8s__k8s_bin_dir }}/kube-controller-manager \
   --node-monitor-period={{ k8s_master__kube_controller_manager_node_monitor_period }} \
   --node-startup-grace-period={{ k8s_master__kube_controller_manager_node_startup_grace_period }} \
   --pod-eviction-timeout={{ k8s_master__kube_controller_manager_pod_eviction_timeout }} \
+  --port=0 \
   --profiling={{ k8s_master__kube_controller_manager_profiling }} \
   --root-ca-file={{ k8s_master__pki_dir }}/ca.crt \
   --secondary-node-eviction-rate={{ k8s_master__kube_controller_manager_secondary_node_eviction_rate }} \

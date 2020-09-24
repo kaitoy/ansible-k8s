@@ -1,3 +1,9 @@
+{% set _feature_gates = [] %}
+{%- if k8s__feature_gates is defined -%}
+    {% for _fg_name, _fg_flag in k8s__feature_gates.items() -%}
+        {{ _feature_gates.append('%s=%s'|format(_fg_name, _fg_flag)) }}
+    {%- endfor %}
+{%- endif %}
 [Unit]
 Description=Kubernetes Scheduler
 Documentation=https://github.com/kubernetes/kubernetes
@@ -8,6 +14,9 @@ User=kubernetes
 Group=kubernetes
 ExecStart={{ k8s__k8s_bin_dir }}/kube-scheduler \
   --bind-address={{ k8s_master__kube_scheduler_bind_address }} \
+{% if _feature_gates|length > 0 %}
+  --feature-gates={{ _feature_gates|join(',') }} \
+{% endif %}
   --config={{ k8s_master__k8s_configs_dir }}/kube-scheduler.conf \
   --secure-port={{ k8s_master__kube_scheduler_secure_port }} \
 {% if not k8s_master__kube_scheduler_use_auto_generated_serving_cert %}

@@ -6,11 +6,11 @@
     mode: 0755
     state: directory
 
-- name: k8s components are ready
+- name: kube-apiserver is ready
   command: >-
-    {{ k8s__k8s_bin_dir }}/kubectl get componentstatuses -o jsonpath='{.items[*].conditions[?(@.type=="Healthy")].status}'
-  register: _componentstatuses
-  until: _componentstatuses.stdout.find('False') == -1
+    {{ k8s__k8s_bin_dir }}/kubectl get --raw='/readyz'
+  register: _kube_apiserver_ready
+  until: _kube_apiserver_ready.stdout == "ok"
   retries: 5
   delay: 5
   changed_when: false
