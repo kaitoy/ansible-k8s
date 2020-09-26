@@ -1,0 +1,3 @@
+host__is_k8s_master: false
+host__is_etcd: false
+host__is_k8s_node: true

@@ -5,3 +5,8 @@ k8s:
       ansible_user: root
       ansible_ssh_pass: hitachi
       # ansible_python_interpreter: /usr/bin/python3
+    k8s_node:
+      ansible_host: 192.168.1.201
+      ansible_user: root
+      ansible_ssh_pass: hitachi
+      # ansible_python_interpreter: /usr/bin/python3
