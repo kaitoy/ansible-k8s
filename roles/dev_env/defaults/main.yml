@@ -18,6 +18,7 @@ dev_env__jq_ver: 1.5
 dev_env__jq_download_url: https://github.com/stedolan/jq/releases/download/jq-{{ dev_env__jq_ver }}/jq-linux64
 dev_env__jq_checksum: sha1:d8e36831c3c94bb58be34dd544f44a6c6cb88568
 
+dev_env__yum_repos_to_disable: '{{ base__yum_repos_to_disable }}'
 dev_env__yum_pkgs_to_install:
 - bind-utils
 - nmap

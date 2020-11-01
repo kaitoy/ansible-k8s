@@ -4,11 +4,13 @@
     yum:
       name: conntrack-tools
       state: latest
+      disablerepo: '{{ k8s_node__yum_repos_to_disable | join(",") }}'
     when: not host__use_dnf
   - name: conntrack-tools is installed by dnf
     dnf:
       name: conntrack-tools
       state: latest
+      disablerepo: '{{ k8s_node__yum_repos_to_disable | join(",") }}'
     when: host__use_dnf
   when: k8s_node__yum_install_dependencies
 
@@ -18,11 +20,13 @@
     yum:
       name: ipset
       state: latest
+      disablerepo: '{{ k8s_node__yum_repos_to_disable | join(",") }}'
     when: not host__use_dnf
   - name: ipset is installed by dnf
     dnf:
       name: ipset
       state: latest
+      disablerepo: '{{ k8s_node__yum_repos_to_disable | join(",") }}'
     when: host__use_dnf
   when: k8s_node__yum_install_dependencies and k8s_node__kube_proxy_mode == 'ipvs'
 

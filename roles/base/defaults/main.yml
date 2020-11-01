@@ -11,8 +11,7 @@ base__yum_repos_to_enable: []
 
 base__yum_repos_to_disable: []
 # base__yum_repos_to_disable:
-# - path: /etc/yum.repos.d/public-yum-ol7.repo
-#   name: ol7_software_collections
+# - ol7_software_collections
 
 base__ntp_servers:
 - server 0.rhel.pool.ntp.org iburst

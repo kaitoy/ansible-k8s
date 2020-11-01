@@ -29,25 +29,19 @@
     enabled: true
   loop: '{{ base__yum_repos_to_enable }}'
 
-- name: YUM repositories unneeded are disabled
-  ini_file:
-    path: '{{ item.path }}'
-    section: '{{ item.name }}'
-    option: enabled
-    value: 0
-  loop: '{{ base__yum_repos_to_disable }}'
-
 - name: ntp is setup
   block:
   - name: chrony is installed
     yum:
       name: chrony
       state: latest
+      disablerepo: '{{ base__yum_repos_to_disable | join(",") }}'
     when: not host__use_dnf
   - name: chrony is installed
     dnf:
       name: chrony
       state: latest
+      disablerepo: '{{ base__yum_repos_to_disable | join(",") }}'
     when: host__use_dnf
   - name: chrony is configured
     template:

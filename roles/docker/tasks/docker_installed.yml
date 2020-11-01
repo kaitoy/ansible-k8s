@@ -24,11 +24,13 @@
   yum:
     name: '{{ docker__docker_package_name }}'
     state: present
+    disablerepo: '{{ docker__yum_repos_to_disable | join(",") }}'
   when: not host__use_dnf
 - name: Docker is installed
   dnf:
     name: '{{ docker__docker_package_name }}'
     state: present
+    disablerepo: '{{ docker__yum_repos_to_disable | join(",") }}'
   when: host__use_dnf
 
 - name: DOCKER_NOFILE is set for k8s
