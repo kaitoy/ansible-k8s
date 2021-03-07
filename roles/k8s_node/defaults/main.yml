@@ -42,9 +42,9 @@ k8s_node__containerd_disable_tcp_service: 'true'
 k8s_node__containerd_registry_mirrors:
   docker.io:
   - https://registry-1.docker.io
-k8s_node__containerd_version: 1.4.3
+k8s_node__containerd_version: 1.4.4
 k8s_node__containerd_archive_download_url_base: https://github.com/containerd/containerd/releases/download/v{{ k8s_node__containerd_version }}/containerd-{{ k8s_node__containerd_version }}-linux-amd64.tar.gz
-k8s_node__containerd_archive_checksum: sha1:05eb5a76bd9088f240bbfeceacfe5979b82416e4
+k8s_node__containerd_archive_checksum: sha1:573fa68892e04c81b6a617ce304034172fceaa65
 k8s_node__containerd_restart_sec: 10
 
 k8s_node__cni_plugins_version: v0.9.1
