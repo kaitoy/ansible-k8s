@@ -45,7 +45,7 @@
       path: '{{ k8s_master__pki_dir }}/kube-apiserver.key'
     register: _stat_result
   - name: Private key for kube-apiserver server certificate exists
-    command: openssl ecparam -name {{ k8s_master__elliptic_curve_type }} -genkey -noout -out {{ k8s_master__pki_dir }}/kube-apiserver.key
+    command: /usr/bin/openssl ecparam -name {{ k8s_master__elliptic_curve_type }} -genkey -noout -out {{ k8s_master__pki_dir }}/kube-apiserver.key
     when: not _stat_result.stat.exists
   - name: Permission of kube-apiserver server key is properly set
     file:
@@ -58,7 +58,7 @@
       path: '{{ k8s_master__pki_dir }}/kube-apiserver.crt'
     register: _stat_result
   - name: kube-apiserver server certificate exists
-    shell: openssl req -new -sha256 -key {{ k8s_master__pki_dir }}/kube-apiserver.key -subj "/CN=kube-apiserver" | openssl x509 -req -sha256 -CA {{ k8s_master__pki_dir }}/ca.crt -CAkey {{ k8s_master__pki_dir }}/ca.key -CAcreateserial -out {{ k8s_master__pki_dir }}/kube-apiserver.crt -days {{ k8s_master__kube_apiserver_server_cert_valid_days }} -extensions v3_req_apiserver -extfile {{ k8s_master__pki_dir }}/openssl.k8s-master.conf
+    shell: /usr/bin/openssl req -new -sha256 -key {{ k8s_master__pki_dir }}/kube-apiserver.key -subj "/CN=kube-apiserver" | openssl x509 -req -sha256 -CA {{ k8s_master__pki_dir }}/ca.crt -CAkey {{ k8s_master__pki_dir }}/ca.key -CAcreateserial -out {{ k8s_master__pki_dir }}/kube-apiserver.crt -days {{ k8s_master__kube_apiserver_server_cert_valid_days }} -extensions v3_req_apiserver -extfile {{ k8s_master__pki_dir }}/openssl.k8s-master.conf
     when: not _stat_result.stat.exists
   - name: Permission of kube-apiserver server certificate is properly set
     file:
@@ -74,7 +74,7 @@
       path: '{{ k8s_master__pki_dir }}/kube-apiserver-client.key'
     register: _stat_result
   - name: Private key for kube-apiserver client certificate exists
-    command: openssl ecparam -name {{ k8s_master__elliptic_curve_type }} -genkey -noout -out {{ k8s_master__pki_dir }}/kube-apiserver-client.key
+    command: /usr/bin/openssl ecparam -name {{ k8s_master__elliptic_curve_type }} -genkey -noout -out {{ k8s_master__pki_dir }}/kube-apiserver-client.key
     when: not _stat_result.stat.exists
   - name: Permission of kube-apiserver-client.key is properly set
     file:
@@ -87,7 +87,7 @@
       path: '{{ k8s_master__pki_dir }}/kube-apiserver-client.crt'
     register: _stat_result
   - name: kube-apiserver client certificate exists
-    shell: openssl req -new -key {{ k8s_master__pki_dir }}/kube-apiserver-client.key -subj "/CN=kube-apiserver/O=system:masters" | openssl x509 -req -sha256 -CA {{ k8s_master__pki_dir }}/ca.crt -CAkey {{ k8s_master__pki_dir }}/ca.key -CAcreateserial -out {{ k8s_master__pki_dir }}/kube-apiserver-client.crt -days {{ k8s_master__kube_apiserver_client_cert_valid_days }} -extensions v3_req_client -extfile {{ k8s_master__pki_dir }}/openssl.k8s-master.conf
+    shell: /usr/bin/openssl req -new -key {{ k8s_master__pki_dir }}/kube-apiserver-client.key -subj "/CN=kube-apiserver/O=system:masters" | openssl x509 -req -sha256 -CA {{ k8s_master__pki_dir }}/ca.crt -CAkey {{ k8s_master__pki_dir }}/ca.key -CAcreateserial -out {{ k8s_master__pki_dir }}/kube-apiserver-client.crt -days {{ k8s_master__kube_apiserver_client_cert_valid_days }} -extensions v3_req_client -extfile {{ k8s_master__pki_dir }}/openssl.k8s-master.conf
     when: not _stat_result.stat.exists
   - name: Permission of kube-apiserver-client.crt is properly set
     file:
@@ -103,7 +103,7 @@
       path: '{{ k8s_master__pki_dir }}/admin.key'
     register: _stat_result
   - name: Private key for admin client certificate exists
-    command: openssl ecparam -name {{ k8s_master__elliptic_curve_type }} -genkey -noout -out {{ k8s_master__pki_dir }}/admin.key
+    command: /usr/bin/openssl ecparam -name {{ k8s_master__elliptic_curve_type }} -genkey -noout -out {{ k8s_master__pki_dir }}/admin.key
     when: not _stat_result.stat.exists
   - name: Permission of admin client key is properly set
     file:
@@ -116,7 +116,7 @@
       path: '{{ k8s_master__pki_dir }}/admin.crt'
     register: _stat_result
   - name: Admin client certificate exists
-    shell: openssl req -new -key {{ k8s_master__pki_dir }}/admin.key -subj "/CN=kubernetes-admin/O=system:masters" | openssl x509 -req -sha256 -CA {{ k8s_master__pki_dir }}/ca.crt -CAkey {{ k8s_master__pki_dir }}/ca.key -CAcreateserial -out {{ k8s_master__pki_dir }}/admin.crt -days {{ k8s_master__admin_client_cert_valid_days }} -extensions v3_req_client -extfile {{ k8s_master__pki_dir }}/openssl.k8s-master.conf
+    shell: /usr/bin/openssl req -new -key {{ k8s_master__pki_dir }}/admin.key -subj "/CN=kubernetes-admin/O=system:masters" | openssl x509 -req -sha256 -CA {{ k8s_master__pki_dir }}/ca.crt -CAkey {{ k8s_master__pki_dir }}/ca.key -CAcreateserial -out {{ k8s_master__pki_dir }}/admin.crt -days {{ k8s_master__admin_client_cert_valid_days }} -extensions v3_req_client -extfile {{ k8s_master__pki_dir }}/openssl.k8s-master.conf
     when: not _stat_result.stat.exists
   - name: Permission of admin client certificate is properly set
     file:
@@ -132,7 +132,7 @@
       path: '{{ k8s_master__pki_dir }}/kube-controller-manager-client.key'
     register: _stat_result
   - name: Private key for kube-controller-manager client certificate exists
-    command: openssl ecparam -name {{ k8s_master__elliptic_curve_type }} -genkey -noout -out {{ k8s_master__pki_dir }}/kube-controller-manager-client.key
+    command: /usr/bin/openssl ecparam -name {{ k8s_master__elliptic_curve_type }} -genkey -noout -out {{ k8s_master__pki_dir }}/kube-controller-manager-client.key
     when: not _stat_result.stat.exists
   - name: Permission of kube-controller-manager client key is properly set
     file:
@@ -145,7 +145,7 @@
       path: '{{ k8s_master__pki_dir }}/kube-controller-manager-client.pub'
     register: _stat_result
   - name: Public key for kube-controller-manager client certificate exists
-    command: openssl ec -in {{ k8s_master__pki_dir }}/kube-controller-manager-client.key -outform PEM -pubout -out {{ k8s_master__pki_dir }}/kube-controller-manager-client.pub
+    command: /usr/bin/openssl ec -in {{ k8s_master__pki_dir }}/kube-controller-manager-client.key -outform PEM -pubout -out {{ k8s_master__pki_dir }}/kube-controller-manager-client.pub
     when: not _stat_result.stat.exists
   - name: Permission of kube-controller-manager client public key is properly set
     file:
@@ -158,7 +158,7 @@
       path: '{{ k8s_master__pki_dir }}/kube-controller-manager-client.crt'
     register: _stat_result
   - name: kube-controller-manager client certificate exists
-    shell: openssl req -new -sha256 -key {{ k8s_master__pki_dir }}/kube-controller-manager-client.key -subj "/CN=system:kube-controller-manager" | openssl x509 -req -sha256 -CA {{ k8s_master__pki_dir }}/ca.crt -CAkey {{ k8s_master__pki_dir }}/ca.key -CAcreateserial -out {{ k8s_master__pki_dir }}/kube-controller-manager-client.crt -days {{ k8s_master__kube_controller_manager_client_cert_valid_days }} -extensions v3_req_client -extfile {{ k8s_master__pki_dir }}/openssl.k8s-master.conf
+    shell: /usr/bin/openssl req -new -sha256 -key {{ k8s_master__pki_dir }}/kube-controller-manager-client.key -subj "/CN=system:kube-controller-manager" | openssl x509 -req -sha256 -CA {{ k8s_master__pki_dir }}/ca.crt -CAkey {{ k8s_master__pki_dir }}/ca.key -CAcreateserial -out {{ k8s_master__pki_dir }}/kube-controller-manager-client.crt -days {{ k8s_master__kube_controller_manager_client_cert_valid_days }} -extensions v3_req_client -extfile {{ k8s_master__pki_dir }}/openssl.k8s-master.conf
     when: not _stat_result.stat.exists
   - name: Permission of kube-controller-manager client certificate is properly set
     file:
@@ -174,7 +174,7 @@
       path: '{{ k8s_master__pki_dir }}/kube-scheduler-client.key'
     register: _stat_result
   - name: Private key for kube-scheduler client certificate exists
-    command: openssl ecparam -name {{ k8s_master__elliptic_curve_type }} -genkey -noout -out {{ k8s_master__pki_dir }}/kube-scheduler-client.key
+    command: /usr/bin/openssl ecparam -name {{ k8s_master__elliptic_curve_type }} -genkey -noout -out {{ k8s_master__pki_dir }}/kube-scheduler-client.key
     when: not _stat_result.stat.exists
   - name: Permission of kube-scheduler client key is properly set
     file:
@@ -187,7 +187,7 @@
       path: '{{ k8s_master__pki_dir }}/kube-scheduler-client.crt'
     register: _stat_result
   - name: kube-scheduler client certificate exists
-    shell: openssl req -new -sha256 -key {{ k8s_master__pki_dir }}/kube-scheduler-client.key -subj "/CN=system:kube-scheduler" | openssl x509 -req -sha256 -CA {{ k8s_master__pki_dir }}/ca.crt -CAkey {{ k8s_master__pki_dir }}/ca.key -CAcreateserial -out {{ k8s_master__pki_dir }}/kube-scheduler-client.crt -days {{ k8s_master__kube_scheduler_client_cert_valid_days }} -extensions v3_req_client -extfile {{ k8s_master__pki_dir }}/openssl.k8s-master.conf
+    shell: /usr/bin/openssl req -new -sha256 -key {{ k8s_master__pki_dir }}/kube-scheduler-client.key -subj "/CN=system:kube-scheduler" | openssl x509 -req -sha256 -CA {{ k8s_master__pki_dir }}/ca.crt -CAkey {{ k8s_master__pki_dir }}/ca.key -CAcreateserial -out {{ k8s_master__pki_dir }}/kube-scheduler-client.crt -days {{ k8s_master__kube_scheduler_client_cert_valid_days }} -extensions v3_req_client -extfile {{ k8s_master__pki_dir }}/openssl.k8s-master.conf
     when: not _stat_result.stat.exists
   - name: Permission of kube-scheduler client certificate is properly set
     file:
@@ -203,7 +203,7 @@
       path: '{{ k8s_master__pki_dir }}/front-proxy-client.key'
     register: _stat_result
   - name: Private key for front-proxy client certificate exists
-    command: openssl ecparam -name {{ k8s_master__elliptic_curve_type }} -genkey -noout -out {{ k8s_master__pki_dir }}/front-proxy-client.key
+    command: /usr/bin/openssl ecparam -name {{ k8s_master__elliptic_curve_type }} -genkey -noout -out {{ k8s_master__pki_dir }}/front-proxy-client.key
     when: not _stat_result.stat.exists
   - name: Permission of front-proxy client key is properly set
     file:
@@ -216,7 +216,7 @@
       path: '{{ k8s_master__pki_dir }}/front-proxy-client.crt'
     register: _stat_result
   - name: front-proxy client certificate exists
-    shell: openssl req -new -sha256 -key {{ k8s_master__pki_dir }}/front-proxy-client.key -subj "/CN=front-proxy-client" | openssl x509 -req -sha256 -CA {{ k8s_master__pki_dir }}/ca.crt -CAkey {{ k8s_master__pki_dir }}/ca.key -CAcreateserial -out {{ k8s_master__pki_dir }}/front-proxy-client.crt -days {{ k8s_master__front_proxy_client_cert_valid_days }} -extensions v3_req_client -extfile {{ k8s_master__pki_dir }}/openssl.k8s-master.conf
+    shell: /usr/bin/openssl req -new -sha256 -key {{ k8s_master__pki_dir }}/front-proxy-client.key -subj "/CN=front-proxy-client" | openssl x509 -req -sha256 -CA {{ k8s_master__pki_dir }}/ca.crt -CAkey {{ k8s_master__pki_dir }}/ca.key -CAcreateserial -out {{ k8s_master__pki_dir }}/front-proxy-client.crt -days {{ k8s_master__front_proxy_client_cert_valid_days }} -extensions v3_req_client -extfile {{ k8s_master__pki_dir }}/openssl.k8s-master.conf
     when: not _stat_result.stat.exists
   - name: Permission of front-proxy client certificate is properly set
     file:
@@ -232,7 +232,7 @@
       path: '{{ k8s_master__pki_dir }}/kube-controller-manager.key'
     register: _stat_result
   - name: Private key for kube-controller-manager server certificate exists
-    command: openssl ecparam -name {{ k8s_master__elliptic_curve_type }} -genkey -noout -out {{ k8s_master__pki_dir }}/kube-controller-manager.key
+    command: /usr/bin/openssl ecparam -name {{ k8s_master__elliptic_curve_type }} -genkey -noout -out {{ k8s_master__pki_dir }}/kube-controller-manager.key
     when: not _stat_result.stat.exists
   - name: Permission of kube-controller-manager server key is properly set
     file:
@@ -245,7 +245,7 @@
       path: '{{ k8s_master__pki_dir }}/kube-controller-manager.crt'
     register: _stat_result
   - name: kube-controller-manager server certificate exists
-    shell: openssl req -new -sha256 -key {{ k8s_master__pki_dir }}/kube-controller-manager.key -subj "/CN=kube-controller-manager" | openssl x509 -req -sha256 -CA {{ k8s_master__pki_dir }}/ca.crt -CAkey {{ k8s_master__pki_dir }}/ca.key -CAcreateserial -out {{ k8s_master__pki_dir }}/kube-controller-manager.crt -days {{ k8s_master__kube_controller_manager_server_cert_valid_days }} -extensions v3_req_kube_controller_manager -extfile {{ k8s_master__pki_dir }}/openssl.k8s-master.conf
+    shell: /usr/bin/openssl req -new -sha256 -key {{ k8s_master__pki_dir }}/kube-controller-manager.key -subj "/CN=kube-controller-manager" | openssl x509 -req -sha256 -CA {{ k8s_master__pki_dir }}/ca.crt -CAkey {{ k8s_master__pki_dir }}/ca.key -CAcreateserial -out {{ k8s_master__pki_dir }}/kube-controller-manager.crt -days {{ k8s_master__kube_controller_manager_server_cert_valid_days }} -extensions v3_req_kube_controller_manager -extfile {{ k8s_master__pki_dir }}/openssl.k8s-master.conf
     when: not _stat_result.stat.exists
   - name: Permission of kube-controller-manager server certificate is properly set
     file:
@@ -262,7 +262,7 @@
       path: '{{ k8s_master__pki_dir }}/kube-scheduler.key'
     register: _stat_result
   - name: Private key for kube-scheduler server certificate exists
-    command: openssl ecparam -name {{ k8s_master__elliptic_curve_type }} -genkey -noout -out {{ k8s_master__pki_dir }}/kube-scheduler.key
+    command: /usr/bin/openssl ecparam -name {{ k8s_master__elliptic_curve_type }} -genkey -noout -out {{ k8s_master__pki_dir }}/kube-scheduler.key
     when: not _stat_result.stat.exists
   - name: Permission of kube-scheduler server key is properly set
     file:
@@ -275,7 +275,7 @@
       path: '{{ k8s_master__pki_dir }}/kube-scheduler.crt'
     register: _stat_result
   - name: kube-scheduler server certificate exists
-    shell: openssl req -new -sha256 -key {{ k8s_master__pki_dir }}/kube-scheduler.key -subj "/CN=kube-scheduler" | openssl x509 -req -sha256 -CA {{ k8s_master__pki_dir }}/ca.crt -CAkey {{ k8s_master__pki_dir }}/ca.key -CAcreateserial -out {{ k8s_master__pki_dir }}/kube-scheduler.crt -days {{ k8s_master__kube_scheduler_server_cert_valid_days }} -extensions v3_req_kube_scheduler -extfile {{ k8s_master__pki_dir }}/openssl.k8s-master.conf
+    shell: /usr/bin/openssl req -new -sha256 -key {{ k8s_master__pki_dir }}/kube-scheduler.key -subj "/CN=kube-scheduler" | openssl x509 -req -sha256 -CA {{ k8s_master__pki_dir }}/ca.crt -CAkey {{ k8s_master__pki_dir }}/ca.key -CAcreateserial -out {{ k8s_master__pki_dir }}/kube-scheduler.crt -days {{ k8s_master__kube_scheduler_server_cert_valid_days }} -extensions v3_req_kube_scheduler -extfile {{ k8s_master__pki_dir }}/openssl.k8s-master.conf
     when: not _stat_result.stat.exists
   - name: Permission of kube-scheduler server certificate is properly set
     file:

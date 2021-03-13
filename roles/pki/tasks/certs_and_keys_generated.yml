@@ -28,7 +28,7 @@
       path: '{{ pki__pki_dir }}/ca.key'
     register: _stat_result
   - name: Private key for k8s CA exists
-    command: openssl ecparam -name {{ pki__elliptic_curve_type }} -genkey -noout -out {{ pki__pki_dir }}/ca.key
+    command: /usr/bin/openssl ecparam -name {{ pki__elliptic_curve_type }} -genkey -noout -out {{ pki__pki_dir }}/ca.key
     when: not _stat_result.stat.exists
   - name: k8s CA key is fetched
     fetch:
@@ -40,7 +40,7 @@
       path: '{{ pki__pki_dir }}/ca.crt'
     register: _stat_result
   - name: CA cert for k8s cluster exists
-    command: openssl req -x509 -new -sha256 -nodes -key {{ pki__pki_dir }}/ca.key -days {{ pki__k8s_ca_cert_valid_days }} -out {{ pki__pki_dir }}/ca.crt -subj "/CN=kubernetes-ca" -extensions v3_ca -config {{ pki__pki_dir }}/openssl.pki.conf
+    command: /usr/bin/openssl req -x509 -new -sha256 -nodes -key {{ pki__pki_dir }}/ca.key -days {{ pki__k8s_ca_cert_valid_days }} -out {{ pki__pki_dir }}/ca.crt -subj "/CN=kubernetes-ca" -extensions v3_ca -config {{ pki__pki_dir }}/openssl.pki.conf
     when: not _stat_result.stat.exists
   - name: k8s CA certificate is fetched
     fetch:

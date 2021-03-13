@@ -18,11 +18,11 @@
       no_extra_spaces: true
     when: _stat_result.stat.exists
   - name: check swap devices
-    command: swapon -s
+    command: /usr/sbin/swapon -s
     register: swap_devices
     changed_when: false
   - name: swapoff -a
-    command: swapoff -a
+    command: /usr/sbin/swapoff -a
     when: swap_devices.stdout != ""
   when: k8s_node__turn_swap_off
 

@@ -4,7 +4,7 @@
   when: host__public_address is undefined
 
 - name: Check if dnf command is available
-  command: which dnf
+  command: /usr/bin/which dnf
   register: _check_dnf
   ignore_errors: true
 - name: host__use_dnf is set
@@ -61,7 +61,7 @@
       policy: '{{ base__selinux.policy }}'
       state: '{{ base__selinux.state }}'
   - name: SELinux is disabled
-    command: setenforce 0
+    command: /usr/sbin/setenforce 0
   when: base__selinux
 
 - name: firewalld is disabled

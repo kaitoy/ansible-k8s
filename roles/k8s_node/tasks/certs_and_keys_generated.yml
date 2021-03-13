@@ -45,7 +45,7 @@
       path: '{{ k8s_node__pki_dir }}/kubelet.key'
     register: _stat_result
   - name: Private key for kubelet server certificate exists
-    command: openssl ecparam -name {{ k8s_node__elliptic_curve_type }} -genkey -noout -out {{ k8s_node__pki_dir }}/kubelet.key
+    command: /usr/bin/openssl ecparam -name {{ k8s_node__elliptic_curve_type }} -genkey -noout -out {{ k8s_node__pki_dir }}/kubelet.key
     when: not _stat_result.stat.exists
   - name: Permission of kubelet server key is properly set
     file:
@@ -58,7 +58,7 @@
       path: '{{ k8s_node__pki_dir }}/kubelet.crt'
     register: _stat_result
   - name: kubelet server certificate exists
-    shell: openssl req -new -sha256 -key {{ k8s_node__pki_dir }}/kubelet.key -subj "/CN={{ ansible_facts.fqdn }}" | openssl x509 -req -sha256 -CA {{ k8s_node__pki_dir }}/ca.crt -CAkey {{ k8s_node__pki_dir }}/ca.key -CAcreateserial -out {{ k8s_node__pki_dir }}/kubelet.crt -days {{ k8s_node__kubelet_server_cert_valid_days }} -extensions v3_req_kubelet -extfile {{ k8s_node__pki_dir }}/openssl.k8s-node.conf
+    shell: /usr/bin/openssl req -new -sha256 -key {{ k8s_node__pki_dir }}/kubelet.key -subj "/CN={{ ansible_facts.fqdn }}" | openssl x509 -req -sha256 -CA {{ k8s_node__pki_dir }}/ca.crt -CAkey {{ k8s_node__pki_dir }}/ca.key -CAcreateserial -out {{ k8s_node__pki_dir }}/kubelet.crt -days {{ k8s_node__kubelet_server_cert_valid_days }} -extensions v3_req_kubelet -extfile {{ k8s_node__pki_dir }}/openssl.k8s-node.conf
     when: not _stat_result.stat.exists
   - name: Permission of kubelet server certificate is properly set
     file:
@@ -74,7 +74,7 @@
       path: '{{ k8s_node__pki_dir }}/kube-proxy.key'
     register: stat_result
   - name: Private key for kube-proxy client certificate exists
-    command: openssl ecparam -name {{ k8s_node__elliptic_curve_type }} -genkey -noout -out {{ k8s_node__pki_dir }}/kube-proxy.key
+    command: /usr/bin/openssl ecparam -name {{ k8s_node__elliptic_curve_type }} -genkey -noout -out {{ k8s_node__pki_dir }}/kube-proxy.key
     when: not stat_result.stat.exists
   - name: Permission of kube-proxy client key is properly set
     file:
@@ -87,7 +87,7 @@
       path: '{{ k8s_node__pki_dir }}/kube-proxy.crt'
     register: stat_result
   - name: kube-proxy client certificate exists
-    shell: openssl req -new -sha256 -key {{ k8s_node__pki_dir }}/kube-proxy.key -subj "/CN=system:kube-proxy/O=system:node-proxier" | openssl x509 -req -sha256 -CA {{ k8s_node__pki_dir }}/ca.crt -CAkey {{ k8s_node__pki_dir }}/ca.key -CAcreateserial -out {{ k8s_node__pki_dir }}/kube-proxy.crt -days {{ k8s_node__kube_proxy_client_cert_valid_days }} -extensions v3_req_client -extfile {{ k8s_node__pki_dir }}/openssl.k8s-node.conf
+    shell: /usr/bin/openssl req -new -sha256 -key {{ k8s_node__pki_dir }}/kube-proxy.key -subj "/CN=system:kube-proxy/O=system:node-proxier" | openssl x509 -req -sha256 -CA {{ k8s_node__pki_dir }}/ca.crt -CAkey {{ k8s_node__pki_dir }}/ca.key -CAcreateserial -out {{ k8s_node__pki_dir }}/kube-proxy.crt -days {{ k8s_node__kube_proxy_client_cert_valid_days }} -extensions v3_req_client -extfile {{ k8s_node__pki_dir }}/openssl.k8s-node.conf
     when: not stat_result.stat.exists
   - name: Permission of kube-proxy client certificate is properly set
     file:
@@ -103,7 +103,7 @@
       path: '{{ k8s_node__pki_dir }}/admin.key'
     register: _stat_result
   - name: Private key for admin client certificate exists
-    command: openssl ecparam -name {{ k8s_node__elliptic_curve_type }} -genkey -noout -out {{ k8s_node__pki_dir }}/admin.key
+    command: /usr/bin/openssl ecparam -name {{ k8s_node__elliptic_curve_type }} -genkey -noout -out {{ k8s_node__pki_dir }}/admin.key
     when: not _stat_result.stat.exists
   - name: Permission of admin client key is properly set
     file:
@@ -116,7 +116,7 @@
       path: '{{ k8s_node__pki_dir }}/admin.crt'
     register: _stat_result
   - name: Admin client certificate exists
-    shell: openssl req -new -key {{ k8s_node__pki_dir }}/admin.key -subj "/CN=kubernetes-admin/O=system:masters" | openssl x509 -req -sha256 -CA {{ k8s_node__pki_dir }}/ca.crt -CAkey {{ k8s_node__pki_dir }}/ca.key -CAcreateserial -out {{ k8s_node__pki_dir }}/admin.crt -days {{ k8s_node__admin_client_cert_valid_days }} -extensions v3_req_client -extfile {{ k8s_node__pki_dir }}/openssl.k8s-node.conf
+    shell: /usr/bin/openssl req -new -key {{ k8s_node__pki_dir }}/admin.key -subj "/CN=kubernetes-admin/O=system:masters" | openssl x509 -req -sha256 -CA {{ k8s_node__pki_dir }}/ca.crt -CAkey {{ k8s_node__pki_dir }}/ca.key -CAcreateserial -out {{ k8s_node__pki_dir }}/admin.crt -days {{ k8s_node__admin_client_cert_valid_days }} -extensions v3_req_client -extfile {{ k8s_node__pki_dir }}/openssl.k8s-node.conf
     when: not _stat_result.stat.exists
   - name: Permission of admin client certificate is properly set
     file:

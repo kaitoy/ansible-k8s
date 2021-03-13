@@ -45,7 +45,7 @@
       path: '{{ etcd__pki_dir }}/etcd.key'
     register: _stat_result
   - name: Private key for etcd server certificate exists
-    command: openssl ecparam -name {{ etcd__elliptic_curve_type }} -genkey -noout -out {{ etcd__pki_dir }}/etcd.key
+    command: /usr/bin/openssl ecparam -name {{ etcd__elliptic_curve_type }} -genkey -noout -out {{ etcd__pki_dir }}/etcd.key
     when: not _stat_result.stat.exists
   - name: Permission of etcd server key is properly set
     file:
@@ -58,7 +58,7 @@
       path: '{{ etcd__pki_dir }}/etcd.crt'
     register: _stat_result
   - name: etcd server certificate exists
-    shell: openssl req -new -sha256 -key {{ etcd__pki_dir }}/etcd.key -subj "/CN=etcd" | openssl x509 -req -sha256 -CA {{ etcd__pki_dir }}/ca.crt -CAkey {{ etcd__pki_dir }}/ca.key -CAcreateserial -out {{ etcd__pki_dir }}/etcd.crt -days {{ etcd__etcd_server_cert_valid_days }} -extensions v3_req_etcd -extfile {{ etcd__pki_dir }}/openssl.etcd.conf
+    shell: /usr/bin/openssl req -new -sha256 -key {{ etcd__pki_dir }}/etcd.key -subj "/CN=etcd" | openssl x509 -req -sha256 -CA {{ etcd__pki_dir }}/ca.crt -CAkey {{ etcd__pki_dir }}/ca.key -CAcreateserial -out {{ etcd__pki_dir }}/etcd.crt -days {{ etcd__etcd_server_cert_valid_days }} -extensions v3_req_etcd -extfile {{ etcd__pki_dir }}/openssl.etcd.conf
     when: not _stat_result.stat.exists
   - name: Permission of etcd server certificate is properly set
     file:
