@@ -19,6 +19,8 @@ clusterDNS: [{{ k8s__dns_server_ip_addr }}]
 clusterDomain: {{ k8s__dns_cluster_domain }}
 containerLogMaxFiles: {{ k8s_node__kubelet_container_log_max_files }}
 containerLogMaxSize: {{ k8s_node__kubelet_container_log_max_size }}
+enableDebugFlagsHandler: {{ k8s_node__kubelet_enable_debug_flags_handler }}
+enableProfilingHandler: {{ k8s_node__kubelet_enable_profiling_handler }}
 enforceNodeAllocatable:
 {% for _enforce in k8s_node__kubelet_enforce_node_allocatable %}
 - {{ _enforce }}
@@ -84,6 +86,8 @@ readOnlyPort: 0
 rotateCertificates: {{ k8s_node__kubelet_rotate_certificates }}
 runtimeRequestTimeout: {{ k8s_node__kubelet_runtime_request_timeout }}
 serverTLSBootstrap: {{ k8s_node__kubelet_server_tls_bootstrap }}
+shutdownGracePeriod: {{ k8s_node__kubelet_shutdown_grace_period }}
+shutdownGracePeriodCriticalPods: {{ k8s_node__kubelet_shutdown_grace_period_critical_pods }}
 {% if k8s__static_pod.enabled %}
 staticPodPath: {{ k8s__static_pod.manifests_path }}
 {% endif %}

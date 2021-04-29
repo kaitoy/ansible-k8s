@@ -67,6 +67,8 @@ k8s_node__kubelet_cni_conf_dir: /etc/cni/net.d
 k8s_node__kubelet_cgroup_driver: cgroupfs
 k8s_node__kubelet_container_log_max_files: 5
 k8s_node__kubelet_container_log_max_size: 10Mi
+k8s_node__kubelet_enable_debug_flags_handler: false
+k8s_node__kubelet_enable_profiling_handler: false
 k8s_node__kubelet_enforce_node_allocatable:
 - pods
 k8s_node__kubelet_eviction_hard:
@@ -108,6 +110,8 @@ k8s_node__kubelet_root_dir: /var/lib/kubelet
 k8s_node__kubelet_rotate_certificates: true
 k8s_node__kubelet_runtime_request_timeout: 10m
 k8s_node__kubelet_server_tls_bootstrap: false
+k8s_node__kubelet_shutdown_grace_period: 30s
+k8s_node__kubelet_shutdown_grace_period_critical_pods: 10s
 k8s_node__kubelet_tls_cipher_suites: TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 k8s_node__kubelet_tls_min_version: VersionTLS12
 # To suppress a log message 'Not using `--random-fully` in the MASQUERADE rule for iptables because the local version of iptables does not support it'
