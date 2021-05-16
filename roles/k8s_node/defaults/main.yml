@@ -28,9 +28,9 @@ k8s_node__yum_repos_to_disable: '{{ base__yum_repos_to_disable }}'
 k8s_node__yum_install_dependencies: true
 
 k8s_node__runc_bin_dir: /usr/bin
-k8s_node__runc_version: v1.0.0-rc92
+k8s_node__runc_version: v1.0.0-rc94
 k8s_node__runc_download_url: https://github.com/opencontainers/runc/releases/download/{{ k8s_node__runc_version }}/runc.amd64
-k8s_node__runc_checksum: sha1:3f1fcd777fb7b0aaaed5cf4b8aa9016cb72010d6
+k8s_node__runc_checksum: sha1:0e14ee2e0eba27083baeb72bf01cf13fc31388b1
 
 k8s_node__containerd_bin_dir: /usr/bin
 k8s_node__containerd_conf: /etc/containerd/config.toml
@@ -39,12 +39,13 @@ k8s_node__containerd_root_dir: /var/lib/k8s-containerd
 k8s_node__containerd_state_dir: /run/k8s-containerd
 k8s_node__containerd_opt_dir: /opt/k8s-containerd
 k8s_node__containerd_disable_tcp_service: 'true'
-k8s_node__containerd_registry_mirrors:
+k8s_node__containerd_registry_config_path: /etc/containerd/certs.d
+k8s_node__containerd_registry_hosts:
   docker.io:
-  - https://registry-1.docker.io
-k8s_node__containerd_version: 1.4.4
+    server: https://registry-1.docker.io
+k8s_node__containerd_version: 1.5.1
 k8s_node__containerd_archive_download_url_base: https://github.com/containerd/containerd/releases/download/v{{ k8s_node__containerd_version }}/containerd-{{ k8s_node__containerd_version }}-linux-amd64.tar.gz
-k8s_node__containerd_archive_checksum: sha1:573fa68892e04c81b6a617ce304034172fceaa65
+k8s_node__containerd_archive_checksum: sha1:915490f721eee2e0e4fbcc13be5e0cc97abf5c14
 k8s_node__containerd_restart_sec: 10
 
 k8s_node__cni_plugins_version: v0.9.1

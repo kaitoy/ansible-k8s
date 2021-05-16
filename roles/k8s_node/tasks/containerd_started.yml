@@ -73,7 +73,11 @@
       dest: '{{ k8s_node__containerd_conf }}'
       owner: root
       group: root
-      mode: 0664
+      mode: 0644
+  - include_tasks: containerd_registry_hosts_files.generated.yml
+    loop: '{{ k8s_node__containerd_registry_hosts | list }}'
+    loop_control:
+      loop_var: _containerd_registry_host
   - name: containerd unit file exists
     template:
       src: systemd_units/containerd.service.j2

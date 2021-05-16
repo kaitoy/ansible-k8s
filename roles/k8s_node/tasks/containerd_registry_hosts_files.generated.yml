@@ -1,0 +1,15 @@
+- name: containerd registry dir exists
+  file:
+    path: '{{ k8s_node__containerd_registry_config_path }}/{{ _containerd_registry_host }}'
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: containerd hosts.toml files exists
+  template:
+    src: containerd.hosts.toml.j2
+    dest: '{{ k8s_node__containerd_registry_config_path }}/{{ _containerd_registry_host }}/hosts.toml'
+    owner: root
+    group: root
+    mode: 0644
