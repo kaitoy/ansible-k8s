@@ -43,6 +43,15 @@ k8s_node__containerd_registry_config_path: /etc/containerd/certs.d
 k8s_node__containerd_registry_hosts:
   docker.io:
     server: https://registry-1.docker.io
+    params: {}
+    mirrors: {}
+  # my-registry.local:
+  #   server: http://my-registry.local
+  #   params:
+  #     ca: '"/etc/certs/mirror.pem"'
+  #   mirrors:
+  #     http://my-registry.local:
+  #       skip_verify: 'true'
 k8s_node__containerd_version: 1.5.1
 k8s_node__containerd_archive_download_url_base: https://github.com/containerd/containerd/releases/download/v{{ k8s_node__containerd_version }}/containerd-{{ k8s_node__containerd_version }}-linux-amd64.tar.gz
 k8s_node__containerd_archive_checksum: sha1:915490f721eee2e0e4fbcc13be5e0cc97abf5c14

@@ -1,1 +1,13 @@
 server = "{{ k8s_node__containerd_registry_hosts[_containerd_registry_host].server }}"
+{%- for _key, _val in k8s_node__containerd_registry_hosts[_containerd_registry_host].params.items() %}
+
+{{ _key }} = {{ _val }}
+{%- endfor %}
+{%- for _reg_host_name, _reg_host_params in k8s_node__containerd_registry_hosts[_containerd_registry_host].mirrors.items() %}
+
+[host."{{ _reg_host_name }}"]
+  {%- for _key, _val in _reg_host_params.items() %}
+
+  {{ _key }} = {{ _val }}
+  {%- endfor %}
+{%- endfor %}
