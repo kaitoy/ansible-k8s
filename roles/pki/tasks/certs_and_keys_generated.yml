@@ -47,3 +47,30 @@
       src: '{{ pki__pki_dir }}/ca.crt'
       dest: '{{ k8s__local_shared_dir }}/'
       flat: true
+
+- name: ServiceAccount token key
+  block:
+  - name: Check if sa.key exists
+    stat:
+      path: '{{ pki__pki_dir }}/sa.key'
+    register: _stat_result
+  - name: Private key for ServiceAccount token exists
+    command: /usr/bin/openssl ecparam -name {{ pki__elliptic_curve_type }} -genkey -noout -out {{ pki__pki_dir }}/sa.key
+    when: not _stat_result.stat.exists
+  - name: Private key for ServiceAccount is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/sa.key'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true
+  - name: Check if sa.pub exists
+    stat:
+      path: '{{ pki__pki_dir }}/sa.pub'
+    register: _stat_result
+  - name: Public key for ServiceAccount token exists
+    command: /usr/bin/openssl ec -in {{ pki__pki_dir }}/sa.key -outform PEM -pubout -out {{ pki__pki_dir }}/sa.pub
+    when: not _stat_result.stat.exists
+  - name: Public key for ServiceAccount is fetched
+    fetch:
+      src: '{{ pki__pki_dir }}/sa.pub'
+      dest: '{{ k8s__local_shared_dir }}/'
+      flat: true

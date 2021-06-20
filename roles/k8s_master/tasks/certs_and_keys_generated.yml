@@ -38,6 +38,23 @@
       group: kubernetes
       mode: 0644
 
+- name: Key pair for ServiceAccount token
+  block:
+  - name: Private key for ServiceAccount token is installed
+    copy:
+      src: '{{ k8s__local_shared_dir }}/sa.key'
+      dest: '{{ k8s_master__pki_dir }}'
+      owner: kubernetes
+      group: kubernetes
+      mode: 0600
+  - name: Public key for ServiceAccount token is installed
+    copy:
+      src: '{{ k8s__local_shared_dir }}/sa.pub'
+      dest: '{{ k8s_master__pki_dir }}'
+      owner: kubernetes
+      group: kubernetes
+      mode: 0644
+
 - name: kube-apiserver server certificate
   block:
   - name: Check if kube-apiserver.key exists
@@ -140,19 +157,6 @@
       owner: kubernetes
       group: kubernetes
       mode: 0600
-  - name: Check if kube-controller-manager-client.pub exists
-    stat:
-      path: '{{ k8s_master__pki_dir }}/kube-controller-manager-client.pub'
-    register: _stat_result
-  - name: Public key for kube-controller-manager client certificate exists
-    command: /usr/bin/openssl ec -in {{ k8s_master__pki_dir }}/kube-controller-manager-client.key -outform PEM -pubout -out {{ k8s_master__pki_dir }}/kube-controller-manager-client.pub
-    when: not _stat_result.stat.exists
-  - name: Permission of kube-controller-manager client public key is properly set
-    file:
-      path: '{{ k8s_master__pki_dir }}/kube-controller-manager-client.pub'
-      owner: kubernetes
-      group: kubernetes
-      mode: 0644
   - name: Check if kube-controller-manager-client.crt exists
     stat:
       path: '{{ k8s_master__pki_dir }}/kube-controller-manager-client.crt'
