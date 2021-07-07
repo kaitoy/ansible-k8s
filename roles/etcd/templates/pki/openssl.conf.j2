@@ -3,6 +3,11 @@ distinguished_name = req_distinguished_name
 
 [req_distinguished_name]
 
+[ v3_req_client ]
+basicConstraints = CA:FALSE
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = clientAuth
+
 [ v3_req_etcd ]
 basicConstraints = CA:FALSE
 keyUsage = critical, digitalSignature, keyEncipherment

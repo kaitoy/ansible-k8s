@@ -5,6 +5,7 @@ etcd__pki_dir: /etc/kubernetes/pki
 
 etcd__elliptic_curve_type: secp384r1
 etcd__etcd_server_cert_valid_days: 5475
+etcd__admin_cert_valid_days: 5475
 
 etcd__data_dir: /var/lib/etcd
 etcd__etcd_bin_dir: /usr/bin

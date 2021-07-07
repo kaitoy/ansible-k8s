@@ -66,3 +66,32 @@
       owner: etcd
       group: etcd
       mode: 0644
+
+- name: etcd admin client certificate
+  block:
+  - name: Check if etcd-admin.key exists
+    stat:
+      path: '{{ etcd__pki_dir }}/etcd-admin.key'
+    register: _stat_result
+  - name: Private key for etcd admin client certificate exists
+    command: /usr/bin/openssl ecparam -name {{ etcd__elliptic_curve_type }} -genkey -noout -out {{ etcd__pki_dir }}/etcd-admin.key
+    when: not _stat_result.stat.exists
+  - name: Permission of etcd-admin.key is properly set
+    file:
+      path: '{{ etcd__pki_dir }}/etcd-admin.key'
+      owner: root
+      group: root
+      mode: 0600
+  - name: Check if etcd-admin.crt exists
+    stat:
+      path: '{{ etcd__pki_dir }}/etcd-admin.crt'
+    register: _stat_result
+  - name: etcd admin client certificate exists
+    shell: /usr/bin/openssl req -new -key {{ etcd__pki_dir }}/etcd-admin.key -subj "/CN=etcd-admin" | openssl x509 -req -sha256 -CA {{ etcd__pki_dir }}/ca.crt -CAkey {{ etcd__pki_dir }}/ca.key -CAcreateserial -out {{ etcd__pki_dir }}/etcd-admin.crt -days {{ etcd__admin_cert_valid_days }} -extensions v3_req_client -extfile {{ etcd__pki_dir }}/openssl.etcd.conf
+    when: not _stat_result.stat.exists
+  - name: Permission of etcd-admin.crt is properly set
+    file:
+      path: '{{ etcd__pki_dir }}/etcd-admin.crt'
+      owner: root
+      group: root
+      mode: 0644
