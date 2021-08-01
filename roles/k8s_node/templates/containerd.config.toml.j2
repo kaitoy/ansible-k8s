@@ -57,7 +57,7 @@ version = 2
     stats_collect_period = 10
     stream_idle_timeout = "4h0m0s"
     stream_server_address = "127.0.0.1"
-    stream_server_port = "0"
+    stream_server_port = "{{ k8s_node__containerd_stream_server_port }}"
 {% if k8s_node__kubelet_cgroup_driver == 'cgroupfs' %}
     systemd_cgroup = false
 {% else %}
