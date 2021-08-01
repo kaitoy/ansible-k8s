@@ -97,7 +97,7 @@ version = 2
           IoUid = 0
           NoNewKeyring = false
           NoPivotRoot = false
-          Root = ""
+          Root = "{{ k8s_node__containerd_state_dir }}/runc"
           ShimCgroup = ""
 {% if k8s_node__kubelet_cgroup_driver == 'cgroupfs' %}
           SystemdCgroup = false
