@@ -11,7 +11,7 @@
     path: '{{ etcd__data_dir }}'
     owner: etcd
     group: etcd
-    mode: 0755
+    mode: 0700
     state: directory
 
 - name: etcd is running
