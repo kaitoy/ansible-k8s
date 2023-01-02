@@ -13,41 +13,6 @@
   loop: '{{ dev_env__yum_pkgs_to_install }}'
   when: host__use_dnf
 
-- name: dry is installed
-  get_url:
-    url: '{{ dev_env__dry_download_url }}'
-    dest: /usr/bin/dry
-    checksum: '{{ dev_env__dry_checksum }}'
-- name: dry is executable
-  file:
-    path: /usr/bin/dry
-    owner: root
-    group: root
-    mode: 0755
-
-- name: kube-prompt archive is downloaded
-  get_url:
-    url: '{{ dev_env__kube_prompt_download_url }}'
-    dest: '{{ k8s__remote_tmp_dir }}/kp.zip'
-    checksum: '{{ dev_env__kube_prompt_checksum }}'
-  register: _get_url_result
-- name: kube-prompt is installed
-  unarchive:
-    src: '{{ k8s__remote_tmp_dir }}/kp.zip'
-    remote_src: true
-    dest: /usr/bin
-    owner: root
-    group: root
-    mode: 0755
-  when: _get_url_result.changed
-- name: Alias of kube-prompt (kp) exists
-  lineinfile:
-    path: '{{ item }}'
-    line: alias kp='kube-prompt'
-    state: present
-  loop:
-    - /root/.bashrc
-
 - name: Helm archive is downloaded
   get_url:
     url: '{{ dev_env__helm_download_url }}'
@@ -70,17 +35,27 @@
     mode: 0755
   when: _get_url_result.changed
 
-- name: stern is installed
+- name: stern archive is installed
   get_url:
     url: '{{ dev_env__stern_download_url }}'
-    dest: /usr/bin/stern
+    dest: '{{ k8s__remote_tmp_dir }}/stern.tar.gz'
     checksum: '{{ dev_env__stern_checksum }}'
-- name: stern is executable
-  file:
-    path: /usr/bin/stern
+  register: _get_url_result
+- name: stern archive is extracted
+  unarchive:
+    src: '{{ k8s__remote_tmp_dir }}/stern.tar.gz'
+    remote_src: true
+    dest: '{{ k8s__remote_tmp_dir }}'
+  when: _get_url_result.changed
+- name: stern is installed
+  copy:
+    src: '{{ k8s__remote_tmp_dir }}/stern'
+    remote_src: true
+    dest: /usr/bin
     owner: root
     group: root
     mode: 0755
+  when: _get_url_result.changed
 - name: stern's bash completion is setup
   lineinfile:
     path: '{{ item }}'

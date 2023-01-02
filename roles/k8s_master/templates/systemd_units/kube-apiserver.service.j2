@@ -65,7 +65,9 @@ ExecStart={{ k8s__k8s_bin_dir }}/kube-apiserver \
   --requestheader-group-headers=X-Remote-Group \
   --requestheader-username-headers=X-Remote-User \
   --secure-port={{ k8s__kube_apiserver_secure_port }} \
-  --service-account-issuer={{ k8s_master__kube_apiserver_service_account_issuer }} \
+{% for _issuer in k8s_master__kube_apiserver_service_account_issuers %}
+  --service-account-issuer={{ _issuer }} \
+{% endfor %}
   --service-account-key-file={{ k8s_master__pki_dir }}/sa.pub \
   --service-account-lookup=true \
   --service-account-signing-key-file={{ k8s_master__pki_dir }}/sa.key \

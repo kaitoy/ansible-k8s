@@ -1,22 +1,14 @@
-dev_env__dry_ver: v0.9-beta.4
-dev_env__dry_download_url: https://github.com/moncho/dry/releases/download/{{ dev_env__dry_ver }}/dry-linux-amd64
-dev_env__dry_checksum: sha1:96ee772763933187c280d55a23c54321e3e20f4f
-
-dev_env__kube_prompt_ver: v1.0.3
-dev_env__kube_prompt_download_url: https://github.com/c-bata/kube-prompt/releases/download/{{ dev_env__kube_prompt_ver }}/kube-prompt_{{ dev_env__kube_prompt_ver }}_linux_amd64.zip
-dev_env__kube_prompt_checksum: sha1:bc486371ba54995055b60bb72f476f65fa87ac4d
-
-dev_env__helm_ver: v2.9.1
+dev_env__helm_ver: v3.10.3
 dev_env__helm_download_url: https://get.helm.sh/helm-{{ dev_env__helm_ver }}-linux-amd64.tar.gz
-dev_env__helm_checksum: sha256:56ae2d5d08c68d6e7400d462d6ed10c929effac929fedce18d2636a9b4e166ba
+dev_env__helm_checksum: sha256:950439759ece902157cf915b209b8d694e6f675eaab5099fb7894f30eeaee9a2
 
-dev_env__stern_ver: 1.6.0
-dev_env__stern_download_url: https://github.com/wercker/stern/releases/download/{{ dev_env__stern_ver }}/stern_linux_amd64
-dev_env__stern_checksum: sha1:134ad605ffdf90f4969f84f33fb29f34ea4cc79f
+dev_env__stern_ver: 1.22.0
+dev_env__stern_download_url: https://github.com/stern/stern/releases/download/v{{ dev_env__stern_ver }}/stern_{{ dev_env__stern_ver }}_linux_amd64.tar.gz
+dev_env__stern_checksum: sha1:a43beb4763af0b34b1e588d860c5cb7ef63ea316
 
-dev_env__jq_ver: 1.5
+dev_env__jq_ver: 1.6
 dev_env__jq_download_url: https://github.com/stedolan/jq/releases/download/jq-{{ dev_env__jq_ver }}/jq-linux64
-dev_env__jq_checksum: sha1:d8e36831c3c94bb58be34dd544f44a6c6cb88568
+dev_env__jq_checksum: sha1:056ba5d6bbc617c29d37158ce11fd5a443093949
 
 dev_env__yum_repos_to_disable: '{{ base__yum_repos_to_disable }}'
 dev_env__yum_pkgs_to_install:
