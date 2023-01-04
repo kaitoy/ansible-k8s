@@ -57,7 +57,7 @@
     loop: '{{ k8s_node__kernel_modules_to_load_for_ipvs }}'
   when: k8s_node__kube_proxy_mode == 'ipvs'
 
-- name: Kernel parametes are tuned
+- name: Kernel parameters are tuned
   sysctl:
     name: '{{ item.name }}'
     value: '{{ item.value }}'
@@ -65,3 +65,13 @@
     state: present
     reload: true
   loop: '{{ k8s_node__kernel_params }}'
+
+- name: Kernel parameters are tuned for IPVS
+  sysctl:
+    name: '{{ item.name }}'
+    value: '{{ item.value }}'
+    sysctl_set: true
+    state: present
+    reload: true
+  loop: '{{ k8s_node__kernel_params_for_ipvs }}'
+  when: k8s_node__kube_proxy_mode == 'ipvs'

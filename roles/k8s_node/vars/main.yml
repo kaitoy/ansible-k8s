@@ -1,0 +1,10 @@
+_kparams_for_ipvs:
+- name: net.ipv4.vs.conntrack
+  value: 1
+- name: net.ipv4.vs.expire_nodest_conn
+  value: 1
+- name: net.ipv4.vs.expire_quiescent_template
+  value: 1
+_kparams_for_ipvs_4_1:
+- name: net.ipv4.vs.conn_reuse_mode
+  value: 1
