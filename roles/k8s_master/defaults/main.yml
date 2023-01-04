@@ -63,8 +63,6 @@ k8s_master__kube_controller_manager_restart_sec: 10
 k8s_master__kube_controller_manager_use_auto_generated_serving_cert: true
 
 k8s_master__kube_scheduler_bind_address: 127.0.0.1
-k8s_master__kube_scheduler_healthz_bind_address: 127.0.0.1:10251
-k8s_master__kube_scheduler_metrics_bind_address: 127.0.0.1:10247
 k8s_master__kube_scheduler_secure_port: 10259
 k8s_master__kube_scheduler_tls_cipher_suites: '{{ k8s_master__kube_apiserver_tls_cipher_suites }}'
 k8s_master__kube_scheduler_tls_min_version: '{{ k8s_master__kube_apiserver_tls_min_version }}'

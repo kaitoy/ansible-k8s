@@ -13,6 +13,8 @@ After=network.target
 User=kubernetes
 Group=kubernetes
 ExecStart={{ k8s__k8s_bin_dir }}/kube-scheduler \
+  --authentication-kubeconfig={{ k8s_master__kubeconfig_dir }}/kube-scheduler.kubeconfig \
+  --authorization-kubeconfig={{ k8s_master__kubeconfig_dir }}/kube-scheduler.kubeconfig \
   --bind-address={{ k8s_master__kube_scheduler_bind_address }} \
 {% if _feature_gates|length > 0 %}
   --feature-gates={{ _feature_gates|join(',') }} \
