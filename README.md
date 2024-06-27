@@ -24,12 +24,9 @@
     * Service cluster IP range: 10.0.0.0/16
     * Cluster CIDR: 10.32.0.0/16
     * [Proxy mode](https://kubernetes.io/docs/concepts/services-networking/service/#virtual-ips-and-service-proxies): ipvs
-    * PodSecurityPolicy is enabled
     * Using [KubeletConfiguration](https://kubernetes.io/docs/tasks/administer-cluster/kubelet-config-file/ ), [KubeProxyConfiguration](https://github.com/kubernetes/kube-proxy/blob/master/config/v1alpha1/types.go), and [KubeSchedulerConfiguration](https://github.com/kubernetes/kube-scheduler/blob/master/config/v1alpha1/types.go)
 * Tools
-    * [kube-prompt](https://github.com/c-bata/kube-prompt)
-    * [dry](https://github.com/moncho/dry)
-    * etc.
+    * [Helm](https://helm.sh/) 3.15.2
 
 ## How to use
 

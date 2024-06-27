@@ -1,7 +1,3 @@
-dev_env__helm_ver: v3.10.3
-dev_env__helm_download_url: https://get.helm.sh/helm-{{ dev_env__helm_ver }}-linux-amd64.tar.gz
-dev_env__helm_checksum: sha256:950439759ece902157cf915b209b8d694e6f675eaab5099fb7894f30eeaee9a2
-
 dev_env__stern_ver: 1.22.0
 dev_env__stern_download_url: https://github.com/stern/stern/releases/download/v{{ dev_env__stern_ver }}/stern_{{ dev_env__stern_ver }}_linux_amd64.tar.gz
 dev_env__stern_checksum: sha1:a43beb4763af0b34b1e588d860c5cb7ef63ea316

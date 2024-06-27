@@ -1,0 +1,28 @@
+- name: Helm bin dir exists
+  file:
+    path: '{{ k8s__helm_bin_dir }}'
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+- name: Helm archive is downloaded
+  get_url:
+    url: '{{ k8s_master__helm_download_url }}'
+    dest: '{{ k8s__remote_tmp_dir }}/helm.tar.gz'
+    checksum: '{{ k8s_master__helm_checksum }}'
+  register: _get_url_result
+- name: Helm archive is extracted
+  unarchive:
+    src: '{{ k8s__remote_tmp_dir }}/helm.tar.gz'
+    remote_src: true
+    dest: '{{ k8s__remote_tmp_dir }}'
+  when: _get_url_result.changed
+- name: Helm is installed
+  copy:
+    src: '{{ k8s__remote_tmp_dir }}/linux-amd64/helm'
+    remote_src: true
+    dest: '{{ k8s__helm_bin_dir }}'
+    owner: root
+    group: root
+    mode: 0755
+  when: _get_url_result.changed
