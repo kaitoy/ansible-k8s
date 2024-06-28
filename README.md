@@ -7,8 +7,7 @@
 
 ## Kubernetes Cluster to setup
 
-* OS: Oracle Linux 7.5.0 Minimal Install
-* Kubernetes: v1.13.0
+* Kubernetes: v1.25.16
     * Single node cluster
     * kubelet,kube-proxy, kube-apiserver, kube-controller-manager, kube-scheduler, and etcd are managed by systemd (i.e. not containerized)
         * kubelet and kube-proxy run as root, and the rest run as non-root
