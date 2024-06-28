@@ -19,7 +19,7 @@
     state: present
   loop: '{{ base__hosts_entries }}'
 
-- name: YUM repositories needed are enabled
+- name: RPM repositories needed are enabled
   yum_repository:
     name: '{{ item.name }}'
     description: '{{ item.description }}'
@@ -27,7 +27,7 @@
     gpgkey: '{{ item.gpgkey }}'
     gpgcheck: '{{ item.gpgcheck }}'
     enabled: true
-  loop: '{{ base__yum_repos_to_enable }}'
+  loop: '{{ base__rpm_repos_to_enable }}'
 
 - name: ntp is setup
   block:
@@ -35,13 +35,13 @@
     yum:
       name: chrony
       state: latest
-      disablerepo: '{{ base__yum_repos_to_disable | join(",") }}'
+      disablerepo: '{{ base__rpm_repos_to_disable | join(",") }}'
     when: not host__use_dnf
   - name: chrony is installed
     dnf:
       name: chrony
       state: latest
-      disablerepo: '{{ base__yum_repos_to_disable | join(",") }}'
+      disablerepo: '{{ base__rpm_repos_to_disable | join(",") }}'
     when: host__use_dnf
   - name: chrony is configured
     template:
@@ -75,3 +75,18 @@
   file:
     path: '{{ k8s__remote_tmp_dir }}'
     state: directory
+
+- name: RPM packages are installed
+  yum:
+    name: '{{ item }}'
+    state: latest
+    disablerepo: '{{ base__rpm_repos_to_disable | join(",") }}'
+  loop: '{{ base__rpm_pkgs_to_install }}'
+  when: not host__use_dnf
+- name: RPM packages for dev tools are installed
+  dnf:
+    name: '{{ item }}'
+    state: latest
+    disablerepo: '{{ base__rpm_repos_to_disable | join(",") }}'
+  loop: '{{ base__rpm_pkgs_to_install }}'
+  when: host__use_dnf

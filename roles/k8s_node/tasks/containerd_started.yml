@@ -4,13 +4,13 @@
     yum:
       name: libseccomp
       state: latest
-      disablerepo: '{{ k8s_node__yum_repos_to_disable | join(",") }}'
+      disablerepo: '{{ k8s_node__rpm_repos_to_disable | join(",") }}'
     when: not host__use_dnf
   - name: libseccomp is installed by dnf
     dnf:
       name: libseccomp
       state: latest
-      disablerepo: '{{ k8s_node__yum_repos_to_disable | join(",") }}'
+      disablerepo: '{{ k8s_node__rpm_repos_to_disable | join(",") }}'
     when: host__use_dnf
   when: k8s_node__yum_install_dependencies
 
