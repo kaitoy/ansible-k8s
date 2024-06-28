@@ -10,7 +10,7 @@
       path: /etc/waagent.conf
     register: _stat_result
   - name: Swap is disabled in Azure Linux conf
-    ini_file:
+    community.general.ini_file:
       path: /etc/waagent.conf
       section: null
       option: ResourceDisk.EnableSwap
