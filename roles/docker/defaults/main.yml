@@ -18,4 +18,4 @@ docker__docker_user: null
 #     gid: 54321
 #   user: null
 
-docker__yum_repos_to_disable: '{{ base__yum_repos_to_disable }}'
+docker__rpm_repos_to_disable: '{{ base__rpm_repos_to_disable }}'

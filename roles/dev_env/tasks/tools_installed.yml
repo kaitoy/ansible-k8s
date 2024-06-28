@@ -1,15 +1,15 @@
-- name: YUM packages for dev tools are installed
+- name: RPM packages for dev tools are installed
   yum:
     name: '{{ item }}'
     state: latest
-    disablerepo: '{{ dev_env__yum_repos_to_disable | join(",") }}'
+    disablerepo: '{{ dev_env__rpm_repos_to_disable | join(",") }}'
   loop: '{{ dev_env__yum_pkgs_to_install }}'
   when: not host__use_dnf
-- name: YUM packages for dev tools are installed
+- name: RPM packages for dev tools are installed
   dnf:
     name: '{{ item }}'
     state: latest
-    disablerepo: '{{ dev_env__yum_repos_to_disable | join(",") }}'
+    disablerepo: '{{ dev_env__rpm_repos_to_disable | join(",") }}'
   loop: '{{ dev_env__yum_pkgs_to_install }}'
   when: host__use_dnf
 
