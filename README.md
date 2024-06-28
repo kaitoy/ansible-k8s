@@ -8,7 +8,7 @@
 
 ## Kubernetes Cluster to setup
 
-* Kubernetes: v1.26.15
+* Kubernetes: v1.29.6
     * Single node cluster
     * kubelet,kube-proxy, kube-apiserver, kube-controller-manager, kube-scheduler, and etcd are managed by systemd (i.e. not containerized)
         * kubelet and kube-proxy run as root, and the rest run as non-root
@@ -24,7 +24,7 @@
     * Service cluster IP range: 10.0.0.0/16
     * Cluster CIDR: 10.32.0.0/16
     * [Proxy mode](https://kubernetes.io/docs/concepts/services-networking/service/#virtual-ips-and-service-proxies): ipvs
-    * Using [KubeletConfiguration](https://kubernetes.io/docs/tasks/administer-cluster/kubelet-config-file/ ), [KubeProxyConfiguration](https://github.com/kubernetes/kube-proxy/blob/master/config/v1alpha1/types.go), and [KubeSchedulerConfiguration](https://github.com/kubernetes/kube-scheduler/blob/master/config/v1alpha1/types.go)
+    * Using [KubeletConfiguration](https://kubernetes.io/docs/tasks/administer-cluster/kubelet-config-file/ ), [KubeProxyConfiguration](https://github.com/kubernetes/kube-proxy/blob/master/config/v1alpha1/types.go), and [KubeSchedulerConfiguration](https://kubernetes.io/docs/reference/config-api/kube-scheduler-config.v1/)
 * Tools
     * [Helm](https://helm.sh/) 3.15.2
 
