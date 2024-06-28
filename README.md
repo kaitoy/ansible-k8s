@@ -17,7 +17,7 @@
         * Bootstrap token
         * Auto approval for CSRs
     * [Certificate Rotation](https://kubernetes.io/docs/tasks/tls/certificate-rotation/) is enabled
-    * etcd 3.3.10
+    * etcd 3.5.14
     * [Calico](https://www.tigera.io/project-calico/) 3.28.0
     * [CoreDNS](https://github.com/coredns/coredns) 1.11.1
     * Service cluster IP range: 10.0.0.0/16
