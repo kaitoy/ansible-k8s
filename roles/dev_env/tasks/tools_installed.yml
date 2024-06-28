@@ -55,7 +55,7 @@
     mode: 0755
 
 - name: Git aliases exist
-  ini_file:
+  community.general.ini_file:
     path: /etc/gitconfig
     section: alias
     option: '{{ item.opt }}'
