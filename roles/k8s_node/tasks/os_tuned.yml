@@ -29,7 +29,7 @@
 - name: kernel modules
   block:
   - name: Required kernel modules are loaded
-    modprobe:
+    community.general.modprobe:
       name: '{{ item }}'
       state: present
     loop: '{{ k8s_node__kernel_modules_to_load }}'
@@ -44,7 +44,7 @@
 - name: Kernel modules for IPVS
   block:
   - name: Kernel modules for IPVS are loaded
-    modprobe:
+    community.general.modprobe:
       name: '{{ item }}'
       state: present
     loop: '{{ k8s_node__kernel_modules_to_load_for_ipvs }}'
