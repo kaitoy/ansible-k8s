@@ -1,12 +1,14 @@
 k8s:
   hosts:
     k8s_master:
-      ansible_host: 192.168.11.200
+      ansible_host: localhost
+      ansible_port: 2222
       ansible_user: root
       ansible_ssh_pass: hitachi
       # ansible_python_interpreter: /usr/bin/python3
     k8s_node:
-      ansible_host: 192.168.1.201
+      ansible_host: localhost
+      ansible_port: 2222
       ansible_user: root
       ansible_ssh_pass: hitachi
       # ansible_python_interpreter: /usr/bin/python3
