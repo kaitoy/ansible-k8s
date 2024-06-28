@@ -27,3 +27,4 @@ base__disable_firewalld: true
 
 base__rpm_pkgs_to_install:
 - unzip
+- tar
