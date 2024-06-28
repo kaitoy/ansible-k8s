@@ -3,11 +3,12 @@
 ## Prerequisites for Ansible Controller
 
 * Ansible 2.5.x installed
+* Python package "netaddr" is installed
 * Git installed
 
 ## Kubernetes Cluster to setup
 
-* Kubernetes: v1.25.16
+* Kubernetes: v1.26.15
     * Single node cluster
     * kubelet,kube-proxy, kube-apiserver, kube-controller-manager, kube-scheduler, and etcd are managed by systemd (i.e. not containerized)
         * kubelet and kube-proxy run as root, and the rest run as non-root
