@@ -1,0 +1,22 @@
+
+calico__tigera_operator_chart_version: v3.28.0
+calico__tigera_operator_chart_download_url: https://github.com/projectcalico/calico/releases/download/{{ calico__tigera_operator_chart_version }}/tigera-operator-{{ calico__tigera_operator_chart_version }}.tgz
+calico__tigera_operator_chart_checksum: sha256:14373bff0dea90958636eb865b8fc24c6d3e8a302a34956602925c885836492d
+
+calico__tigera_operator_chart_values:
+  installation:
+    enabled: true
+    registry: UseDefault
+    imagePath: UseDefault
+    imagePrefix: UseDefault
+    kubernetesProvider: ""
+  tigera_operator:
+    image: tigera/operator
+    registry: quay.io
+    version: v1.34.0
+  calicoctl:
+    image: docker.io/calico/ctl
+    tag: v3.28.0
+  kubelet_volume_plugin_path: "{{ k8s__kubelet_root_dir }}"
+
+calico__tigera_operator_namespace: tigera-operator

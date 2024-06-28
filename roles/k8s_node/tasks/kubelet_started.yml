@@ -9,7 +9,7 @@
 
 - name: kubelet lib dir exists
   file:
-    path: '{{ k8s_node__kubelet_root_dir }}'
+    path: '{{ k8s__kubelet_root_dir }}'
     owner: root
     group: root
     mode: 0755

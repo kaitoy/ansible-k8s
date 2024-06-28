@@ -19,7 +19,7 @@
         * Auto approval for CSRs
     * [Certificate Rotation](https://kubernetes.io/docs/tasks/tls/certificate-rotation/) is enabled
     * etcd 3.3.10
-    * [Weave Net](https://www.weave.works/oss/net/) 2.5.0
+    * [Calico](https://www.tigera.io/project-calico/) 3.28.0
     * [CoreDNS](https://github.com/coredns/coredns) 1.2.6
     * Service cluster IP range: 10.0.0.0/16
     * Cluster CIDR: 10.32.0.0/16

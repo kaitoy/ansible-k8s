@@ -6,6 +6,6 @@
   - etcd
   - k8s_master
   - k8s_node
-  - weave_net
+  - calico
   - coredns
   - dev_env

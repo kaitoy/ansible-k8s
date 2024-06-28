@@ -123,7 +123,6 @@ k8s_node__kubelet_node_status_update_frequency: 10s
 k8s_node__kubelet_pod_infra_container_image: k8s.gcr.io/pause-amd64:3.1
 k8s_node__kubelet_pod_pids_limit: 512
 k8s_node__kubelet_port: 10250
-k8s_node__kubelet_root_dir: /var/lib/kubelet
 k8s_node__kubelet_rotate_certificates: true
 k8s_node__kubelet_runtime_request_timeout: 10m
 k8s_node__kubelet_server_tls_bootstrap: false

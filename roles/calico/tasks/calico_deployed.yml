@@ -1,0 +1,37 @@
+- name: kube-apiserver is ready
+  command: >-
+    {{ k8s__k8s_bin_dir }}/kubectl get --raw='/readyz'
+  register: _kube_apiserver_ready
+  until: _kube_apiserver_ready.stdout == "ok"
+  retries: 5
+  delay: 5
+  changed_when: false
+
+- name: Tigera operator chart is downloaded
+  get_url:
+    url: '{{ calico__tigera_operator_chart_download_url }}'
+    dest: '{{ k8s__remote_tmp_dir }}/tigera-operator.tgz'
+    checksum: '{{ calico__tigera_operator_chart_checksum }}'
+- name: Tigera operator chart values.yml is rendered
+  template:
+    src: tigera_operator_values.yml.j2
+    dest: '{{ k8s__remote_tmp_dir }}/tigera_operator_values.yml'
+    owner: root
+    group: root
+    mode: 0600
+- name: Namespace for Tigera operator exists
+  shell: |-
+    cat <<EOL | kubectl apply -f -
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+      name: {{ calico__tigera_operator_namespace }}
+    EOL
+- name: Tigera operator and Calico are deployed
+  command: |
+    {{ k8s__helm_bin_dir }}/helm install
+    calico
+    -f {{ k8s__remote_tmp_dir }}/tigera_operator_values.yml
+    --version {{ calico__tigera_operator_chart_version }}
+    --namespace {{ calico__tigera_operator_namespace }}
+    {{ k8s__remote_tmp_dir }}/tigera-operator.tgz

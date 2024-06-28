@@ -1,0 +1,9 @@
+installation:
+{{ calico__tigera_operator_chart_values.installation | to_nice_yaml | indent(2, true) }}
+
+tigeraOperator:
+{{ calico__tigera_operator_chart_values.tigera_operator | to_nice_yaml | indent(2, true) }}
+calicoctl:
+{{ calico__tigera_operator_chart_values.calicoctl | to_nice_yaml | indent(2, true) }}
+
+kubeletVolumePluginPath: {{ calico__tigera_operator_chart_values.kubelet_volume_plugin_path }}
