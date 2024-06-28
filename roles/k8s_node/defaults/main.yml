@@ -59,9 +59,9 @@ k8s_node__containerd_registry_hosts:
   #     http://my-registry.local:
   #       skip_verify: 'true'
 k8s_node__containerd_stream_server_port: 0
-k8s_node__containerd_version: 1.5.2
+k8s_node__containerd_version: 1.7.18
 k8s_node__containerd_archive_download_url_base: https://github.com/containerd/containerd/releases/download/v{{ k8s_node__containerd_version }}/containerd-{{ k8s_node__containerd_version }}-linux-amd64.tar.gz
-k8s_node__containerd_archive_checksum: sha1:70c7e2a910074ba8f6470c402f5cce6193aef899
+k8s_node__containerd_archive_checksum: sha1:150acfe4e308fb6100fbe05da0c7a75b171321cc
 k8s_node__containerd_restart_sec: 10
 
 k8s_node__cni_plugins_version: v0.9.1
