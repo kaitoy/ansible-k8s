@@ -19,6 +19,7 @@ clusterDNS: [{{ k8s__dns_server_ip_addr }}]
 clusterDomain: {{ k8s__dns_cluster_domain }}
 containerLogMaxFiles: {{ k8s_node__kubelet_container_log_max_files }}
 containerLogMaxSize: {{ k8s_node__kubelet_container_log_max_size }}
+containerRuntimeEndpoint: unix://{{ k8s_node__containerd_state_dir }}/containerd.sock
 enableDebugFlagsHandler: {{ k8s_node__kubelet_enable_debug_flags_handler }}
 enableProfilingHandler: {{ k8s_node__kubelet_enable_profiling_handler }}
 enforceNodeAllocatable:

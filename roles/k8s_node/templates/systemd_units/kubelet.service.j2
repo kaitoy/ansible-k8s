@@ -17,7 +17,6 @@ ExecStart={{ k8s__k8s_bin_dir }}/kubelet \
   --config={{ k8s_node__k8s_configs_dir }}/kubelet.conf \
   --kubeconfig={{ k8s_node__kubeconfig_dir }}/kubelet.kubeconfig \
   --v={{ k8s_node__kubelet_vlog_level }} \
-  --container-runtime-endpoint=unix://{{ k8s_node__containerd_state_dir }}/containerd.sock \
   --root-dir={{ k8s__kubelet_root_dir }}
 Restart=always
 RestartSec={{ k8s_node__kubelet_restart_sec }}s
