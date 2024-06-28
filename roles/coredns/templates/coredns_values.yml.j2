@@ -1,0 +1,7 @@
+image:
+{{ coredns_chart_values.image | to_nice_yaml | indent(2, true) }}
+
+replicaCount: {{ coredns_chart_values.replica_count }}
+
+serviceAccount:
+  create: true
