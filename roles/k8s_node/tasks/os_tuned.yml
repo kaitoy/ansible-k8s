@@ -58,7 +58,7 @@
   when: k8s_node__kube_proxy_mode == 'ipvs'
 
 - name: Kernel parameters are tuned
-  sysctl:
+  ansible.posix.sysctl:
     name: '{{ item.name }}'
     value: '{{ item.value }}'
     sysctl_set: true
@@ -67,7 +67,7 @@
   loop: '{{ k8s_node__kernel_params }}'
 
 - name: Kernel parameters are tuned for IPVS
-  sysctl:
+  ansible.posix.sysctl:
     name: '{{ item.name }}'
     value: '{{ item.value }}'
     sysctl_set: true
