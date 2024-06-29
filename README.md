@@ -8,7 +8,7 @@
 
 ## Kubernetes Cluster to setup
 
-* Kubernetes: v1.29.6
+* Kubernetes: v1.30.2
     * Single node cluster
     * kubelet,kube-proxy, kube-apiserver, kube-controller-manager, kube-scheduler, and etcd are managed by systemd (i.e. not containerized)
         * kubelet and kube-proxy run as root, and the rest run as non-root
